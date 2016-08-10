@@ -21,6 +21,7 @@ group :development, :test do
   gem 'shoulda'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'dotenv-rails'
 end
 
 group :development do
