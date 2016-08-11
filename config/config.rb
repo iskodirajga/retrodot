@@ -1,3 +1,6 @@
+require 'dotenv/rails-now'
+require 'configerator'
+
 module Config
   extend Configerator
 
