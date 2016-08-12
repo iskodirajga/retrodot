@@ -1,0 +1,27 @@
+web:
+  build: .
+  command: 'bash -c ''bundle exec puma -p ${PORT:-3000} -e ${RACK_ENV:-development}'''
+  working_dir: /app/user
+  volumes:
+    - '.:/app/user'
+  ports:
+    - '3000:3000'
+  links:
+    - postgres
+  env_file:
+    - ./.env
+  environment:
+    # fixing http://stackoverflow.com/questions/17031651/invalid-byte-sequence-in-us-ascii-argument-error-when-i-run-rake-dbseed-in-ra
+    - LANG=en_US.UTF-8
+    - LANGUAGE=en_US.UTF-8
+    - LC_ALL=en_US.UTF-8
+
+  # Uncomment when using heroku/ruby
+  ## prevent heroku/ruby from clobber existing bundled gems
+  ## comment this out to use 'docker-compose up'
+  #entrypoint: ["bash", "-c"]
+
+postgres:
+  image: postgres
+  ports:
+    - '5432:5432'
