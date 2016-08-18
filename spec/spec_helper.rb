@@ -1,14 +1,14 @@
 ENV["RAILS_ENV"] ||= 'test'
 ENV["HOSTNAME"] = 'retrodot.test'
 
+require 'dotenv'
+Dotenv.load!('.env.test')
+
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-Dir[Rails.root.join("spec/config/**/*.rb")].each  {|f| require f}
+require 'webmock/rspec'
+require 'database_cleaner'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -17,10 +17,6 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
-  end
-
-  config.mock_with :rspec do |c|
-    c.syntax = :rspec
   end
 
   # Run specs in random order to surface order dependencies. If you find an
@@ -36,7 +32,25 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
+    mocks.syntax = [:expect, :should]
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # examples within a transaction, rgemove the following line or assign false
+  # instead of true.
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before do
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
 end
