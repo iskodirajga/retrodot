@@ -8,7 +8,15 @@ class IncidentsController < ApplicationController
   def sync
     logger.info(ns: self.class.name, fn: :sync, incident: params["incident_id"])
 
-    #TODO Call the sync worker
-    head :ok
+    if Mediators::Incident::Syncher.run(incident: params['incident_id'])
+      render json: nil, status: 202
+    else
+      render json: nil, status: 500
+    end
+  end
+
+  private
+  def check_params
+    params.require(:incident_id)
   end
 end
