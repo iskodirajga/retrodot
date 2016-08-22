@@ -7,6 +7,8 @@ module Config
   # optional :anotherthing
   # override :port, 3000, int
 
+  override :app_name, "Retrodot", string
+
   override :frontend_host, "retro.dev", string
   required :source_url, string
 
@@ -21,4 +23,8 @@ module Config
   override :requires_followup, "requires_followup", string
 
   override :followup_days, 5, int
+
+  # Admin UI configuration
+
+  override :localize_format, :long, symbol
 end
