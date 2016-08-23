@@ -10,7 +10,7 @@ class AuthController < ApplicationController
       email = (user['email']||'').downcase
       name = user['name']
 
-      unless valid_email? email
+      if params['provider'] != 'developer' && !valid_email?(email)
         redirect_to failure_auth_path
         return
       end
@@ -19,9 +19,9 @@ class AuthController < ApplicationController
         email: email
       }
 
-      # Not using the block form of find_or_create_by here, because I always
-      # want to sync their name with what's set in the provider.
-      User.find_or_create_by(email: email).update(name: name)
+      # The update ensures that their name in Retrodot is synced with changes
+      # in the oauth provider.
+      User.create_with(name: name).find_or_create_by(email: email).update(name: name)
 
       flash[:notice] = "Logged in."
     end
