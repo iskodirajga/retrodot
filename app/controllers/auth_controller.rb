@@ -55,7 +55,7 @@ class AuthController < ApplicationController
 
   protected
   def auth_provider
-    if Rails.env.development? or Watchtower.config.pr_app?
+    if Rails.env.development? or Config.pr_app?
       :developer
     else
       :google_oauth2
