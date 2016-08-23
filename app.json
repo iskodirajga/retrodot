@@ -24,7 +24,8 @@
     },
     "SOURCE_URL": {
       "required": true
-    }
+    },
+    "PR_APP": "true"
   },
   "formation": {
     "web": {
