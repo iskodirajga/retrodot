@@ -1,6 +1,4 @@
 class AuthController < ApplicationController
-  skip_before_action :authenticate_user, except: :verify
-
   # this is the only spot where we allow CSRF, our oauth redirect will not have
   # a CSRF token, however the payload is all validated so it's safe
   skip_before_action :verify_authenticity_token, only: :callback
