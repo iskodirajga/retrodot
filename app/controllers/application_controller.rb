@@ -12,4 +12,14 @@ class ApplicationController < ActionController::Base
       User.find_by(email: session[:user][:email])
     end
   end
+
+  def authentication_failure!
+    session[:return_to] = request.path
+
+    respond_to do |format|
+      format.html { redirect_to('/auth/unauthorized') }
+      format.js   { redirect_to('/auth/unauthorized') }
+      format.json { render :text => "Authentication Required", :status => 401 }
+    end
+  end
 end
