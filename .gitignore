@@ -11,6 +11,7 @@ log
 *.swp
 .env
 .env.test
+.env.development
 .powenv
 .vagrant
 Vagrantfile
