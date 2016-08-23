@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Mediators::Incident::Syncher do
+describe Mediators::Incident::OneSyncher do
   let(:id) { '900' }
 
   def encoded_data
@@ -27,20 +27,20 @@ describe Mediators::Incident::Syncher do
      end
 
      it 'Syncs an incident' do
-       Mediators::Incident::Syncher.run(incident: id)
+       Mediators::Incident::OneSyncher.run(id: id)
 
        assert_equal 1, Incident.where(incident_id: id).count
      end
 
      it 'updates an incident with outdated information' do
-       Mediators::Incident::Syncher.run(incident: id)
+       Mediators::Incident::OneSyncher.run(id: id)
 
        incident = Incident.where(incident_id: id).first
        incident.update_attribute(:state, "open")
 
        assert_equal "open", incident.state
 
-       Mediators::Incident::Syncher.run(incident: id)
+       Mediators::Incident::OneSyncher.run(id: id)
        incident.reload
 
        assert_equal "resolved", incident.state

@@ -1,0 +1,69 @@
+require 'spec_helper'
+
+describe Mediators::Incident::MultiSyncher do
+
+  def incident_details
+    [
+      {
+        "incident_id"=>1,
+        "title"=>"Routing issues",
+        "state"=>"resolved",
+        "started_at"=>"2016-06-02T12:09:37.154Z",
+        "updated_at"=>"2016-06-10T20:48:54.483Z",
+        "resolved"=>true,
+        "duration"=>1016,
+        "resolved_at"=>"2016-06-02T12:26:33.061Z",
+        "requires_followup"=>true,
+      },
+      {
+        "incident_id"=>2,
+        "title"=>"API issues",
+        "state"=>"resolved",
+        "started_at"=>"2016-07-02T12:09:37.154Z",
+        "updated_at"=>"2016-07-10T20:48:54.483Z",
+        "resolved"=>true,
+        "duration"=>1016,
+        "resolved_at"=>"2016-07-02T12:26:33.061Z",
+        "requires_followup"=>true,
+      }
+    ]
+  end
+
+  describe "#call" do
+
+    before do
+      stub_request(:get, "https://status.localhost.com/*")
+    end
+
+    it 'Syncs multiple incidents' do
+      allow_any_instance_of(Helpers::Paginator).to receive(:fetch).and_return(incident_details)
+
+      assert_equal 0, Incident.all.count
+      Mediators::Incident::MultiSyncher.run
+
+      assert_equal 2, Incident.all.count
+    end
+
+    it 'updates multiple incidents with outdated information' do
+      allow_any_instance_of(Helpers::Paginator).to receive(:fetch).and_return(incident_details)
+
+      Mediators::Incident::MultiSyncher.run
+
+      incident1 = Incident.where(incident_id: 1).first
+      incident1.update_attribute(:state, "open")
+      incident2 = Incident.where(incident_id: 2).first
+      incident2.update_attribute(:state, "open")
+
+      assert_equal "open", incident1.state
+      assert_equal "open", incident1.state
+
+      Mediators::Incident::MultiSyncher.run
+
+      incident1.reload
+      incident2.reload
+
+      assert_equal "resolved", incident1.state
+      assert_equal "resolved", incident2.state
+    end
+  end
+end

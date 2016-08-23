@@ -8,6 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Retrodot
   class Application < Rails::Application
-
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

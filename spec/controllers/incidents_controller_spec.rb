@@ -33,7 +33,7 @@ describe IncidentsController do
     end
 
     it 'recieves the post data' do
-      allow_any_instance_of(Mediators::Incident::Syncher).to receive(:call).and_return(true)
+      allow_any_instance_of(Mediators::Incident::OneSyncher).to receive(:call).and_return(true)
 
       post :sync, params: data
 
@@ -41,7 +41,7 @@ describe IncidentsController do
     end
 
     it 'rejects bad data' do
-      allow_any_instance_of(Mediators::Incident::Syncher).to receive(:call).and_return(false)
+      allow_any_instance_of(Mediators::Incident::OneSyncher).to receive(:call).and_return(false)
 
       post :sync, params: invalid_data
 
