@@ -25,6 +25,11 @@ module Config
   override :followup_days, 5, int
 
   # Admin UI configuration
-
   override :localize_format, :long, symbol
+
+  # Auth
+  override :pr_app, false, bool
+  optional :google_client_id, string
+  optional :google_client_secret, string
+  optional :google_domain, string
 end
