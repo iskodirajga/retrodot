@@ -18,8 +18,8 @@ class AuthController < ApplicationController
         return
       end
 
-      session[:user] = {
-        email: email
+      session['user'] = {
+        'email' => email
       }
 
       # The update ensures that their name in Retrodot is synced with changes
