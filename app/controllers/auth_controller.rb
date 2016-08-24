@@ -56,11 +56,7 @@ class AuthController < ApplicationController
 
   protected
   def auth_provider
-    if Rails.env.development? or Config.pr_app?
-      :developer
-    else
-      :google_oauth2
-    end
+    Rails.env.development? || Config.pr_app? ? :developer : :google_oauth2
   end
 
   def valid_email? email
