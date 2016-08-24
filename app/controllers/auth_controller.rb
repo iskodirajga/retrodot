@@ -35,7 +35,7 @@ class AuthController < ApplicationController
 
   def logout
     reset_session
-    render :text => "You're logged out."
+    render text: "You're logged out."
   end
 
   def unauthorized

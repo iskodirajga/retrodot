@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { redirect_to('/auth/unauthorized') }
       format.js   { redirect_to('/auth/unauthorized') }
-      format.json { render :text => 'Authentication Required', :status => 401 }
+      format.json { render text: 'Authentication Required', status: 401 }
     end
   end
 end
