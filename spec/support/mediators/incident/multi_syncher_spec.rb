@@ -13,7 +13,7 @@ describe Mediators::Incident::MultiSyncher do
         "resolved"=>true,
         "duration"=>1016,
         "resolved_at"=>"2016-06-02T12:26:33.061Z",
-        "requires_followup"=>true,
+        "review"=>true,
       },
       {
         "incident_id"=>2,
@@ -24,7 +24,7 @@ describe Mediators::Incident::MultiSyncher do
         "resolved"=>true,
         "duration"=>1016,
         "resolved_at"=>"2016-07-02T12:26:33.061Z",
-        "requires_followup"=>true,
+        "review"=>true,
       }
     ]
   end

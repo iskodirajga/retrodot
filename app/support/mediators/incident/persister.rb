@@ -30,7 +30,7 @@ module Mediators::Incident
     end
 
     def details
-      %w[incident_id state title started_at resolved_at duration requires_followup]
+      %w[incident_id state title started_at resolved_at duration review]
     end
   end
 end

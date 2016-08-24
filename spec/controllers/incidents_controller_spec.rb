@@ -11,7 +11,7 @@ describe IncidentsController do
       "title": "Issues with Heroku Postgres provisioning",
       "duration": 6000,
       "state": "open",
-      "requires_followup": true,
+      "review": true,
       "followup_days": 5
     }
   }

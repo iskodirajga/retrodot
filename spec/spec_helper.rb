@@ -10,6 +10,9 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require 'database_cleaner'
 
+# Checks for pending migrations before tests are run.
+ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

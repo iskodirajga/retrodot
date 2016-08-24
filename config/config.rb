@@ -20,7 +20,7 @@ module Config
   override :started_at, "started_at", string
   override :resolved_at, "resolved_at", string
   override :incident_id, "incident_id", string
-  override :requires_followup, "requires_followup", string
+  override :review, "review", string
 
   override :followup_days, 5, int
 

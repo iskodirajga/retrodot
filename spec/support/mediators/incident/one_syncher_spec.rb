@@ -17,7 +17,7 @@ describe Mediators::Incident::OneSyncher do
       "resolved"=>true,
       "duration"=>1016,
       "resolved_at"=>"2016-06-02T12:26:33.061Z",
-      "requires_followup"=>true,
+      "review"=>true,
     }
   end
 
