@@ -1,9 +1,7 @@
 module Mediators::Incident
   class MultiSyncher < Mediators::Base
-    include Helpers::Paginator
-
     def call
-      fetch(Config.source_url).each do |incident|
+      Helpers::Paginator.fetch(Config.source_url).each do |incident|
         Mediators::Incident::Persister.run(incident: incident)
       end
     rescue Excon::Error

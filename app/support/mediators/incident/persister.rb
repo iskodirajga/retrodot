@@ -20,7 +20,7 @@ module Mediators::Incident
     def parse_details
       @parse_details ||= \
       details.each_with_object({}) do |attr, hsh|
-        hsh[attr] = incident_data[Config.send(attr.to_sym)]
+        hsh[attr] = incident_data[Config.send(attr)]
       end.with_indifferent_access
     end
 

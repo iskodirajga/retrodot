@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Mediators::Incident::MultiSyncher do
+  let!(:url) { "https://example.localhost.com" }
+
+  def encoded_data
+    MultiJson.encode(incident_details)
+  end
 
   def incident_details
     [
@@ -30,13 +35,15 @@ describe Mediators::Incident::MultiSyncher do
   end
 
   describe "#call" do
-
     before do
-      stub_request(:get, "https://status.localhost.com/*")
+      stub_request(:get, "#{url}/?page=1&per_page=100").to_return(
+        body: encoded_data,
+        headers: {"Link" => "<#{url}?page=1&per_page=100>; rel=\"last\", <#{url}?page=1&per_page=100>; rel=\"next\""}
+      )
     end
 
     it 'Syncs multiple incidents' do
-      allow_any_instance_of(Helpers::Paginator).to receive(:fetch).and_return(incident_details)
+      allow(Config).to receive(:source_url).and_return(url)
 
       assert_equal 0, Incident.all.count
       Mediators::Incident::MultiSyncher.run
@@ -45,7 +52,7 @@ describe Mediators::Incident::MultiSyncher do
     end
 
     it 'updates multiple incidents with outdated information' do
-      allow_any_instance_of(Helpers::Paginator).to receive(:fetch).and_return(incident_details)
+      allow(Config).to receive(:source_url).and_return(url)
 
       Mediators::Incident::MultiSyncher.run
 
