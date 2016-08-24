@@ -7,10 +7,9 @@ module Config
   # optional :anotherthing
   # override :port, 3000, int
 
-  override :app_name, "Retrodot", string
-
-  override :frontend_host, "retro.dev", string
   required :source_url, string
+  override :app_name, "retrodot", string
+  override :frontend_host, "retro.dev", string
 
   # Overrides for incident syncher
   override :duration, "duration", string

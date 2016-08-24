@@ -17,6 +17,11 @@ gem "haml-rails", "~> 0.9"
 
 gem "excon", "0.50.1"
 gem "configerator"
+gem "loggerator", require: [
+    "loggerator/rails",
+    "loggerator/metrics"
+  ]
+
 gem "business_time"
 gem "activeadmin", "~> 1.0.0.pre4"
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
@@ -32,7 +37,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'webmock'
+  gem 'webmock', require: 'webmock/rspec'
   gem 'rspec-mocks'
   gem 'database_cleaner'
 end

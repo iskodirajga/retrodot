@@ -4,11 +4,9 @@ ENV["HOSTNAME"] = 'retrodot.test'
 require 'dotenv'
 Dotenv.load!('.env.test')
 
-require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'webmock/rspec'
-require 'database_cleaner'
+require 'loggerator/test'
 
 # Checks for pending migrations before tests are run.
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
