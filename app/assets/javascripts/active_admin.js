@@ -3,7 +3,7 @@
 $(document).on('ready page:load turbolinks:load', function() {
   var subject, cc, body
 
-  $('a.lextest').click(function(e) {
+  $('a.retrodot_send_email').click(function(e) {
     e.stopPropagation();  // prevent Rails UJS click event
     e.preventDefault();
 

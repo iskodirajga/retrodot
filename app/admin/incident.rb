@@ -36,7 +36,7 @@ ActiveAdmin.register Incident do
       # This triggers a modal dialog and posts the results back to the
       # :send_email member action above.
       item 'Send Retro Email', '#',
-        class: 'lextest member_link',
+        class: 'retrodot_send_email member_link',
         "data-action" => send_email_admin_incident_path(incident),
         "data-cc" => Config.email_cc,
         "data-subject" => "Incident \##{incident.incident_id} retrospective needed",
