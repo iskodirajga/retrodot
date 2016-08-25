@@ -26,7 +26,7 @@ module Mediators::Incident
 
     private
     def followup_date
-      Config.followup_days.business_days.after(DateTime.parse(parse_details[:started_at]))
+      Config.followup_days.days.from_now(DateTime.parse(parse_details[:started_at])) if parse_details[:review]
     end
 
     def details

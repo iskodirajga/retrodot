@@ -22,7 +22,6 @@ gem "loggerator", require: [
     "loggerator/metrics"
   ]
 
-gem "business_time"
 gem "activeadmin", "~> 1.0.0.pre4"
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'omniauth-google-oauth2'
