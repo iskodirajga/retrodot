@@ -38,6 +38,9 @@ ActiveAdmin.register Incident do
       item 'Send Retro Email', '#',
         class: 'lextest member_link',
         "data-action" => send_email_admin_incident_path(incident),
+        "data-cc" => Config.email_cc,
+        "data-subject" => "Incident \##{incident.incident_id} retrospective needed",
+        "data-body" => "Dear ___,\n\n[...]\n\nThanks,\n#{controller.current_user.name}",
         "data-inputs" =>
           { To:      :text,
             CC:      :text,
