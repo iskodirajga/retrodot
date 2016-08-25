@@ -6,7 +6,7 @@ class AuthController < ApplicationController
   def callback
     Rails.logger.debug(fn: 'callback')
     unless session['user'].present?
-      user = env['omniauth.auth']['info']
+      user = request.env['omniauth.auth']['info']
 
       email = (user['email']||'').downcase
       name = user['name']
