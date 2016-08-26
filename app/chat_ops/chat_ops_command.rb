@@ -1,8 +1,12 @@
 class ChatOpsCommand
   class << self
-    alias :commands :subclasses
+    def inherited(klass)
+      ChatOps.register(klass)
+    end
+
+    def regex(r = nil)
+      @regex = r if r
+      @regex
+    end
   end
 end
-
-# Load all commands using require_all gem
-require_rel 'commands'
