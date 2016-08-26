@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
     Rails.logger.debug(fn: "current_user")
     if session[:user]
       Rails.logger.debug(fn: "current_user", at: "find_user", email: session[:user][:email])
-      @user ||= User.find_by(email: session[:user][:email])
+      # ActiveAdmin looks up the wrong namespace for User, so we have to prepend with ::
+      @user ||= ::User.find_by(email: session[:user][:email])
     end
   end
 
