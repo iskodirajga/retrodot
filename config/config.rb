@@ -33,4 +33,5 @@ module Config
   optional :google_client_id, string
   optional :google_client_secret, string
   optional :google_domain, string
+  optional :chatops_api_key, string
 end

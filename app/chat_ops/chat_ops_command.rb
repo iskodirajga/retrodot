@@ -17,4 +17,15 @@ class ChatOpsCommand
       @name = n
     end
   end
+
+  def process(user, message)
+    if result = self.class.regex.match(message)
+      run(user, result)
+    end
+  end
+
+  def run(user, message)
+    # define in subclass
+    {"error": "command not implemented"}
+  end
 end

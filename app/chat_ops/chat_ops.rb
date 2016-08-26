@@ -20,6 +20,18 @@ module ChatOps
     def matcher
       Regexp.union(commands.collect{|command| command.regex})
     end
+
+    # Try to process a message as a ChatOps command.  Return nil if no
+    # command matched.  TODO: define return value for success.
+    def process(user, message)
+      commands.each do |command|
+        if result = command.new.process(user, message)
+          return result
+        end
+      end
+
+      nil
+    end
   end
 end
 

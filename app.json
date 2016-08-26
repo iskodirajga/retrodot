@@ -55,6 +55,10 @@
     "REVIEW": {
       "description": "field name to use when syncing incidents from an external data source",
       "required": false
+    },
+
+    "CHATOPS_API_KEY": {
+      "generator": "secret"
     }
   },
   "formation": {
