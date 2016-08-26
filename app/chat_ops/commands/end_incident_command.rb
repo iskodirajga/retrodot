@@ -1,3 +1,3 @@
 class EndIncidentCommand < ChatOpsCommand
-  regex /end incident/
+  match /end incident/
 end

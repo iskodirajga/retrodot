@@ -1,3 +1,3 @@
 class StartIncidentCommand < ChatOpsCommand
-  regex /start( an)? incident/
+  match /start( an)? incident/
 end
