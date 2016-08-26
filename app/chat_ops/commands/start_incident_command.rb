@@ -1,0 +1,2 @@
+class StartIncidentCommand < ChatOpsCommand
+end

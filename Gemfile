@@ -25,6 +25,7 @@ gem "loggerator", require: [
 gem "activeadmin", "~> 1.0.0.pre4"
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'omniauth-google-oauth2'
+gem 'require_all'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
