@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823155521) do
+ActiveRecord::Schema.define(version: 20160825140246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20160823155521) do
     t.date     "followup_on"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "category_id"
+    t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
   end
 
   create_table "remediations", force: :cascade do |t|
@@ -63,8 +65,6 @@ ActiveRecord::Schema.define(version: 20160823155521) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "incident_id"
-    t.integer  "category_id"
-    t.index ["category_id"], name: "index_retrospectives_on_category_id", using: :btree
     t.index ["incident_id"], name: "index_retrospectives_on_incident_id", using: :btree
   end
 

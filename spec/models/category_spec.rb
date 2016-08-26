@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Category do
-  it { should have_many :retrospectives }
+  it { should have_many :incidents }
 end

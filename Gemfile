@@ -37,9 +37,12 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'webmock', require: 'webmock/rspec'
   gem 'rspec-mocks'
   gem 'database_cleaner'
+end
+
+group :test do
+  gem 'webmock', require: 'webmock/rspec'
 end
 
 group :development do

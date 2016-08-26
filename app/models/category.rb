@@ -1,3 +1,3 @@
 class Category < ActiveRecord::Base
-  has_many :retrospectives
+  has_many :incidents
 end
