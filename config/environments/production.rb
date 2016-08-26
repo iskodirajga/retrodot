@@ -1,5 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  require 'rack/ssl-enforcer'
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -41,6 +42,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
+  config.middleware.use Rack::SslEnforcer
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
