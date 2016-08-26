@@ -11,4 +11,11 @@ Rails.application.routes.draw do
     get :verify
     get :failure
   end
+
+  namespace :api, defaults: {format: 'json'} do
+    namespace :chatops do
+      get 'v1/matcher'
+      post 'v1/respond'
+    end
+  end
 end
