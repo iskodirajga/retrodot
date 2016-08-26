@@ -23,6 +23,8 @@ module Config
 
   override :followup_days, 5, int
 
+  optional :email_cc, string
+
   # Admin UI configuration
   override :localize_format, :long, symbol
 
