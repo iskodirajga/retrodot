@@ -12,6 +12,7 @@ RSpec.describe Api::Chatops::V1Controller, type: :controller do
     it "calls ChatOps.matcher" do
       expect(ChatOps).to receive(:matcher).exactly(1).times
       get :matcher, params: {API_KEY: Config.chatops_api_key}
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -24,6 +25,9 @@ RSpec.describe Api::Chatops::V1Controller, type: :controller do
     it "calls ChatOps.process" do
       expect(ChatOps).to receive(:process).exactly(1).times
       get :respond, params: {API_KEY: Config.chatops_api_key}
+
+      # 404 because no command matches our (blank) message
+      expect(response).to have_http_status(:not_found)
     end
   end
 
