@@ -190,6 +190,7 @@ GEM
       pry (>= 0.9.10)
     puma (3.6.0)
     rack (2.0.1)
+    rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0.1)
@@ -317,6 +318,7 @@ DEPENDENCIES
   pry-nav
   pry-rails
   puma (~> 3.0)
+  rack-ssl-enforcer
   rails (~> 5.0.0)
   require_all
   rspec-collection_matchers
