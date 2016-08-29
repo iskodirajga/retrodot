@@ -18,7 +18,7 @@ RSpec.describe Api::Chatops::V1Controller, type: :controller do
 
   describe "GET #respond" do
     it "returns 403 for requests without API token" do
-      get :respond
+      post :respond
       expect(response).to have_http_status(:forbidden)
     end
 
