@@ -1,4 +1,4 @@
-class Api::Chatops::V1Controller < ApplicationController
+class Api::V1::ChatOpsController < ApplicationController
   skip_before_action :verify_authenticity_token
   http_basic_authenticate_with name: "api", password: Config.chatops_api_key
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::Chatops::V1Controller, type: :controller do
+RSpec.describe Api::V1::ChatOpsController, type: :controller do
   render_views
 
   describe "GET #matcher" do
@@ -32,5 +32,4 @@ RSpec.describe Api::Chatops::V1Controller, type: :controller do
       expect(response).to have_http_status(:not_found)
     end
   end
-
 end
