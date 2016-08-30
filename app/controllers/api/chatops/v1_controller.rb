@@ -1,6 +1,6 @@
 class Api::Chatops::V1Controller < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :check_api_key
+  http_basic_authenticate_with name: "api", password: Config.chatops_api_key
 
   def matcher
     render json: {"regex": ChatOps.matcher}
@@ -15,11 +15,4 @@ class Api::Chatops::V1Controller < ApplicationController
       render status: :not_found, json: {"error": "command not found"}
     end
   end
-
-  private
-    def check_api_key
-      unless params['API_KEY'] == Config.chatops_api_key
-        render status: :forbidden, json: {"error": "invalid api key"}
-      end
-    end
 end
