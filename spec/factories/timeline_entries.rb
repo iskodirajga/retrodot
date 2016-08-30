@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :timeline_entry do
-    user nil
-    timestamp "2016-08-29 13:53:01"
-    message "MyText"
-    incident nil
+    user
+    sequence(:timestamp) { 1.day.ago + n.minutes }
+    sequence(:message) { "timeline message #{n}" }
+    incident
   end
 end
