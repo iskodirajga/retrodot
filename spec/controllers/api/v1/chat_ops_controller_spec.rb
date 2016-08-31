@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::ChatOpsController, type: :controller do
+RSpec.describe Api::V1::ChatOpsController do
   render_views
 
   describe "GET #matcher" do
