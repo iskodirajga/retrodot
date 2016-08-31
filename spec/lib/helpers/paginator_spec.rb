@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Helpers::Paginator do
 
   let(:url) { "https://example.localhost.com" }

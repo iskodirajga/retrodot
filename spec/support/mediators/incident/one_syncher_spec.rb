@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Mediators::Incident::OneSyncher do
   let(:id) { '900' }
 

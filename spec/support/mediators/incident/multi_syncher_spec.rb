@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Mediators::Incident::MultiSyncher do
   let!(:url) { "https://example.localhost.com" }
 

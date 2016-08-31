@@ -1,5 +1,3 @@
-require 'spec_helper'
-
-describe User do
+RSpec.describe User do
   it { should have_many(:timeline_entries) }
 end
