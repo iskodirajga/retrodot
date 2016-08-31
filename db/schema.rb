@@ -50,11 +50,11 @@ ActiveRecord::Schema.define(version: 20160831140017) do
     t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
   end
 
-  create_table "incidents_users", id: false, force: :cascade do |t|
+  create_table "incidents_responders", id: false, force: :cascade do |t|
     t.integer "incident_id"
     t.integer "user_id"
-    t.index ["incident_id"], name: "index_incidents_users_on_incident_id", using: :btree
-    t.index ["user_id"], name: "index_incidents_users_on_user_id", using: :btree
+    t.index ["incident_id"], name: "index_incidents_responders_on_incident_id", using: :btree
+    t.index ["user_id"], name: "index_incidents_responders_on_user_id", using: :btree
   end
 
   create_table "remediations", force: :cascade do |t|
