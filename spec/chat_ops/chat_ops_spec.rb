@@ -1,7 +1,3 @@
-require 'spec_helper'
-
-# Can't do `Rspec.describe ChatOps` here or the require_rel will get run before
-# we stub it below.
 RSpec.describe ChatOps do
   # This can't be a let because of weird ruby scoping stuff.
   REGEX1 = /test_regex1_[0-9]+/
