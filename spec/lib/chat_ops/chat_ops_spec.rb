@@ -1,7 +1,7 @@
 RSpec.describe ChatOps do
-  before do
-    ChatOps.class_variable_set :@@commands, []
-  end
+  let!(:commands) { ChatOps.commands }
+  before { ChatOps.class_variable_set :@@commands, [] }
+  after { ChatOps.class_variable_set :@@commands, commands }
 
   describe '.register' do
     it 'adds class to commands class variable' do
