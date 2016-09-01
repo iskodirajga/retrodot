@@ -8,8 +8,8 @@ RSpec.describe IncidentResponse do
       Config.override :max_words_in_name, @old_max_words_in_name
     end
 
-    let!(:user1) { FactoryGirl.create(:user) }
-    let!(:user2) { FactoryGirl.create(:user) }
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
 
     it 'returns a user mentioned by handle without @' do
       expect(IncidentResponse.get_mentioned_users("lorem ipsum #{user1.handle} dolor sit")).to eq [user1]
@@ -34,9 +34,9 @@ RSpec.describe IncidentResponse do
       expect(IncidentResponse.get_mentioned_users("lorem ipsum @#{user1.handle} dolor #{user2.handle} sit")).to match_array([user1, user2])
     end
 
-    let!(:john) { FactoryGirl.create(:user, name: "John Jones", handle: "john") }
-    let!(:jsmith) { FactoryGirl.create(:user, name: "John Smith", handle: "jsmith") }
-    let!(:jsj) { FactoryGirl.create(:user, name: "John Smith-Jones", handle: "jsj") }
+    let!(:john) { create(:user, name: "John Jones", handle: "john") }
+    let!(:jsmith) { create(:user, name: "John Smith", handle: "jsmith") }
+    let!(:jsj) { create(:user, name: "John Smith-Jones", handle: "jsj") }
 
     it 'returns users mentioned by full name' do
       # note that John Jones is NOT returned here
