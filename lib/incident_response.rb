@@ -1,5 +1,9 @@
 module IncidentResponse
   class << self
+    def prevent_highlights(message)
+
+    end
+
     def get_mentioned_users(message)
       words = split_words(message)
       users, words = search_for_names(words)
@@ -9,7 +13,7 @@ module IncidentResponse
 
     private
     def split_words(message)
-      message.scan(/[\w']+/).map &:downcase
+      message.scan(/[\w']+/).map(&:downcase)
     end
 
     def get_users_by_name
