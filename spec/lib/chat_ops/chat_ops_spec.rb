@@ -62,6 +62,8 @@ RSpec.describe ChatOps do
     it 'calls run only on the command that matched' do
       cmd_2_class.class_eval { def run(user, result); 'Command2.run'; end }
 
+      expect(cmd_1_instance).not_to receive(:run)
+
       result = ChatOps.process('user', 'test_regex2_abcdef')
 
       expect(result).to eq 'Command2.run'
