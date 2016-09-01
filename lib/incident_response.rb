@@ -1,9 +1,7 @@
 module IncidentResponse
   class << self
-    def prevent_highlights(message)
-
-    end
-
+    # Find any users mentioned in the message and return them.  Users may be
+    # mentioned by handle (with or without @ prepended) or by their full name.
     def get_mentioned_users(message)
       words = split_words(message)
       users, words = search_for_names(words)
@@ -11,7 +9,24 @@ module IncidentResponse
       users.uniq
     end
 
+    # Slack doesn't nominally have a way to prevent a mention of a user's
+    # handle form triggering highlights.  We intersperse each character of
+    # the handle with the unicode character "invisible separator" which has
+    # zero width.  The result is visually indistinguishable from their name
+    # but doesn't trigger highlights.
+    def prevent_highlights(message)
+      message.gsub(WORD_RE) do |word|
+        if search_for_handles(word).length > 0
+          unhighlight(word)
+        else
+          word
+        end
+      end
+    end
+
     private
+    WORD_RE = /[\w']+/
+
     def split_words(message)
       message.scan(/[\w']+/).map(&:downcase)
     end
@@ -84,10 +99,14 @@ module IncidentResponse
     def search_for_handles(words)
       # Search for people by their handle, with or without @ prepended.
 
-      words.collect do |word|
+      Array(words).collect do |word|
         word.sub! /^@/, ''
         User.find_by(handle: [word, strip_contraction(word)].uniq)
       end.reject &:nil?
+    end
+
+    def unhighlight(handle)
+      handle.each_char.to_a.join("\u{2063}")
     end
   end
 end

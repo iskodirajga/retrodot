@@ -68,4 +68,27 @@ RSpec.describe IncidentResponse do
       expect(IncidentResponse.get_mentioned_users("lorem ipsum dolor sit amet")).to eq []
     end
   end
+
+  describe ".prevent_highlights" do
+    let(:turtle) { "\u{1f422}" }
+    let(:separator) { "\u{2063}" }
+    let!(:user1) { create(:user, handle: "foo") }
+
+    it "should leave messages unchanged if they don't contain handles" do
+      s = "lorem ipsum dolor sit amet"
+      expect(IncidentResponse.prevent_highlights(s)).to eq s
+    end
+
+    it "should intersperse invisible separator into handles" do
+      before = "lorem ipsum foo dolor sit amet"
+      after = "lorem ipsum f#{separator}o#{separator}o dolor sit amet"
+      expect(IncidentResponse.prevent_highlights(before)).to eq after
+    end
+
+    it "should work even for contractions" do
+      before = "lorem ipsum foo're dolor sit amet"
+      after = "lorem ipsum f#{separator}o#{separator}o#{separator}'#{separator}r#{separator}e dolor sit amet"
+      expect(IncidentResponse.prevent_highlights(before)).to eq after
+    end
+  end
 end
