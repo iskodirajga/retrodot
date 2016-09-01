@@ -1,4 +1,4 @@
-describe Mediators::Incident::OneSyncher do
+RSpec.describe Mediators::Incident::OneSyncher do
   let(:id) { '900' }
 
   def encoded_data

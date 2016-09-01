@@ -11,7 +11,11 @@ require 'loggerator/test'
 # Checks for pending migrations before tests are run.
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 RSpec.configure do |config|
+  config.include AuthHelper, type: :controller
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
@@ -37,6 +41,8 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.disable_monkey_patching!
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, rgemove the following line or assign false

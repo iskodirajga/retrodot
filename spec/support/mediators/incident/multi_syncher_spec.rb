@@ -1,4 +1,4 @@
-describe Mediators::Incident::MultiSyncher do
+RSpec.describe Mediators::Incident::MultiSyncher do
   let!(:url) { "https://example.localhost.com" }
 
   def encoded_data

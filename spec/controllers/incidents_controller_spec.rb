@@ -1,4 +1,4 @@
-describe IncidentsController do
+RSpec.describe IncidentsController do
 
   let(:data) {
     {
