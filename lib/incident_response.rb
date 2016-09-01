@@ -7,7 +7,7 @@ module IncidentResponse
       users.uniq
     end
 
-    #private
+    private
     def split_words(message)
       message.scan(/[\w']+/).map &:downcase
     end
