@@ -58,7 +58,7 @@ module IncidentResponse
         end
 
         Config.max_words_in_name.downto(2).detect do |length|
-          if user = users_by_name[words[i,length]]
+          if user = (users_by_name[words[i,length]] || users_by_name[strip_contraction(words[i,length])])
             skip_words = length - 1
             users << user
           end
@@ -68,12 +68,21 @@ module IncidentResponse
       [users, leftovers]
     end
 
+    def strip_contraction(word_or_words)
+      if word_or_words.is_a? Array
+        word_or_words[-1] = strip_contraction(word_or_words[-1])
+        word_or_words
+      else
+        word_or_words.sub(/'[^']+$/, '')
+      end
+    end
+
     def search_for_handles(words)
       # Search for people by their handle, with or without @ prepended.
 
       words.collect do |word|
         word.sub! /^@/, ''
-        User.find_by(handle: [word, word.sub(/'.*$/, '')].uniq)
+        User.find_by(handle: [word, strip_contraction(word)].uniq)
       end.reject &:nil?
     end
   end
