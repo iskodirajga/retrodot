@@ -3,9 +3,10 @@ module IncidentResponse
     # Find any users mentioned in the message and return them.  Users may be
     # mentioned by handle (with or without @ prepended) or by their full name.
     def get_mentioned_users(message)
-      users, message = search_for_names(message)
-      users += search_for_handles(message)
-      users.uniq
+      ids, message = search_for_names(message)
+      handles = search_for_handles(message)
+
+      (User.where(id: ids) + User.where(handle: handles)).uniq
     end
 
     # Slack doesn't nominally have a way to prevent a mention of a user's
@@ -27,8 +28,8 @@ module IncidentResponse
     def search_for_names(message)
       names_to_users = {}
 
-      User.all.each do |user|
-        names_to_users[normalize_name(user.name)] = user
+      User.pluck(:name, :id).each do |name, id|
+        names_to_users[normalize_name(name)] = id
       end
 
       # Build an array of regexes, one per name.  We need to match without
@@ -65,7 +66,7 @@ module IncidentResponse
       # Search for people by their handle, with or without @ prepended.
 
       message.scan(handles_regex).map(&:first).map do |handle|
-        User.find_by(handle: handle.downcase)
+        handle.downcase
       end
     end
 
