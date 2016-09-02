@@ -1,13 +1,5 @@
 RSpec.describe IncidentResponse do
   describe '.get_mentioned_users' do
-    before(:each) do
-      @old_max_words_in_name = Config.max_words_in_name
-    end
-
-    after(:each) do
-      Config.override :max_words_in_name, @old_max_words_in_name
-    end
-
     let!(:user1) { create(:user) }
     let!(:user2) { create(:user) }
 
@@ -39,7 +31,7 @@ RSpec.describe IncidentResponse do
     let!(:jsj) { create(:user, name: "John Smith-Jones", handle: "jsj") }
 
     it 'returns users mentioned by full name' do
-      # note that John Jones is NOT returned here
+      # note that John Jones (whose handle is "john") is NOT returned here
       expect(IncidentResponse.get_mentioned_users("lorem ipsum John Smith dolor sit")).to eq [jsmith]
     end
 
@@ -47,13 +39,8 @@ RSpec.describe IncidentResponse do
       expect(IncidentResponse.get_mentioned_users("lorem ipsum joHN SmItH dolor sit")).to eq [jsmith]
     end
 
-    it 'matches names up to Config.max_words_in_name in length' do
-      Config.override :max_words_in_name, 2
-      expect(IncidentResponse.get_mentioned_users("lorem ipsum John Smith-Jones dolor sit")).to eq [jsmith]
-
-      Config.override :max_words_in_name, 3
-      # note that John Smith is NOT returned here
-      expect(IncidentResponse.get_mentioned_users("lorem ipsum John Smith-Jones dolor sit")).to eq [jsj]
+    it 'matches full names without regard for whitespace' do
+      expect(IncidentResponse.get_mentioned_users("lorem ipsum john  smith dolor sit")).to eq [jsmith]
     end
 
     it 'matches names with contractions and possessive forms' do
@@ -66,6 +53,12 @@ RSpec.describe IncidentResponse do
 
     it 'returns no users if none are mentioned' do
       expect(IncidentResponse.get_mentioned_users("lorem ipsum dolor sit amet")).to eq []
+    end
+
+    it 'does not let one name overshadow another' do
+      # If "John Smith-Jones" is in the message, we need to make sure that he
+      # is returned, not John Smith.
+      expect(IncidentResponse.get_mentioned_users("lorem ipsum John Smith-Jones dolor sit")).to eq [jsj]
     end
   end
 
@@ -87,7 +80,7 @@ RSpec.describe IncidentResponse do
 
     it "should work even for contractions" do
       before = "lorem ipsum foo're dolor sit amet"
-      after = "lorem ipsum f#{separator}o#{separator}o#{separator}'#{separator}r#{separator}e dolor sit amet"
+      after = "lorem ipsum f#{separator}o#{separator}o're dolor sit amet"
       expect(IncidentResponse.prevent_highlights(before)).to eq after
     end
   end
