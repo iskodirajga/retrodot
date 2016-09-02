@@ -5,8 +5,7 @@ module Mediators::User
         if chatops_user['email']
           user = ::User.find_or_initialize_by(email: chatops_user['email'])
           user.name = chatops_user['name'] || ""
-          puts chatops_user['handle']
-          user.handle = chatops_user['handle'] if chatops_user['handle']
+          user.handle = chatops_user['handle']
           user.save!
         end
       end
