@@ -42,6 +42,9 @@ module IncidentResponse
       # doesn't match "John Smith".
       names = names.sort_by {|name| -name.length}
 
+      names.reject!(&:nil?)
+      names.reject!(&:empty?)
+
       names_regex = /(?<=^|\W)(#{names.join('|')})(?=$|\W)/i
 
       mentions = []
@@ -58,7 +61,7 @@ module IncidentResponse
     end
 
     def handles_regex
-      handles = User.pluck(:handle)
+      handles = User.pluck(:handle).reject(&:nil?).reject(&:empty?)
       /(?<=^|\W)@?(#{Regexp.union(handles)})(?=\W|$)/i
     end
 
