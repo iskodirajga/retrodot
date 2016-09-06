@@ -48,17 +48,13 @@ module IncidentResponse
 
       names_regex = /(?<=^|\W)(#{names.join('|')})(?=$|\W)/i
 
-      mentions = []
-
-      message.gsub! names_regex do |match|
-        mentions << names_to_users[normalize_name(match)]
+      message.gsub!(names_regex).each_with_object([]) do |match, users|
+        users << names_to_users[normalize_name(match)]
 
         # Remove the name from the message so that it is not considered for
         # matches on users' handles in search_for_handles.
         " "
       end
-
-      mentions
     end
 
     def handles_regex
