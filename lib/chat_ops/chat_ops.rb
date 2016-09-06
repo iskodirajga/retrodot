@@ -18,7 +18,7 @@ module ChatOps
     # Each ChatOpsCommand has its own regex, so we use Regexp.union to
     # combine them.  It's almost the same as joining them with '|'.
     def matcher
-      Regexp.union(commands.collect{|command| command.regex})
+      Regexp.union(commands.collect(&:regex))
     end
 
     # Try to process a message as a ChatOps command.  Return nil if no
