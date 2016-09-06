@@ -32,8 +32,9 @@ module IncidentResponse
         names_to_users[normalize_name(name)] = id
       end
 
-      # Build an array of regexes, one per name.  We need to match without
-      # regard for whitespace, so convert spaces between words into '\s+'.
+      # Build an array of regexes, one per name.  We should match a name even if
+      # the number of spaces is different, so convert spaces between words into
+      # '\s+'.
       names = names_to_users.keys.map do |name|
         name.split.map{|word| Regexp.escape(word)}.join('\s+')
       end
