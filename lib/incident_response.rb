@@ -10,7 +10,7 @@ module IncidentResponse
     end
 
     # Slack doesn't nominally have a way to prevent a mention of a user's
-    # handle form triggering highlights.  We intersperse each character of
+    # handle from triggering highlights.  We intersperse each character of
     # the handle with the unicode character "invisible separator" which has
     # zero width.  The result is visually indistinguishable from their name
     # but doesn't trigger highlights.
@@ -65,8 +65,8 @@ module IncidentResponse
       /(?<=^|\W)@?(#{Regexp.union(handles)})(?=\W|$)/i
     end
 
+    # Search for people by their handle, with or without @ prepended.
     def search_for_handles(message)
-      # Search for people by their handle, with or without @ prepended.
 
       message.scan(handles_regex).map(&:first).map do |handle|
         handle.downcase
