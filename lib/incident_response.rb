@@ -3,8 +3,8 @@ module IncidentResponse
     # Find any users mentioned in the message and return them.  Users may be
     # mentioned by handle (with or without @ prepended) or by their full name.
     def get_mentioned_users(message)
-      ids, message = search_for_names(message)
-      handles = search_for_handles(message)
+      ids = find_and_remove_names!(message)
+      handles = find_handles(message)
 
       (User.where(id: ids) + User.where(handle: handles)).uniq
     end
@@ -25,7 +25,7 @@ module IncidentResponse
       name.downcase.strip.gsub(/\s+/, ' ')
     end
 
-    def search_for_names(message)
+    def find_and_remove_names!(message)
       names_to_users = {}
 
       User.pluck(:name, :id).each do |name, id|
@@ -57,7 +57,7 @@ module IncidentResponse
         " "
       end
 
-      [mentions, message]
+      mentions
     end
 
     def handles_regex
@@ -66,7 +66,7 @@ module IncidentResponse
     end
 
     # Search for people by their handle, with or without @ prepended.
-    def search_for_handles(message)
+    def find_handles(message)
 
       message.scan(handles_regex).map(&:first).map do |handle|
         handle.downcase
