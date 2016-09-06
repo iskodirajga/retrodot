@@ -27,6 +27,7 @@ gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'omniauth-google-oauth2'
 gem 'rack-ssl-enforcer'
 gem 'require_all'
+gem 'active_record_ignored_attributes'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
