@@ -60,6 +60,11 @@ RSpec.describe IncidentResponse do
       # is returned, not John Smith.
       expect(IncidentResponse.get_mentioned_users("lorem ipsum John Smith-Jones dolor sit")).to eq [jsj]
     end
+
+    it 'does not match handles that are not whole words' do
+      expect(IncidentResponse.get_mentioned_users("lorem ipsum qjsmith dolor sit")).to eq []
+      expect(IncidentResponse.get_mentioned_users("lorem ipsum jsmithq dolor sit")).to eq []
+    end
   end
 
   describe ".prevent_highlights" do
