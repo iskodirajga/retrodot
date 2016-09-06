@@ -24,8 +24,19 @@ class ChatOpsCommand
     end
   end
 
+  # Implement run() in the subclass.  It should return a hash describing the
+  # response.  The hash may contain the following keys:
+  #
+  #   message: (optional) text to reply back with
+  #   subject: (optional) a subject line for an extended message, e.g. Slack's
+  #     "attachments"
+  #   reaction: (optional) name of an emoji to add as a reaction to the user's
+  #     message
+  #
+  # Return nil to indicate that we don't actually want to process the command
+  # after all.
+
   def run(user, message)
-    # define in subclass
-    {"error": "command not implemented"}
+    nil
   end
 end
