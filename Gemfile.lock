@@ -74,6 +74,7 @@ GEM
       thor (~> 0.19)
     builder (3.2.2)
     byebug (9.0.5)
+    chronic (0.10.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -307,6 +308,7 @@ DEPENDENCIES
   active_record_ignored_attributes
   activeadmin (~> 1.0.0.pre4)
   byebug
+  chronic
   coffee-rails (~> 4.2)
   configerator
   database_cleaner
