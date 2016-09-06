@@ -4,4 +4,7 @@ class Incident < ActiveRecord::Base
   belongs_to :category
   has_many :timeline_entries
   has_and_belongs_to_many :responders, join_table: :incidents_responders, class_name: "User"
+
+  default_scope { order('incident_id DESC') }
+  scope :open, -> { where(state: "open") }
 end
