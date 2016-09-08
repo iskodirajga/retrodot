@@ -14,7 +14,7 @@ module Mediators::Incident
     def update_incident
       Rails.logger.info(fn: "update_incident")
       incident = ::Incident.find_or_initialize_by(incident_id: parse_details[:incident_id])
-      incident.update(parse_details.merge!(followup_on: followup_date))
+      incident.update(parse_details.merge!(followup_on: followup_date, last_sync: Time.now))
     end
 
     def parse_details

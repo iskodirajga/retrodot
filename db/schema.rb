@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908150249) do
+ActiveRecord::Schema.define(version: 20160908173255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,12 +42,16 @@ ActiveRecord::Schema.define(version: 20160908150249) do
     t.integer  "incident_id"
     t.boolean  "review"
     t.date     "followup_on"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "category_id"
     t.datetime "chat_start"
     t.datetime "chat_end"
+    t.datetime "timeline_start"
+    t.datetime "last_sync"
     t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
+    t.index ["last_sync"], name: "index_incidents_on_last_sync", using: :btree
+    t.index ["timeline_start"], name: "index_incidents_on_timeline_start", using: :btree
   end
 
   create_table "incidents_responders", id: false, force: :cascade do |t|
