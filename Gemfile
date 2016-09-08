@@ -46,6 +46,7 @@ end
 
 group :test do
   gem 'webmock', require: 'webmock/rspec'
+  gem 'timecop'
 end
 
 group :development do
