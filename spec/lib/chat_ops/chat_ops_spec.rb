@@ -37,7 +37,21 @@ RSpec.describe ChatOps do
   end
 
   describe '.help' do
+    let(:help1) { "command 1 help text" }
+    let(:help2) { "command 2 help text" }
 
+    it "joins all commands' help messages with newlines" do
+      cmd_1_class.class_eval "help_message '#{help1}'"
+      cmd_2_class.class_eval "help_message '#{help2}'"
+
+      expect(ChatOps.help).to include help1, help2
+    end
+
+    it "skips classes that don't specify a help message" do
+      cmd_1_class.class_eval "help_message '#{help1}'"
+
+      expect(ChatOps.help).to eq help1
+    end
   end
 
   describe '.process' do
