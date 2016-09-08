@@ -69,7 +69,7 @@ module IncidentResponse
     end
 
     def in_dst?
-      Time.use_zone(Config.zone) { Time.zone.now.isdst }
+      Time.use_zone(Config.time_zone) { Time.zone.now.isdst }
     end
 
     def normalize_name(name)
