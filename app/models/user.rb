@@ -10,4 +10,13 @@ class User < ApplicationRecord
       handle: handle
     }
   end
+
+  class << self
+    def ensure(email:, name: nil, handle: nil)
+      user = find_or_create_by(email: email)
+      user.name = name
+      user.handle = handle
+      user.save!
+    end
+  end
 end
