@@ -3,6 +3,9 @@ RSpec.describe ChatOps do
   before { ChatOps.class_variable_set :@@commands, [] }
   after { ChatOps.class_variable_set :@@commands, commands }
 
+  let(:cmd_1_class) { Class.new(ChatOpsCommand) }
+  let(:cmd_2_class) { Class.new(ChatOpsCommand) }
+
   describe '.register' do
     it 'adds class to commands class variable' do
       Foo = Class.new
@@ -19,17 +22,11 @@ RSpec.describe ChatOps do
     end
 
     it 'registers when some class inherits from ChatOpsCommand' do
-      TestCommand1 = Class.new(ChatOpsCommand)
-      TestCommand2 = Class.new(ChatOpsCommand)
-
-      expect(ChatOps.commands).to include TestCommand1, TestCommand2
+      expect(ChatOps.commands).to include cmd_1_class, cmd_2_class
     end
   end
 
   describe '.matcher' do
-    let(:cmd_1_class) { Class.new(ChatOpsCommand) }
-    let(:cmd_2_class) { Class.new(ChatOpsCommand) }
-
     it 'builds a regex from defined commands' do
       cmd_1_class.class_eval { match /test_regex1_[0-9]+/ }
       cmd_2_class.class_eval { match /test_regex2_[a-z]+/ }
@@ -39,9 +36,11 @@ RSpec.describe ChatOps do
     end
   end
 
+  describe '.help' do
+
+  end
+
   describe '.process' do
-    let(:cmd_1_class) { Class.new(ChatOpsCommand) }
-    let(:cmd_2_class) { Class.new(ChatOpsCommand) }
     let!(:cmd_1_instance) { cmd_1_class.new }
     let!(:cmd_2_instance) { cmd_2_class.new }
 
