@@ -7,4 +7,13 @@ class Incident < ActiveRecord::Base
 
   default_scope { order('incident_id DESC') }
   scope :open, -> { where(state: "open") }
+  scope :synced, -> { where.not(last_sync: nil) }
+
+  def chat_start
+    super.in_time_zone Config.time_zone
+  end
+
+  def chat_end
+    super.in_time_zone Config.time_zone
+  end
 end
