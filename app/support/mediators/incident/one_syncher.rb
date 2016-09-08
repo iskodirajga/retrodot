@@ -9,7 +9,7 @@ module Mediators::Incident
     def call
       Mediators::Incident::Persister.run(incident: payload)
     rescue Excon::Error
-      Rails.logger.error(error: $!, fn: "call", at: "run", incident_id: id)
+      log(error: $!, fn: "call", at: "run", incident_id: id)
       raise $!
     end
 

@@ -7,12 +7,12 @@ module Mediators::Incident
     end
 
     def call
-      Rails.logger.info(fn: "call")
+      log(fn: "call")
       update_incident
     end
 
     def update_incident
-      Rails.logger.info(fn: "update_incident")
+      log(fn: "update_incident")
       incident = ::Incident.find_or_initialize_by(incident_id: parse_details[:incident_id])
       incident.update(parse_details.merge!(followup_on: followup_date))
     end
