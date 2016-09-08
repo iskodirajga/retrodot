@@ -21,6 +21,11 @@ module ChatOps
       Regexp.union(commands.collect(&:regex))
     end
 
+    # Get a help message describing each command.
+    def help
+      commands.map(&:help).reject(&:blank?).join("\n")
+    end
+
     # Try to process a message as a ChatOps command.  Return nil if no
     # command matched.  TODO: define return value for success.
     def process(user, message)

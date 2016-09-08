@@ -1,6 +1,6 @@
 class ChatOpsCommand
   class << self
-    attr_reader :regex, :name
+    attr_reader :regex, :name, :help
 
     # Ruby calls this function when a class is declared that inherits from this
     # class.  We then register it with the ChatOps module.
@@ -15,6 +15,10 @@ class ChatOpsCommand
 
     def name(n)
       @name = n
+    end
+
+    def help_message(text)
+      @help = text
     end
   end
 
@@ -36,7 +40,7 @@ class ChatOpsCommand
   # Return nil to indicate that we don't actually want to process the command
   # after all.
 
-  def run(user, message)
+  def run(user, match_data)
     nil
   end
 end
