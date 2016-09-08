@@ -5,7 +5,7 @@ module Mediators::Incident
         Mediators::Incident::Persister.run(incident: incident)
       end
     rescue Excon::Error
-      log($!, fn: "call", at: "run", incident_id: incident[Config.incident_id])
+      log_error($!, fn: "call", at: "run", incident_id: incident[Config.incident_id])
       raise $!
     end
   end
