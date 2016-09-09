@@ -27,6 +27,7 @@
     },
 
     "PR_APP": "true",
+    "FOLLOWUP_DAYS": 5,
 
     "DURATION": {
       "description": "field name to use when syncing incidents from an external data source",
@@ -45,6 +46,10 @@
       "required": false
     },
     "STARTED_AT": {
+      "description": "field name to use when syncing incidents from an external data source",
+      "required": false
+    },
+    "RESOLVED_AT": {
       "description": "field name to use when syncing incidents from an external data source",
       "required": false
     },
