@@ -42,7 +42,7 @@ RSpec.describe Mediators::Incident::MultiSyncher do
 
     it 'Syncs multiple incidents' do
       allow(Config).to receive(:source_url).and_return(url)
-      binding.pry
+
       assert_equal 0, Incident.all.count
       Mediators::Incident::MultiSyncher.run
 
