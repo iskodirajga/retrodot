@@ -1,3 +1,6 @@
+require "loggerator/rails"
+require "loggerator/metrics"
+
 module Mediators
   class Base
 
