@@ -1,25 +1,24 @@
 class StartIncidentCommand < ChatOpsCommand
   match %r{
           # allow "start incident" or "start an incident"
-          start\s+(an\s+)?incident\s+
+          start\s+(an\s+)?incident
+          (\s+
+            (
+              # if they specify an incident ID, use that.
+              (?<incident_id>\d+)
 
+              # incident ID must be followed by whitespace
+              \s+
 
-          (
-            # if they specify an incident ID, use that.
-            (?<incident_id>\d+)
+              # Don't match incident #14 in "start an incident 14 minutes ago"
+              (?!(seconds|minutes|hours)\s+ago)
 
-            # incident ID must be followed by whitespace
-            \s+
+            )?
 
-            # Don't match incident #14 in "start an incident 14 minutes ago"
-            (?!\s+(seconds|minutes|hours)\s+ago)
-
+            # Slurp up the remainder.  IncidentResponse.parse_timestamp will
+            # parse it as a timestamp specified in natural language.
+            (?<timestamp>.*)
           )?
-
-          # Slurp up the remainder.  IncidentResponse.parse_timestamp will
-          # parse it as a timestamp specified in natural language.
-          (?<timestamp>.*)
-
           $
         }ix
 
@@ -65,14 +64,13 @@ class StartIncidentCommand < ChatOpsCommand
       incident_id = 1
     end
 
-
+    incident_id
   end
 
   def get_chat_start(timestamp=nil)
+    puts timestamp
     if timestamp
-      IncidentResponse.parse_timestamp(timestamp)
-    else
-      Time.now
-    end
+      ::IncidentResponse.parse_timestamp(timestamp)
+    end || Time.now
   end
 end
