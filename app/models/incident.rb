@@ -10,10 +10,10 @@ class Incident < ActiveRecord::Base
   scope :synced, -> { where.not(last_sync: nil) }
 
   def chat_start
-    super.in_time_zone Config.time_zone
+    super&.in_time_zone Config.time_zone
   end
 
   def chat_end
-    super.in_time_zone Config.time_zone
+    super&.in_time_zone Config.time_zone
   end
 end
