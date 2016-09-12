@@ -6,7 +6,7 @@ class IncidentsController < ApplicationController
   end
 
   def sync
-    logger.info(ns: self.class.name, fn: :sync, incident: params["incident_id"])
+    log(ns: self.class.name, fn: :sync, incident: params["incident_id"])
 
     if Mediators::Incident::OneSyncher.run(id: params['incident_id'])
       render json: nil, status: 202
