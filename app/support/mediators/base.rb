@@ -1,3 +1,5 @@
+include Loggerator
+
 module Mediators
   class Base
 
