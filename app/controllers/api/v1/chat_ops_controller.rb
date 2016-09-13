@@ -7,7 +7,7 @@ class Api::V1::ChatOpsController < ApplicationController
   end
 
   def respond
-    user = User.ensure(**params['user'].slice('email', 'name', 'handle').symbolize_keys)
+    user = User.ensure(**params.permit(user: [:email, :name, :handle])[:user].to_h.symbolize_keys)
     result = ChatOps.process(user, params['message'])
 
     if result

@@ -26,7 +26,7 @@ RSpec.describe Api::V1::ChatOpsController do
     it "calls ChatOps.process" do
       expect(ChatOps).to receive(:process).exactly(1).times
       basic_auth "api", Config.chatops_api_key
-      get :respond
+      post :respond, params: {user: {email: "test", handle: "test", name: "test"}}
 
       # 404 because no command matches our (blank) message
       expect(response).to have_http_status(:not_found)
