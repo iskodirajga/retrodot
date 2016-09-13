@@ -13,10 +13,6 @@ class ChatOpsCommand
       @regex = r
     end
 
-    def name(n)
-      @name = n
-    end
-
     def help_message(text)
       @help = text
     end
