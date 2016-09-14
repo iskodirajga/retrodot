@@ -1,3 +1,5 @@
-class EndIncidentCommand < ChatOpsCommand
-  match /end incident/
+module ChatOps::Commands
+  class EndIncidentCommand < ChatOps::ChatOpsCommand
+    match /end incident/
+  end
 end
