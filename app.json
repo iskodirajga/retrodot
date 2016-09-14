@@ -48,7 +48,7 @@
       "description": "field name to use when syncing incidents from an external data source",
       "required": false
     },
-    "INCIDENT_ID": {
+    "RESOLVED_AT": {
       "description": "field name to use when syncing incidents from an external data source",
       "required": false
     },

@@ -74,6 +74,7 @@ GEM
       thor (~> 0.19)
     builder (3.2.2)
     byebug (9.0.5)
+    chronic (0.10.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -285,6 +286,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
+    timecop (0.8.1)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -307,6 +309,7 @@ DEPENDENCIES
   active_record_ignored_attributes
   activeadmin (~> 1.0.0.pre4)
   byebug
+  chronic
   coffee-rails (~> 4.2)
   configerator
   database_cleaner
@@ -333,6 +336,7 @@ DEPENDENCIES
   shoulda
   spring
   spring-watcher-listen (~> 2.0.0)
+  timecop
   turbolinks (~> 5)
   uglifier (>= 1.3.0)
   webmock

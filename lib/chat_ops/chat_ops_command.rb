@@ -1,6 +1,6 @@
 class ChatOpsCommand
   class << self
-    attr_reader :regex, :name
+    attr_reader :regex, :name, :help
 
     # Ruby calls this function when a class is declared that inherits from this
     # class.  We then register it with the ChatOps module.
@@ -13,8 +13,8 @@ class ChatOpsCommand
       @regex = r
     end
 
-    def name(n)
-      @name = n
+    def help_message(text)
+      @help = text
     end
   end
 
@@ -24,8 +24,19 @@ class ChatOpsCommand
     end
   end
 
-  def run(user, message)
-    # define in subclass
-    {"error": "command not implemented"}
+  # Implement run() in the subclass.  It should return a hash describing the
+  # response.  The hash may contain the following keys:
+  #
+  #   message: (optional) text to reply back with
+  #   subject: (optional) a subject line for an extended message, e.g. Slack's
+  #     "attachments"
+  #   reaction: (optional) name of an emoji to add as a reaction to the user's
+  #     message
+  #
+  # Return nil to indicate that we don't actually want to process the command
+  # after all.
+
+  def run(user, match_data)
+    nil
   end
 end
