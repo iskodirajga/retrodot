@@ -16,7 +16,7 @@ module ChatOps::Commands
 
               )?
 
-              # Slurp up the remainder.  IncidentResponse.parse_timestamp will
+              # Slurp up the remainder.  ChatOps.parse_timestamp will
               # parse it as a timestamp specified in natural language.
               (?<timestamp>.*)
             )?
@@ -70,7 +70,7 @@ module ChatOps::Commands
 
     def get_chat_start(timestamp=nil)
       if !timestamp.blank?
-        ::IncidentResponse.parse_timestamp(timestamp)
+        ::ChatOps.parse_timestamp(timestamp)
       end || Time.now
     end
   end
