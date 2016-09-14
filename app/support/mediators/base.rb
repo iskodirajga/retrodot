@@ -1,7 +1,7 @@
-include Loggerator
 
 module Mediators
   class Base
+    include Loggerator
 
     def self.run(options={})
       new(options).call
