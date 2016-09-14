@@ -90,6 +90,10 @@ module ChatOps
       end
     end
 
+    def current_incident
+      Incident.by_timeline_start&.first
+    end
+
     private
     # If passed "EST" during daylight time, return "EDT", and the reverse.
     # People often say "3pm EST" when it's technically "3pm EDT" during that
