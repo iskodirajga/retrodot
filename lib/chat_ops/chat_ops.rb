@@ -138,7 +138,7 @@ module ChatOps
       names.reject!(&:nil?)
       names.reject!(&:empty?)
 
-      names_regex = /(?<=^|\W)(#{names.join('|')})(?=$|\W)/i
+      names_regex = /(?<=^|[^a-zA-Z0-9_@])(#{names.join('|')})(?=$|\W)/i
 
       message.gsub!(names_regex).each_with_object([]) do |match, users|
         users << names_to_users[normalize_name(match)]
@@ -151,7 +151,7 @@ module ChatOps
 
     def handles_regex
       handles = User.pluck(:handle).reject(&:nil?).reject(&:empty?)
-      /(?<=^|\W)@?(#{Regexp.union(handles)})(?=\W|$)/i
+      /(?<=^|\W)@?(#{handles.join('|')})(?=\W|$)/i
     end
 
     # Search for people by their handle, with or without @ prepended.
