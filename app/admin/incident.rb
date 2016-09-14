@@ -1,4 +1,6 @@
 ActiveAdmin.register Incident do
+  config.sort_order = 'incident_id_desc'
+
   menu priority: 1
 
   permit_params :category_id
