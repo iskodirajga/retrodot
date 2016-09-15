@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class StartIncidentCommand < ChatOpsCommand
+  class StartIncidentCommand < ChatOps::ChatOpsCommand
     match %r{
             # allow "start incident" or "start an incident"
             start\s+(an\s+)?incident
@@ -46,7 +46,7 @@ module ChatOps::Commands
         message << "  " + line
       end
 
-      { message: message.join("\n") }
+      ChatOps.message(message.join("\n"))
     end
 
     private

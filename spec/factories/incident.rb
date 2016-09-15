@@ -7,8 +7,8 @@ FactoryGirl.define do
     sequence(:incident_id) {|n| n}
     title "incident title"
     state "resolved"
-    chat_start { Time.now }
-    chat_end { Time.now }
+    chat_start nil
+    chat_end nil
     timeline_start nil
 
     trait :synced do
