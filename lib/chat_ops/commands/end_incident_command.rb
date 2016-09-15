@@ -4,12 +4,7 @@ module ChatOps::Commands
     help_message "end incident [#] - sets the end of chat for an incident"
 
     def run(user, match)
-      incident = if match['incident_id']
-        Incident.find_by(incident_id: match['incident_id'])
-      else
-        ChatOps.current_incident()
-      end
-      return { message: 'unknown incident (do you need to "start incident" first?)' } unless incident
+      incident = ChatOps.determine_incident(match['incident_id']) or return ChatOps.unknown_incident
 
       incident.chat_end = Time.now
       incident.save
