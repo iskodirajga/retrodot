@@ -7,6 +7,7 @@ Dotenv.load!('.env.test')
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'loggerator/test'
+require 'webmock/rspec'
 require 'helpers/chat_ops_command_helper'
 require 'helpers/time_helper'
 

@@ -1,3 +1,4 @@
+require 'trello'
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
@@ -11,8 +12,27 @@ ActiveAdmin.register Incident do
 
   # This creates /admin/:incident/sync which is linked to below.
   member_action :sync, method: :post do
-    Mediators::Incident::Syncher.run(incident: resource[:incident_id])
+    Mediators::Incident::OneSyncher.run(id: resource[:incident_id])
     redirect_to resource_path, notice: "Synced!"
+  end
+
+  # /admin/:incident/create_trello_card
+  member_action :create_trello_card, method: %i[get post] do
+    begin
+      Mediators::Incident::CreateCard.run(
+        id:                  resource[:incident_id],
+        title:               resource[:title],
+        trello_oauth_token:  current_user.trello_oauth_token,
+        trello_oauth_secret: current_user.trello_oauth_secret
+      )
+    rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
+      log_error($!, at: :create_trello_card, fn: :member_action)
+      session[:return_to] = resource[:incident_id]
+      redirect_to "/auth/trello"
+    else
+      log(at: :create_trello_card, fn: :member_action, incident_id: resource[:incident_id])
+      redirect_to collection_path, notice: "Card Successfully Created"
+    end
   end
 
   # This creates /admin/:incident/send_email which is posted from javascript triggered by the link below.
@@ -23,6 +43,10 @@ ActiveAdmin.register Incident do
   # add a "sync" button to the "view incident" page
   action_item :sync, only: :show do
     link_to 'Sync', sync_admin_incident_path(resource)
+  end
+
+  action_item :create_trello_card, only: :post do
+    link_to 'Create Trello Card', create_trello_card_admin_incident_path(resource)
   end
 
   # add a batch action for updating category
@@ -50,16 +74,17 @@ ActiveAdmin.register Incident do
     column :category
     actions do |incident|
       item 'Sync', sync_admin_incident_path(incident), method: :post, class: 'member_link'
+      item 'Create Trello Card', create_trello_card_admin_incident_path(incident), method: :post, class: 'member_link'
 
       # This triggers a modal dialog and posts the results back to the
       # :send_email member action above.
       item 'Send Retro Email', '#',
         class: 'retrodot_send_email member_link',
-        "data-action" => send_email_admin_incident_path(incident),
-        "data-cc" => Config.email_cc,
+        "data-action"  => send_email_admin_incident_path(incident),
+        "data-cc"      => Config.email_cc,
         "data-subject" => "Incident \##{incident.incident_id} retrospective needed",
-        "data-body" => "Dear ___,\n\n[...]\n\nThanks,\n#{controller.current_user.name}",
-        "data-inputs" =>
+        "data-body"    => "Dear ___,\n\n[...]\n\nThanks,\n#{controller.current_user.name}",
+        "data-inputs"  =>
           { To:      :text,
             CC:      :text,
             Subject: :text,
