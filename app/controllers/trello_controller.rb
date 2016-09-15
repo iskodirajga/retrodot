@@ -2,6 +2,8 @@ class TrelloController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def create
+    return redirect_to "/auth/failure" unless current_user
+
     session['trello-oauth-token']  = auth_hash["credentials"]["token"]
     session['trello-oauth-secret'] = auth_hash["credentials"]["secret"]
 
