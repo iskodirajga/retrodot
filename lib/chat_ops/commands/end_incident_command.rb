@@ -7,7 +7,7 @@ module ChatOps::Commands
       incident = if match['incident_id']
         Incident.find_by(incident_id: match['incident_id'])
       else
-        IncidentResponse::current_incident()
+        ChatOps.current_incident()
       end
       return { message: 'unknown incident (do you need to "start incident" first?)' } unless incident
 
