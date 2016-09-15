@@ -94,6 +94,30 @@ module ChatOps
       Incident.by_timeline_start&.first
     end
 
+    def determine_incident(id)
+      if id
+        Incident.find_by(incident_id: id)
+      else
+        current_incident
+      end
+    end
+
+    def unknown_incident
+      message 'unknown incident (do you need to "start incident" first?)'
+    end
+
+    def message(text)
+      { message: text }
+    end
+
+    # In the future, this might tag with some kind of metadata indicating an
+    # error.
+    alias_method :error, :message
+
+    def reaction(name)
+      { reaction: name }
+    end
+
     private
     # If passed "EST" during daylight time, return "EDT", and the reverse.
     # People often say "3pm EST" when it's technically "3pm EDT" during that
