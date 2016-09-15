@@ -10,6 +10,7 @@ module Config
   required :source_url, string
   override :app_name, "retrodot", string
   override :frontend_host, "retro.dev", string
+  override :time_zone, "US/Pacific", string
 
   # Overrides for incident syncher
   override :duration, "duration", string
@@ -36,4 +37,7 @@ module Config
   optional :chatops_api_key, string
   optional :chatops_users_url, string
   optional :chatops_users_api_key, string
+  optional :trello_consumer_key, string
+  optional :trello_consumer_secret, string
+  optional :trello_template, string
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831174453) do
+ActiveRecord::Schema.define(version: 20160913152840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,12 +42,16 @@ ActiveRecord::Schema.define(version: 20160831174453) do
     t.integer  "incident_id"
     t.boolean  "review"
     t.date     "followup_on"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "category_id"
     t.datetime "chat_start"
     t.datetime "chat_end"
+    t.datetime "timeline_start"
+    t.datetime "last_sync"
     t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
+    t.index ["last_sync"], name: "index_incidents_on_last_sync", using: :btree
+    t.index ["timeline_start"], name: "index_incidents_on_timeline_start", using: :btree
   end
 
   create_table "incidents_responders", id: false, force: :cascade do |t|
@@ -90,11 +94,14 @@ ActiveRecord::Schema.define(version: 20160831174453) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.text     "email",      null: false
-    t.text     "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "email",               null: false
+    t.text     "name"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "handle"
+    t.string   "trello_oauth_token"
+    t.string   "trello_oauth_secret"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["handle"], name: "index_users_on_handle", using: :btree
   end
 

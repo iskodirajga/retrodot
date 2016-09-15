@@ -4,7 +4,7 @@ class AuthController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :callback
 
   def callback
-    Rails.logger.debug(fn: 'callback')
+    log(fn: 'callback')
     unless session['user'].present?
       user = request.env['omniauth.auth']['info']
 
@@ -12,7 +12,7 @@ class AuthController < ApplicationController
       name = user['name']
 
       if params['provider'] != 'developer' && !valid_email?(email)
-        Rails.logger.debug(fn: 'callback', at: 'failure')
+        log(fn: 'callback', at: 'failure')
 
         redirect_to failure_auth_path
         return

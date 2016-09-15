@@ -3,10 +3,7 @@ module Mediators::User
     def call
       users.each do |chatops_user|
         if chatops_user['email']
-          user = ::User.find_or_initialize_by(email: chatops_user['email'])
-          user.name = chatops_user['name'] || ""
-          user.handle = chatops_user['handle']
-          user.save!
+          User.ensure(**chatops_user.slice('email', 'name', 'handle').symbolize_keys)
         end
       end
     end

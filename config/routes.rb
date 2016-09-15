@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   root to: 'incidents#index'
 
+  get '/auth/trello/callback', to: 'trello#create'
+
   resource :auth, controller: 'auth', only: :index do
     match "/:provider/callback" => "auth#callback", via: %i[get post]
     get :logout, as: 'logout'

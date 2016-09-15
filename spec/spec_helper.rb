@@ -7,6 +7,9 @@ Dotenv.load!('.env.test')
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'loggerator/test'
+require 'webmock/rspec'
+require 'helpers/chat_ops_command_helper'
+require 'helpers/time_helper'
 
 # Checks for pending migrations before tests are run.
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)
@@ -50,14 +53,13 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before do
-    DatabaseCleaner.start
-  end
-
-  config.after do
-    DatabaseCleaner.clean
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
   end
 end
