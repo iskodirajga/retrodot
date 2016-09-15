@@ -30,5 +30,9 @@ RSpec.describe ChatOps::Commands::AddResponderCommand do
       process "add @#{user1.handle} and #{user2.name} to incident"
       expect(incident.reload.responders).to include(user1, user2)
     end
+
+    it "should react with a checkmark and no message" do
+      expect(process("add @#{user1.handle} to incident")).to react_with(':checkmark:').and not_have_message
+    end
   end
 end
