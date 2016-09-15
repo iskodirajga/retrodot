@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def current_user
-    log(fn: "current_user")
     if session[:user]
       log(fn: "current_user", at: "find_user", email: session[:user][:email])
       # ActiveAdmin looks up the wrong namespace for User, so we have to prepend with ::
