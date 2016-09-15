@@ -1,5 +1,5 @@
 class TrelloController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: :callback
+  skip_before_action :verify_authenticity_token, only: :create
 
   def create
     session['trello-oauth-token']  = auth_hash["credentials"]["token"]
