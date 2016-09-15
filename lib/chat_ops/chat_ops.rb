@@ -106,15 +106,13 @@ module ChatOps
       message 'unknown incident (do you need to "start incident" first?)'
     end
 
-    def error(text)
-      # In the future, this might tag with some kind of metadata indicating an
-      # error.
-      { message: text }
-    end
-
     def message(text)
       { message: text }
     end
+
+    # In the future, this might tag with some kind of metadata indicating an
+    # error.
+    alias_method :error, :message
 
     def reaction(name)
       { reaction: name }
