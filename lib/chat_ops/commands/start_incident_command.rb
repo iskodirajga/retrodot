@@ -46,7 +46,7 @@ module ChatOps::Commands
         message << "  " + line
       end
 
-      { message: message.join("\n") }
+      ChatOps.message(message.join("\n"))
     end
 
     private
