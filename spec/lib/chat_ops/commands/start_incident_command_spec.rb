@@ -57,7 +57,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     it "sets chat start to the current time when no time is specified" do
       Timecop.freeze do
         start_incident
-        expect(last_incident.chat_start).to be_within(0.001).of Time.now
+        expect(last_incident.chat_start).to match_to_the_millisecond Time.now
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       Timecop.freeze do
         start_incident
 
-        expect(last_incident.chat_start).to be_within(0.001).of Time.now
+        expect(last_incident.chat_start).to match_to_the_millisecond Time.now
       end
 
       expect(last_incident_id).to eq first_incident_id
@@ -80,7 +80,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     it "uses the timestamp provided" do
       Timecop.freeze do
         start_incident "ten minutes ago"
-        expect(last_incident.chat_start).to be_within(0.001).of 10.minutes.ago
+        expect(last_incident.chat_start).to match_to_the_millisecond 10.minutes.ago
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       Timecop.freeze do
         start_incident "14 minutes ago"
         expect(last_incident_id).not_to eq 14
-        expect(last_incident.chat_start).to be_within(0.001).of 14.minutes.ago
+        expect(last_incident.chat_start).to match_to_the_millisecond 14.minutes.ago
       end
     end
   end

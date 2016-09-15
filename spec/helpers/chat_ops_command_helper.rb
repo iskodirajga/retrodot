@@ -1,3 +1,9 @@
+RSpec::Matchers.define :return_response_matching do |expected|
+  match do |actual|
+    actual[:message] =~ expected
+  end
+end
+
 module ChatOpsCommandHelper
   def self.included(base)
     base.extend ContextMethods

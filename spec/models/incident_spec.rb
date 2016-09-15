@@ -18,8 +18,8 @@ RSpec.describe Incident do
        # Gotta use inexact comparison because the timestamp loses precision when
        # round-tripped through the DB.  All we care is that it represents the
        # same point in time, irrespective of time zone.
-       expect(incident_from_db.chat_start).to be_within(0.001).of timestamp
-       expect(incident_from_db.chat_end).to be_within(0.001).of timestamp
+       expect(incident_from_db.chat_start).to match_to_the_millisecond timestamp
+       expect(incident_from_db.chat_end).to match_to_the_millisecond timestamp
      end
 
      it "returns the timestamp in the configured time zone" do
