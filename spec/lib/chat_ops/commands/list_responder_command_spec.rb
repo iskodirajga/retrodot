@@ -14,8 +14,18 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
     let!(:incident) { create(:incident, :synced, timeline_start: Time.now) }
 
     it "should list a single responder" do
-      process "add #{user1.handle} to incident"
-      expect(process("list incident responder")).to return_response_matching /something/
+      incident.responders << user1
+      incident.save
+
+      expect(process("list incident responders")).to return_response_matching /#{user1.handle}/
+    end
+
+    it "should list multiple responders" do
+      incident.responders << user1
+      incident.responders << user2
+      incident.save
+
+      expect(process("list incident responders")).to return_response_matching /#{user1.handle} #{user2.handle}/
     end
   end
 end
