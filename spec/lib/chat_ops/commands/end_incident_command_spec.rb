@@ -12,7 +12,7 @@ RSpec.describe ChatOps::Commands::EndIncidentCommand do
   describe ".run" do
     command :end_incident
 
-
+    let(:incident) { create(:incident) }
 
     it "returns an error if no incidents exist" do
       expect(end_incident).to return_response_matching /unknown incident/
@@ -25,11 +25,15 @@ RSpec.describe ChatOps::Commands::EndIncidentCommand do
 
     it "sets the chat_end for the current incident" do
       Timecop.freeze do
-        incident = create(:incident)
-        allow(ChatOps).to receive(:current_incident).and_return(incident)
-
-        expect(incident.chat_end).to match_to_the_millisecond Time.now
+        set_current_incident incident
+        end_incident
+        expect(current_incident.chat_end).to match_to_the_millisecond Time.now
       end
+    end
+
+    it "says that it has recorded the end of chat" do
+      set_current_incident incident
+      expect(end_incident).to return_response_matching /Recorded the end of chat for incident/
     end
   end
 end

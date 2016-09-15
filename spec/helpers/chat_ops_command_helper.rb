@@ -14,6 +14,14 @@ module ChatOpsCommandHelper
     def process(command, user=nil)
       described_class.new.process(user || create(:user), command)
     end
+
+    def set_current_incident(incident)
+      allow(ChatOps).to receive(:current_incident).and_return(incident)
+    end
+
+    def current_incident
+      ChatOps.current_incident
+    end
   end
 
   module ContextMethods

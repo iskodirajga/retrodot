@@ -11,7 +11,7 @@ module ChatOps::Commands
       end
       return { message: 'unknown incident (do you need to "start incident" first?)' } unless incident
 
-      incident.chat_end = Time.nowq
+      incident.chat_end = Time.now
       incident.save
 
       return { message: "Recorded the end of chat for incident #\#{incident.incident_id} at #{incident.chat_end.inspect}." }
