@@ -1,8 +1,8 @@
 RSpec.describe ChatOps::Commands::StartIncidentCommand do
-  describe "regex" do
-    let(:regex) {  }
+  include ChatOpsCommandHelper
 
-    example_commands = <<-EOL.each_line.map(&:strip)
+  describe "regex" do
+    test_regex_against_commands <<-EOL
       start incident
       start an incident
       start incident 900
@@ -10,21 +10,10 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       start an incident 5 minutes ago
       start incident 300 5 minutes ago
     EOL
-
-    subject { ChatOps::Commands::StartIncidentCommand.regex }
-
-    example_commands.each do |command|
-      it { is_expected.to match command }
-    end
   end
 
   describe ".run" do
-    let(:start_incident_command) { ChatOps::Commands::StartIncidentCommand.new }
-    let(:user) { create(:user) }
-
-    def process(command)
-      start_incident_command.process(user, command)
-    end
+    command :start_incident
 
     def last_incident
       Incident.by_timeline_start.first
@@ -33,13 +22,8 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     def last_incident_id
       last_incident.incident_id
     end
-
-    def start_incident(arg="")
-      process("start incident #{arg}")
-    end
-
     it "picks incident id 1 if no incidents exist" do
-      process("start incident")
+      start_incident
       expect(last_incident_id).to eq 1
     end
 
@@ -73,7 +57,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     it "sets chat start to the current time when no time is specified" do
       Timecop.freeze do
         start_incident
-        expect(last_incident.chat_start).to be_within(0.001).of Time.now
+        expect(last_incident.chat_start).to match_to_the_millisecond Time.now
       end
     end
 
@@ -85,9 +69,8 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       first_incident_id = last_incident_id
 
       Timecop.freeze do
-        start_incident
-
-        expect(last_incident.chat_start).to be_within(0.001).of Time.now
+        expect(start_incident).to return_response_matching /overwriting start time for incident/
+        expect(last_incident.chat_start).to match_to_the_millisecond Time.now
       end
 
       expect(last_incident_id).to eq first_incident_id
@@ -96,7 +79,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     it "uses the timestamp provided" do
       Timecop.freeze do
         start_incident "ten minutes ago"
-        expect(last_incident.chat_start).to be_within(0.001).of 10.minutes.ago
+        expect(last_incident.chat_start).to match_to_the_millisecond 10.minutes.ago
       end
     end
 
@@ -109,8 +92,12 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       Timecop.freeze do
         start_incident "14 minutes ago"
         expect(last_incident_id).not_to eq 14
-        expect(last_incident.chat_start).to be_within(0.001).of 14.minutes.ago
+        expect(last_incident.chat_start).to match_to_the_millisecond 14.minutes.ago
       end
+    end
+
+    it "tells the user which incident was started" do
+      expect(start_incident).to return_response_matching /Recorded the start of chat for incident #1/
     end
   end
 end
