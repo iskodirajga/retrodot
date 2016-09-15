@@ -29,6 +29,8 @@ gem 'omniauth-google-oauth2'
 gem 'rack-ssl-enforcer'
 gem 'require_all'
 gem 'active_record_ignored_attributes'
+gem 'omniauth-trello'
+gem 'ruby-trello', "~> 1.5.1"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -45,7 +47,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'webmock', require: 'webmock/rspec'
+  gem 'webmock'
   gem 'timecop'
 end
 
