@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class StartIncidentCommand < ChatOpsCommand
+  class StartIncidentCommand < ChatOps::ChatOpsCommand
     match %r{
             # allow "start incident" or "start an incident"
             start\s+(an\s+)?incident

@@ -7,6 +7,8 @@ Dotenv.load!('.env.test')
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'loggerator/test'
+require 'helpers/chat_ops_command_helper'
+require 'helpers/time_helper'
 
 # Checks for pending migrations before tests are run.
 ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Migration)

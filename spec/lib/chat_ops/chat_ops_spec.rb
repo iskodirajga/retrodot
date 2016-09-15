@@ -3,8 +3,8 @@ RSpec.describe ChatOps do
   before { ChatOps.class_variable_set :@@commands, [] }
   after { ChatOps.class_variable_set :@@commands, commands }
 
-  let(:cmd_1_class) { Class.new(ChatOpsCommand) }
-  let(:cmd_2_class) { Class.new(ChatOpsCommand) }
+  let(:cmd_1_class) { Class.new(ChatOps::ChatOpsCommand) }
+  let(:cmd_2_class) { Class.new(ChatOps::ChatOpsCommand) }
 
   describe '.register' do
     it 'adds class to commands class variable' do
@@ -21,7 +21,7 @@ RSpec.describe ChatOps do
       expect(ChatOps.commands).to be_an Array
     end
 
-    it 'registers when some class inherits from ChatOpsCommand' do
+    it 'registers when some class inherits from ChatOps::ChatOpsCommand' do
       expect(ChatOps.commands).to include cmd_1_class, cmd_2_class
     end
   end
@@ -222,6 +222,19 @@ RSpec.describe ChatOps do
       Timecop.freeze(date_not_in_dst) do
         expect(ChatOps.parse_timestamp("3pm EDT")).to eq threepm_est
       end
+    end
+  end
+
+  describe '.current_incident' do
+    it "returns nil if no incidents have non-nil timeline_start" do
+      create(:incident)
+      expect(ChatOps.current_incident).to eq nil
+    end
+
+    it "returns the incident with the most recent timeline_start" do
+      create(:incident, incident_id: 1, timeline_start: 5.minutes.ago)
+      create(:incident, incident_id: 2, timeline_start: 10.minutes.ago)
+      expect(ChatOps.current_incident.incident_id).to eq 1
     end
   end
 end
