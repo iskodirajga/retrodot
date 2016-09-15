@@ -69,8 +69,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
       first_incident_id = last_incident_id
 
       Timecop.freeze do
-        start_incident
-
+        expect(start_incident).to return_response_matching /overwriting start time for incident/
         expect(last_incident.chat_start).to match_to_the_millisecond Time.now
       end
 
@@ -95,6 +94,10 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
         expect(last_incident_id).not_to eq 14
         expect(last_incident.chat_start).to match_to_the_millisecond 14.minutes.ago
       end
+    end
+
+    it "tells the user which incident was started" do
+      expect(start_incident).to return_response_matching /Recorded the start of chat for incident #1/
     end
   end
 end
