@@ -38,7 +38,7 @@ module ChatOps
     # after all.
 
     def run(user, match_data)
-      nil
+      raise NotImplementedError
     end
   end
 end
