@@ -17,7 +17,7 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
       incident.responders << user1
       incident.save
 
-      expect(process("incident responders")).to return_response_matching /#{user1.name}/
+      expect(process("incident responders")).to return_response_matching /#{ChatOps.prevent_highlights(user1.name)}/
     end
 
     it "should list multiple responders" do
