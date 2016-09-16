@@ -24,11 +24,13 @@ RSpec.describe ChatOps::Commands::#{class_name}Command do
   describe 'regex' do
     it it_should_match_commands <<-EOL
       # some command
+      # some other command
     EOL
   end
 
   describe '.run' do
     it "tests some thing" do
+      # expect(process("add @#{user1.handle} to incident")).to react_with(':checkmark:').and not_have_message
     end
   end
 end
