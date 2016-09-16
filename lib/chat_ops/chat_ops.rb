@@ -42,7 +42,7 @@ module ChatOps
     #
     # These utility functions are used by chatops commands.
 
-    
+
     # Find any users mentioned in the message and return them.  Users may be
     # mentioned by handle (with or without @ prepended) or by their full name.
     def get_mentioned_users(message)
@@ -107,7 +107,7 @@ module ChatOps
     end
 
     def message(text)
-      { message: text }
+      { message: prevent_highlights(text) }
     end
 
     # In the future, this might tag with some kind of metadata indicating an
