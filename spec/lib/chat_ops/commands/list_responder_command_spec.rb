@@ -17,15 +17,14 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
       incident.responders << user1
       incident.save
 
-      expect(process("incident responders")).to return_response_matching /#{user1.handle}/
+      expect(process("incident responders")).to return_response_matching /#{user1.name}/
     end
 
     it "should list multiple responders" do
       incident.responders << user1
       incident.responders << user2
       incident.save
-
-      expect(process("incident responders")).to return_response_matching(/#{user1.handle}/).and return_response_matching(/#{user2.handle}/).and return_response_matching /#{incident.id}/
+      expect(process("incident responders")).to return_response_matching(/#{user1.name},#{user2.name}/, /#{incident.incident_id}/)
     end
   end
 end
