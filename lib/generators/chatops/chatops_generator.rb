@@ -18,11 +18,11 @@ end
 
   def copy_spec
     create_file "spec/lib/chat_ops/commands/#{file_name}_command_spec.rb", <<-FILE
-RSpec.describe ChatOps::Commands::AddResponderCommand do
+RSpec.describe ChatOps::Commands::#{class_name}Command do
   include ChatOpsCommandHelper
 
   describe 'regex' do
-    test_regex_against_commands <<-EOL
+    it it_should_match_commands <<-EOL
       # some command
     EOL
   end
