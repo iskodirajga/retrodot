@@ -21,7 +21,12 @@ module ChatOps
 
     def process(user, message)
       if result = self.class.regex.match(message)
-        run(user, result)
+        if should_parse_incident
+          incident = ChatOps.determine_incident(result[:incident_id]) or return ChatOps.unknown_incident
+          run(user, result, incident)
+        else
+          run(user, result)
+        end
       end
     end
 
@@ -36,9 +41,26 @@ module ChatOps
     #
     # Return nil to indicate that we don't actually want to process the command
     # after all.
+    #
+    # If the run method takes an `incident` parameter, then it is a command that
+    # allows the user to optionally pass an incident ID.  The regex should have
+    # a named capture group like (?<incident_id>\d+)?.  If the user passed an
+    # incident ID, it will be looked up and the incident object will be passed
+    # into run().  Otherwise the current incident is looked up and passed in
+    # (see ChatOps.current_incident).
 
     def run(user, match_data)
       raise NotImplementedError
+    end
+
+    private
+    # If the run method takes a parameter named `incident`, then this is a
+    # command that optionally allows the incident to be passed in.
+    def should_parse_incident
+      run = method :run
+      run.parameters.any? do |type, name|
+        name == :incident
+      end
     end
   end
 end
