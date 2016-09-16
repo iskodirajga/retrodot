@@ -18,5 +18,17 @@ FactoryGirl.define do
     after(:create) do |incident, evaluator|
       incident.update(state: "open") if evaluator.open
     end
+
+    factory :incident_with_responder do
+      transient do
+        users []
+      end
+
+      after(:create) do |incident, evaluator|
+        evaluator.users.each do |user|
+          incident.responders << user
+        end
+      end
+    end
   end
 end
