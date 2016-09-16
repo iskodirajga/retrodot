@@ -7,10 +7,10 @@ module ChatOps::Commands
   class #{class_name}Command < ChatOps::ChatOpsCommand
     match //
     help_message ""
-  end
 
-  def run(user, match)
-    # ChatOps.message()
+    def run(user, match)
+      # ChatOps.message()
+    end
   end
 end
     FILE
