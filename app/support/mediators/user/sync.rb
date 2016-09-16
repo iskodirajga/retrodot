@@ -1,9 +1,11 @@
 module Mediators::User
   class Sync < Mediators::Base
     def call
+      log action: 'syncing', source: Config.chatops_users_url
       users.each do |chatops_user|
+        log action: 'syncing', user: chatops_user
         if chatops_user['email']
-          User.ensure(**chatops_user.slice('email', 'name', 'handle').symbolize_keys)
+          ::User.ensure(**chatops_user.slice('email', 'name', 'handle').symbolize_keys)
         end
       end
     end
