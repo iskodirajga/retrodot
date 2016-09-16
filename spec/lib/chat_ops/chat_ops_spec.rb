@@ -102,6 +102,10 @@ RSpec.describe ChatOps do
       expect(ChatOps.get_mentioned_users("lorem ipsum #{user1.handle}'s dolor sit")).to eq [user1]
     end
 
+    it 'matches handles case-insensitively' do
+      expect(ChatOps.get_mentioned_users("lorem ipsum @#{user1.handle.upcase} dolor sit")).to eq [user1]
+    end
+
     it 'de-duplicates users mentioned multiple times by handle' do
       expect(ChatOps.get_mentioned_users("lorem ipsum @#{user1.handle} dolor #{user1.handle} sit")).to eq [user1]
     end
@@ -148,6 +152,10 @@ RSpec.describe ChatOps do
     it 'does not match handles that are not whole words' do
       expect(ChatOps.get_mentioned_users("lorem ipsum qjsmith dolor sit")).to eq []
       expect(ChatOps.get_mentioned_users("lorem ipsum jsmithq dolor sit")).to eq []
+    end
+
+    it 'does not match names starting with an @ to allow explicitly matching a handle' do
+      expect(ChatOps.get_mentioned_users("lorem ipsum @John Smith dolor sit")).to eq [john]
     end
   end
 
