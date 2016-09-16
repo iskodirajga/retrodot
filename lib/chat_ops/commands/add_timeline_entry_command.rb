@@ -1,0 +1,53 @@
+module ChatOps::Commands
+  class AddTimelineEntryCommand < ChatOps::ChatOpsCommand
+    # This regex is a little tricky.  We want to match these:
+    #
+    #   timeline hello world
+    #   timeline 20 hello world
+    #
+    # but not this:
+    #
+    #   timeline 20
+    #
+    # because the latter is a request to list the timeline for incident 20 and
+    # is handled by ListTimelineCommand.
+    match %r{
+              timeline
+              \s+
+              (
+                # If they specify an id...
+                (?<incident_id>\d+)
+
+                \s+
+
+                # ...then only match if they also specify a message
+                (?<message>.+)
+
+              |
+
+                # Otherwise, only match if it's not just a number.
+                (?!\d+$)
+
+                (?<message>.*)
+              )
+            }ix
+
+    help_message "h timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
+
+    def run(user, match)
+      incident = ChatOps.determine_incident(match[:incident_id]) or return ChatOps.unknown_incident
+
+      ChatOps.get_mentioned_users(match[:message]).each do |responder|
+        incident.responders << responder
+      end
+
+      # Add the user who is running this command, because they're probably
+      # involved too.
+      incident.responders << user
+
+      incident.timeline_entries << ::TimelineEntry.new(user: user, message: match[:message])
+
+      ChatOps.reaction(':checkmark:')
+    end
+  end
+end
