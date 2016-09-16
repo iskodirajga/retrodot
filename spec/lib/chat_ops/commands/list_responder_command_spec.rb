@@ -3,8 +3,8 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
 
   describe 'regex' do
     test_regex_against_commands <<-EOL
-      list incident responders
-      list incident 13 responders
+      incident responders
+      incident 13 responders
     EOL
   end
 
@@ -17,7 +17,7 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
       incident.responders << user1
       incident.save
 
-      expect(process("list incident responders")).to return_response_matching /#{user1.handle}/
+      expect(process("incident responders")).to return_response_matching /#{user1.handle}/
     end
 
     it "should list multiple responders" do
@@ -25,7 +25,7 @@ RSpec.describe ChatOps::Commands::ListResponderCommand do
       incident.responders << user2
       incident.save
 
-      expect(process("list incident responders")).to return_response_matching /#{user1.handle} #{user2.handle}/
+      expect(process("incident responders")).to return_response_matching(/#{user1.handle}/).and return_response_matching(/#{user2.handle}/).and return_response_matching /#{incident.id}/
     end
   end
 end
