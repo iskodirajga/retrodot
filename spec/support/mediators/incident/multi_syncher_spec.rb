@@ -34,6 +34,9 @@ RSpec.describe Mediators::Incident::MultiSyncher do
 
   describe "#call" do
     before do
+      allow(Config).to receive(:incident_id).and_return("incident_id")
+      allow(Config).to receive(:state).and_return("state")
+
       stub_request(:get, "#{url}/?page=1&per_page=100").to_return(
         body: encoded_data,
         headers: {"Link" => "<#{url}?page=1&per_page=100>; rel=\"last\", <#{url}?page=1&per_page=100>; rel=\"next\""}

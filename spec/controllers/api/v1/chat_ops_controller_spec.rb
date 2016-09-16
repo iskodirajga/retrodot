@@ -10,6 +10,7 @@ RSpec.describe Api::V1::ChatOpsController do
     end
 
     it "calls ChatOps.matcher" do
+      allow(Config).to receive(:chatops_api_key).and_return("sekrit")
       expect(ChatOps).to receive(:matcher).exactly(1).times
       basic_auth "api", Config.chatops_api_key
       get :matcher
@@ -24,6 +25,7 @@ RSpec.describe Api::V1::ChatOpsController do
     end
 
     it "calls ChatOps.process" do
+      allow(Config).to receive(:chatops_api_key).and_return("sekrit")
       expect(ChatOps).to receive(:process).exactly(1).times
       basic_auth "api", Config.chatops_api_key
       post :respond, params: {user: {email: "test", handle: "test", name: "test"}}

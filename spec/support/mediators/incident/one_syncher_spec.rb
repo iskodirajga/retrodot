@@ -1,5 +1,6 @@
 RSpec.describe Mediators::Incident::OneSyncher do
-  let(:id) { '900' }
+  let(:id)  { '900' }
+  let(:url) { "https://status.example.com/api/endpoint" }
 
   def encoded_data
     MultiJson.encode(incident_details)
@@ -21,6 +22,10 @@ RSpec.describe Mediators::Incident::OneSyncher do
 
   describe "#call" do
      before do
+       allow(Config).to receive(:source_url).and_return(url)
+       allow(Config).to receive(:incident_id).and_return("incident_id")
+       allow(Config).to receive(:state).and_return("state")
+
        stub_request(:get, "#{Config.source_url}/#{id}").to_return(body: encoded_data)
      end
 

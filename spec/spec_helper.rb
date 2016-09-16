@@ -2,7 +2,7 @@ ENV["RAILS_ENV"] ||= 'test'
 ENV["HOSTNAME"] = 'retrodot.test'
 
 require 'dotenv'
-Dotenv.load!('.env.test')
+Dotenv.load!('.env.test') if File.exist?('.env.test')
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
