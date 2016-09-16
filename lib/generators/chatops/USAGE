@@ -1,0 +1,7 @@
+Description:
+    Generator for creating new chatops commands
+
+Example:
+    rails generate chatops COMMAND
+
+    This will stub out a command file in lib/chatops/commands
