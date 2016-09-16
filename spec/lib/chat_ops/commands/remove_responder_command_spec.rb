@@ -13,11 +13,10 @@ RSpec.describe ChatOps::Commands::RemoveResponderCommand do
   describe '.run' do
     let(:user1)             { create(:user) }
     let(:user2)             { create(:user) }
-    let!(:incident)         { create(:incident_with_responder, users: [user1, user2]) }
+    let!(:incident)         { create(:incident_with_responder, :synced, users: [user1, user2]) }
     let!(:another_incident) { create(:incident_with_responder, users: [user2, user1]) }
 
     it "should remove a single responder" do
-      binding.pry
       process "remove #{user1.handle} from incident"
       expect(incident.reload.responders).not_to include user1
     end
@@ -30,10 +29,6 @@ RSpec.describe ChatOps::Commands::RemoveResponderCommand do
     it "should remove multiple responders at once by name or handle" do
       process "remove @#{user1.handle} and #{user2.name} from incident"
       expect(incident.reload.responders).not_to include(user1, user2)
-    end
-
-    it "should react with a checkmark and no message" do
-      #expect(process("remove @#{user1.handle} from incident")).to react_with(':checkmark:').and not_have_message
     end
   end
 end
