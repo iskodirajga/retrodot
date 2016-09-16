@@ -8,7 +8,13 @@ module ChatOps::Commands
     match //
     help_message ""
 
-    def run(user, match)
+    # A command can request that an optional incident ID be parsed
+    # automatically by setting this to true.  Add (?<incident_id>\d+)? in the
+    # match regex above and the incident will be looked up and passed in to
+    # run().
+    parse_incident false
+
+    def run(user, match, incident=nil)
       # ChatOps.message()
     end
   end
