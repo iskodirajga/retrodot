@@ -6,7 +6,7 @@ module ChatOps::Commands
     def run(user, match)
       incident = ChatOps.determine_incident(match['incident_id']) or return ChatOps.unknown_incident
 
-      ChatOps.message("Incident responders for incident #{incident.id}: #{incident.responders.map(&:name).join(",")}")
+      ChatOps.message("Incident responders for incident #{incident.incident_id}: #{incident.responders.map(&:name).join(", ")}")
     end
   end
 end
