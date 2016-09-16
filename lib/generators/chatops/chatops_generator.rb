@@ -36,7 +36,7 @@ RSpec.describe ChatOps::Commands::#{class_name}Command do
 
   describe '.run' do
     it "tests some thing" do
-      # expect(process("add @#{user1.handle} to incident")).to react_with(':checkmark:').and not_have_message
+      # expect(process("add @\#{user1.handle} to incident")).to react_with(':checkmark:').and not_have_message
     end
   end
 end
