@@ -21,7 +21,7 @@ RSpec.describe ChatOps::Commands::RemoveResponderCommand do
       expect(incident.reload.responders).not_to include user1
     end
 
-    it "should remove the responder to the specified incident" do
+    it "should remove the responder from the specified incident" do
       process "remove #{user1.handle} from incident #{another_incident.incident_id}"
       expect(another_incident.reload.responders).not_to include user1
     end
