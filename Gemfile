@@ -24,13 +24,14 @@ gem "loggerator", require: [
   ]
 
 gem "activeadmin", "~> 1.0.0.pre4"
-gem 'inherited_resources', github: 'activeadmin/inherited_resources'
+gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resources'
 gem 'omniauth-google-oauth2'
 gem 'rack-ssl-enforcer'
 gem 'require_all'
 gem 'active_record_ignored_attributes'
 gem 'omniauth-trello'
 gem 'ruby-trello', "~> 1.5.1"
+gem 'default_value_for', '~> 3.0.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

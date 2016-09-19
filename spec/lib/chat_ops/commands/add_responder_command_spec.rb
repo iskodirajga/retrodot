@@ -2,7 +2,7 @@ RSpec.describe ChatOps::Commands::AddResponderCommand do
   include ChatOpsCommandHelper
 
   describe 'regex' do
-    test_regex_against_commands <<-EOL
+    it_should_match_commands <<-EOL
       add person to incident
       add person and other person to incident
       add person to incident 12
