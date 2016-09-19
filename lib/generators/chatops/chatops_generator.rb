@@ -28,7 +28,7 @@ RSpec.describe ChatOps::Commands::#{class_name}Command do
   include ChatOpsCommandHelper
 
   describe 'regex' do
-    it it_should_match_commands <<-EOL
+    it_should_match_commands <<-EOL
       # some command
       # some other command
     EOL

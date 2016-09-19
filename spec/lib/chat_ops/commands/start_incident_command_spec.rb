@@ -2,7 +2,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
   include ChatOpsCommandHelper
 
   describe "regex" do
-    test_regex_against_commands <<-EOL
+    it_should_match_commands <<-EOL
       start incident
       start an incident
       start incident 900

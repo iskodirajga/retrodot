@@ -2,7 +2,7 @@ RSpec.describe ChatOps::Commands::EndIncidentCommand do
   include ChatOpsCommandHelper
 
   describe "regex" do
-    test_regex_against_commands <<-EOL
+    it_should_match_commands <<-EOL
       end incident
       end the incident
       end incident 12

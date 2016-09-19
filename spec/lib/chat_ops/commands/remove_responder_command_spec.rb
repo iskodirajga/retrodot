@@ -2,7 +2,7 @@ RSpec.describe ChatOps::Commands::RemoveResponderCommand do
   include ChatOpsCommandHelper
 
   describe 'regex' do
-    test_regex_against_commands <<-EOL
+    it_should_match_commands <<-EOL
       remove person from incident
       remove person and other person from incident
       remove person from incident 12

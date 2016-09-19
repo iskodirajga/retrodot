@@ -37,17 +37,29 @@ module ChatOpsCommandHelper
   end
 
   module ContextMethods
-    def test_regex_against_commands(commands)
-      subject { described_class.regex }
+    def command(cmd)
+      define_method(cmd) do |arg=""|
+        process("#{cmd.to_s.sub('_', ' ')} #{arg}")
+      end
+    end
 
-      commands.each_line.map(&:strip).each do |command|
+    def it_should_match_commands(commands)
+      _generate_match_tests commands do |command|
         it { is_expected.to match command }
       end
     end
 
-    def command(cmd)
-      define_method(cmd) do |arg=""|
-        process("#{cmd.to_s.sub('_', ' ')} #{arg}")
+    def it_should_not_match_commands(commands)
+      _generate_match_tests commands do |command|
+        it { is_expected.not_to match command }
+      end
+    end
+
+    def _generate_match_tests(commands)
+      subject { described_class.regex }
+
+      commands.each_line.map(&:strip).each do |command|
+        yield command
       end
     end
   end
