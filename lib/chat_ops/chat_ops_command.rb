@@ -1,7 +1,7 @@
 module ChatOps
   class ChatOpsCommand
     class << self
-      attr_reader :regex, :name, :help
+      attr_reader :regex, :name, :help, :should_parse_incident
 
       # Ruby calls this function when a class is declared that inherits from this
       # class.  We then register it with the ChatOps module.
@@ -17,11 +17,25 @@ module ChatOps
       def help_message(text)
         @help = text
       end
+
+      # If this is set to true, then this command can take an optional incident
+      # ID.  Its regex should have a (?<incident_id>\d+)? group.  process() will
+      # retrieve the specified incident from the DB and pass it in as an
+      # argument to run().  If the user does not specify an incident, then
+      # ChatOps.current_incident is used.
+      def parse_incident(should_parse_incident)
+        @should_parse_incident = should_parse_incident
+      end
     end
 
     def process(user, message)
       if result = self.class.regex.match(message)
-        run(user, result)
+        if self.class.should_parse_incident
+          incident = ChatOps.determine_incident(result[:incident_id]) or return ChatOps.unknown_incident
+          run(user, result, incident)
+        else
+          run(user, result)
+        end
       end
     end
 
@@ -36,7 +50,6 @@ module ChatOps
     #
     # Return nil to indicate that we don't actually want to process the command
     # after all.
-
     def run(user, match_data)
       raise NotImplementedError
     end
