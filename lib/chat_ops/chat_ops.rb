@@ -178,7 +178,7 @@ module ChatOps
     end
 
     def handles_regex
-      handles = User.pluck(:handle).reject(&:nil?).reject(&:empty?)
+      handles = User.with_handle.pluck(:handle)
       /(?<=^|\W)@?(#{handles.join('|')})(?=\W|$)/i
     end
 

@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_many :timeline_entries
   validates :handle, format: { with: /\A[-_.a-z0-9]+\z/, message: "only allows numbers, lowercase letters, dashes, periods and underscores" }
 
+  scope :with_handle, -> { where.not(handle: [nil, ""]) }
+
   def as_json(options={})
     {
       name: name,
