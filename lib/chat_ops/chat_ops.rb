@@ -161,7 +161,7 @@ module ChatOps
 
       # Match longer names first.  This makes sure that "John Smith-Jones"
       # doesn't match "John Smith".
-      names = names.sort_by{|name| name.length}.reverse
+      names = names.sort_by(&:length).reverse
 
       names.reject!(&:nil?)
       names.reject!(&:empty?)
