@@ -32,6 +32,8 @@ gem 'active_record_ignored_attributes'
 gem 'omniauth-trello'
 gem 'ruby-trello', "~> 1.5.1"
 gem 'default_value_for', '~> 3.0.0'
+gem 'google-api-client', '~> 0.9.15'
+gem 'googleauth'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
