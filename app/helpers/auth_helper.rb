@@ -1,3 +1,5 @@
+require 'googleauth'
+
 module AuthHelper
   class GoogleDriveAuth
     include Loggerator

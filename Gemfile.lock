@@ -380,6 +380,7 @@ DEPENDENCIES
   excon (= 0.50.1)
   factory_girl_rails
   google-api-client (~> 0.9.15)
+  googleauth
   haml-rails (~> 0.9)
   inherited_resources!
   jbuilder (~> 2.5)
