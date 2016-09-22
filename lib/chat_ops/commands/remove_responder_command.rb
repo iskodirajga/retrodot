@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class RemoveResponderCommand < ChatOps::ChatOpsCommand
+  class RemoveResponderCommand < ChatOps::Command
     match /remove\s+(?<who>.*)\s+from\s+incident(\s+(?<incident_id>\d+))?/
     parse_incident true
     help_message "h remove <person> [<person>...] from incident -- <person> can be a full name or @handle"

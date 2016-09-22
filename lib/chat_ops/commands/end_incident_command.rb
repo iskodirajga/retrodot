@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class EndIncidentCommand < ChatOps::ChatOpsCommand
+  class EndIncidentCommand < ChatOps::Command
     match /end\s+(the\s+)?incident(\s+(?<incident_id>[0-9]+))?/
     parse_incident true
     help_message "end incident [#] - sets the end of chat for an incident"

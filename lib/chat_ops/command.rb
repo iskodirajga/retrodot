@@ -1,5 +1,5 @@
 module ChatOps
-  class ChatOpsCommand
+  class Command
     class << self
       attr_reader :regex, :name, :help, :should_parse_incident
 

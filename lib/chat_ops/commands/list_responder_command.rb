@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class ListResponderCommand < ChatOps::ChatOpsCommand
+  class ListResponderCommand < ChatOps::Command
     match /incident(\s+(?<incident_id>\d+))?\s+responders/
     parse_incident true
     help_message "h incident [#] responders - list responders for an incident"
