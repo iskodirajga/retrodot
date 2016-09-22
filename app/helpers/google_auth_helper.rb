@@ -1,7 +1,7 @@
 require 'googleauth'
 
 module AuthHelper
-  class GoogleDriveAuth
+  class GoogleAuthHelper
     include Loggerator
 
     def initialize(client_id:, client_secret:, refresh_token:, auth_code:)
