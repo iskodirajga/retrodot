@@ -17,4 +17,8 @@ class Incident < ActiveRecord::Base
   def chat_end
     super&.in_time_zone Config.time_zone
   end
+
+  def open?
+    state == "open"
+  end
 end
