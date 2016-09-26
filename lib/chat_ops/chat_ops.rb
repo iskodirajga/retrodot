@@ -92,7 +92,7 @@ module ChatOps
     end
 
     def current_incident
-      Incident.by_timeline_start&.first
+      Incident.by_timeline_start.first
     end
 
     def determine_incident(id)
