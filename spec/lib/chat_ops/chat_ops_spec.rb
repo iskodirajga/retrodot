@@ -3,8 +3,8 @@ RSpec.describe ChatOps do
   before { ChatOps.class_variable_set :@@commands, [] }
   after { ChatOps.class_variable_set :@@commands, commands }
 
-  let(:cmd_1_class) { Class.new(ChatOps::ChatOpsCommand) }
-  let(:cmd_2_class) { Class.new(ChatOps::ChatOpsCommand) }
+  let(:cmd_1_class) { Class.new(ChatOps::Command) }
+  let(:cmd_2_class) { Class.new(ChatOps::Command) }
 
   describe '.register' do
     it 'adds class to commands class variable' do
@@ -21,7 +21,7 @@ RSpec.describe ChatOps do
       expect(ChatOps.commands).to be_an Array
     end
 
-    it 'registers when some class inherits from ChatOps::ChatOpsCommand' do
+    it 'registers when some class inherits from ChatOps::Command' do
       expect(ChatOps.commands).to include cmd_1_class, cmd_2_class
     end
   end

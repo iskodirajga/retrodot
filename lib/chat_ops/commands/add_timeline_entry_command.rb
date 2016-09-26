@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class AddTimelineEntryCommand < ChatOps::ChatOpsCommand
+  class AddTimelineEntryCommand < ChatOps::Command
     # This regex is a little tricky.  We want to match these:
     #
     #   timeline hello world

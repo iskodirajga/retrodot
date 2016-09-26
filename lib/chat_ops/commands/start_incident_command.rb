@@ -1,5 +1,5 @@
 module ChatOps::Commands
-  class StartIncidentCommand < ChatOps::ChatOpsCommand
+  class StartIncidentCommand < ChatOps::Command
     match %r{
             # allow "start incident" or "start an incident"
             start\s+(an\s+)?incident
@@ -55,15 +55,14 @@ module ChatOps::Commands
       # Otherwise, if an incident is open, they probably mean that one.
       incident_id = Incident.open.first&.incident_id if !incident_id
 
-      # If no incident is open, they probably mean the ID of the next incident to
-      # be opened.
-      begin
-        incident_id = Incident.synced.first.incident_id + 1 if !incident_id
-      rescue NoMethodError
-        # If no incidents have been opened yet, we would have tried to do
-        # nil.incident_id, which would raise NoMethodError.  Default to 1.
-        incident_id = 1
-      end
+      incident_id ||= if !Incident.synced.empty?
+                        # If no incident is open, they probably mean the ID of the next incident to
+                        # be opened.
+                        Incident.synced.first.incident_id + 1
+                      else
+                        # But if no incidents have been opened yet, just default to 1.
+                        1
+                      end
 
       incident_id
     end
