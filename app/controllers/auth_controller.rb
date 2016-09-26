@@ -6,10 +6,9 @@ class AuthController < ApplicationController
   def callback
     log(fn: 'callback')
     unless session['user'].present?
-      user = request.env['omniauth.auth']['info']
-
+      user  = request.env['omniauth.auth']['info']
       email = (user['email']||'').downcase
-      name = user['name']
+      name  = user['name']
 
       if params['provider'] != 'developer' && !valid_email?(email)
         log(fn: 'callback', at: 'failure')
@@ -18,16 +17,15 @@ class AuthController < ApplicationController
         return
       end
 
-      session[:user] = {
-        email: email
-      }
+      session[:user] = { email: email }
 
-      # The update ensures that their name in Retrodot is synced with changes
-      # in the oauth provider.
+      # The update ensures that their name in Retrodot is synced with changes in the oauth provider.
       User.create_with(name: name).find_or_create_by(email: email).update(name: name)
 
       flash[:notice] = 'Logged in.'
     end
+
+    update_google_creds unless developer?
 
     origin = session.delete(:return_to)
     redirect_to (origin && origin !~ %r{/auth/} ? origin : root_path)
@@ -47,14 +45,25 @@ class AuthController < ApplicationController
   end
 
   def failure
-    render text: 'You are not authorized', status: 401
+    render plain: 'You are not authorized', status: 401
   end
 
   def verify
     head(:ok)
   end
 
+  def developer?
+    request.env['omniauth.auth']['provider'] == "developer"
+  end
+
   protected
+
+  def update_google_creds
+    creds = request.env['omniauth.auth']['credentials']
+    current_user.update(google_refresh_token: creds[:refresh_token]) if !!creds[:refresh_token]
+    current_user.update(google_auth_code: params[:code])
+  end
+
   def auth_provider
     Rails.env.development? || Config.pr_app? ? :developer : :google_oauth2
   end
