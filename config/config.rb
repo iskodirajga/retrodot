@@ -40,4 +40,6 @@ module Config
   optional :trello_consumer_key, string
   optional :trello_consumer_secret, string
   optional :trello_template, string
+
+  override :chatops_prefix, "", string
 end

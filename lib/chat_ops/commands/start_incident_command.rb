@@ -23,7 +23,7 @@ module ChatOps::Commands
             $
           }ix
 
-    help_message "h start incident [#] [at <timespec>] - sets or overwrites incident start time (timespec examples: 5 minutes ago, 3pm, etc)"
+    help_message "start incident [#] [at <timespec>] - sets or overwrites incident start time (timespec examples: 5 minutes ago, 3pm, etc)"
 
     def run(user, match)
       incident_id = infer_incident_id(match[:incident_id])
