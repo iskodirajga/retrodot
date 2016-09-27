@@ -40,4 +40,8 @@ module Config
   optional :trello_consumer_key, string
   optional :trello_consumer_secret, string
   optional :trello_template, string
+
+  # Google Script
+  optional :google_script_id, string
+  optional :google_script_function, string
 end
