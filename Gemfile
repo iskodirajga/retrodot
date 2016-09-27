@@ -47,6 +47,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-mocks'
   gem 'database_cleaner'
+  gem 'pry-remote'
 end
 
 group :test do

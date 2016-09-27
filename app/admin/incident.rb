@@ -1,4 +1,6 @@
 require 'trello'
+require 'google/apis/script_v1'
+
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
@@ -35,6 +37,37 @@ ActiveAdmin.register Incident do
     end
   end
 
+  # /admin/:incident/create_retrospective_doc
+  member_action :create_retrospective_doc, method: %i[get post] do
+  begin
+    @session = Google::Auth::UserRefreshCredentials.new(
+      client_id:     Config.google_client_id,
+      client_secret: Config.google_client_secret,
+      refresh_token: current_user.google_refresh_token,
+      code:          current_user.google_auth_code
+    )
+    postmortem_date = resource[:review] ? resource[:followup_on] : false
+
+    @session.fetch_access_token!
+
+    Mediators::Incident::CreateRetroDoc.run(
+        id:              resource[:incident_id],
+        auth:            @session,
+        title:           resource[:title],
+        postmortem_date: postmortem_date
+    )
+  rescue Signet::AuthorizationError, Google::Apis::AuthorizationError
+      log_error($!, at: :create_retrospective_doc, fn: :member_action)
+      session[:return_to] = create_retrospective_doc_admin_incident_path(resource[:id])
+      redirect_to "/auth/google_oauth2"
+    rescue Google::Apis::ClientError => e
+      redirect_to collection_path, notice: "Error: #{e}"
+    else
+      log(at: :create_retrospective_doc, fn: :member_action, incident_id: resource[:incident_id])
+      redirect_to collection_path, notice: "Retrospective doc successfully created for Incident: #{resource[:incident_id]}"
+    end
+  end
+
   # This creates /admin/:incident/send_email which is posted from javascript triggered by the link below.
   member_action :send_email, method: :post do
     redirect_to collection_path, notice: "PLACEHOLDER: will send email: #{params['inputs']}"
@@ -47,6 +80,10 @@ ActiveAdmin.register Incident do
 
   action_item :create_trello_card, only: :post do
     link_to 'Create Trello Card', create_trello_card_admin_incident_path(resource)
+  end
+
+  action_item :create_retrospective_doc, only: :post do
+    link_to 'Create Retro Doc', create_retrospective_doc_admin_incident(resource)
   end
 
   # add a batch action for updating category
@@ -75,6 +112,7 @@ ActiveAdmin.register Incident do
     actions do |incident|
       item 'Sync', sync_admin_incident_path(incident), method: :post, class: 'member_link'
       item 'Create Trello Card', create_trello_card_admin_incident_path(incident), method: :post, class: 'member_link'
+      item 'Create Retro Doc', create_retrospective_doc_admin_incident_path(incident), method: :post, class: 'member_link'
 
       # This triggers a modal dialog and posts the results back to the
       # :send_email member action above.

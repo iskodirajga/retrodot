@@ -13,7 +13,7 @@ module Mediators::Incident
     def call
       log(fn: :call, at: :create_retro_doc)
       resp = @service.run_script(Config.google_script_id, execution_req)
-    rescue Google::Apis::ClientError
+    rescue Google::Apis::ClientError, Google::Apis::AuthorizationError
       log_error($!, fn: "call", at: "run", id: @id)
       raise
     end
