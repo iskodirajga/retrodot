@@ -28,10 +28,10 @@ RSpec.describe Mediators::Incident::CreateCard do
 
       expect {
         Mediators::Incident::CreateCard.run(
-        id: incident.id,
-        title: incident.title,
-        trello_oauth_token: nil,
-        trello_oauth_secret: nil
+          id: incident.id,
+          title: incident.title,
+          trello_oauth_token: nil,
+          trello_oauth_secret: nil
         )
       }.to raise_error(Trello::InvalidAccessToken)
     end
