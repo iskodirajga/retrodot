@@ -16,9 +16,9 @@ RSpec.describe Mediators::Incident::CreateCard do
       expect(Mediators::Incident::CreateCard).to receive(:run).and_return(trello_url)
 
       Mediators::Incident::CreateCard.run(
-        id: incident.id,
-        title: incident.title,
-        trello_oauth_token: user.trello_oauth_token,
+        id:                  incident.id,
+        title:               incident.title,
+        trello_oauth_token:  user.trello_oauth_token,
         trello_oauth_secret: user.trello_oauth_secret
       )
     end
@@ -28,9 +28,9 @@ RSpec.describe Mediators::Incident::CreateCard do
 
       expect {
         Mediators::Incident::CreateCard.run(
-          id: incident.id,
-          title: incident.title,
-          trello_oauth_token: nil,
+          id:                  incident.id,
+          title:               incident.title,
+          trello_oauth_token:  nil,
           trello_oauth_secret: nil
         )
       }.to raise_error(Trello::InvalidAccessToken)
