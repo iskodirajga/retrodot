@@ -10,7 +10,7 @@ class TrelloController < ApplicationController
     log(fn: "create", at: "update_oauth", user: session[:user][:email])
     current_user.update(trello_oauth_token: session['trello-oauth-token'], trello_oauth_secret: session['trello-oauth-secret'])
 
-    redirect_to create_trello_card_admin_incident_path(session.delete(:return_to))
+    redirect_to(session[:return_to])
   end
 
   protected
