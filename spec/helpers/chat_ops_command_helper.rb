@@ -28,11 +28,11 @@ module ChatOpsCommandHelper
     end
 
     def set_current_incident(incident)
-      allow(ChatOps).to receive(:current_incident).and_return(incident)
+      allow_any_instance_of(described_class).to receive(:current_incident).and_return(incident)
     end
 
     def current_incident
-      ChatOps.current_incident
+      described_class.new.current_incident
     end
   end
 

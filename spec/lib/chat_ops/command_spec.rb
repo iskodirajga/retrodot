@@ -133,7 +133,7 @@ RSpec.describe ChatOps::Command do
 
     it "allows the user to override old incident detection" do
       setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
-        ChatOps.message("hello world")
+        message("hello world")
       end
 
       expect(command).to receive(:run).and_call_original
@@ -142,7 +142,7 @@ RSpec.describe ChatOps::Command do
 
     it "does not treat a recent incident as old" do
       setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
-        ChatOps.message("hello world")
+        message("hello world")
       end
 
       recent_incident
@@ -153,7 +153,7 @@ RSpec.describe ChatOps::Command do
 
     it "does not treat an open incident as old" do
       setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
-        ChatOps.message("hello world")
+        message("hello world")
       end
 
       open_incident
