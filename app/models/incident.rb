@@ -21,4 +21,21 @@ class Incident < ActiveRecord::Base
   def open?
     state == "open"
   end
+
+  # This method helps detect whether the user meant to refer to this incident.
+  def old?
+    # they specifically told us via chatops that they were done, so they
+    # probably don't mean this one
+    return true if chat_end
+
+    # the incident is still open in the external incident source, so they
+    # probably mean this one
+    return false if open?
+
+    return true if !timeline_entries.empty? && timeline_entries.last.timestamp < 1.hour.ago
+    return true if timeline_entries.empty? && chat_start? && chat_start < 1.hour.ago
+
+    false
+  end
+
 end
