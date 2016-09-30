@@ -50,7 +50,7 @@ module ChatOps
 
           if !self.class.incident_optional?
             return unknown_incident_warning if !@incident
-            return old_incident_warning(@incident) if result[:incident_id].nil? and @incident.old?
+            return old_incident_warning if result[:incident_id].nil? and @incident.old?
           end
         end
 

@@ -4,8 +4,8 @@ module ChatOps
       message 'unknown incident (do you need to "start incident" first?)'
     end
 
-    def old_incident_warning(incident)
-      message "It looks like you may have forgotten to run `#{Config.chatops_prefix}start incident`.  If you really meant incident #{incident.incident_id}, please specify the incident id with your command."
+    def old_incident_warning
+      message "It looks like you may have forgotten to run `#{Config.chatops_prefix}start incident`.  If you really meant incident #{@incident.incident_id}, please specify the incident id with your command."
     end
 
     def message(text)
