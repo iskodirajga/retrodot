@@ -6,14 +6,15 @@ RSpec.describe Mediators::Incident::CreateCard do
   describe "#call" do
     before do
       @template = instance_double("template", id: 250, list_id: 20)
-      @trello = instance_double("trello", find: @template, create: :card)
+      @trello   = instance_double("trello", find: @template, create: :card)
+      @card     = instance_double("card", id: 1, url: trello_url)
 
       allow(Trello::Client).to receive(:new).and_return(@trello)
-      allow(@trello).to receive(:create).and_return(trello_url)
+      allow(@trello).to receive(:create).and_return(@card)
     end
 
     it 'Creates a card ' do
-      expect(Mediators::Incident::CreateCard).to receive(:run).and_return(trello_url)
+      expect(Mediators::Incident::CreateCard).to receive(:run).and_return(@card)
 
       Mediators::Incident::CreateCard.run(
         id:                  incident.id,
