@@ -47,6 +47,12 @@ RSpec.describe ChatOps::Command do
       setup_command(help_message: test_help_message)
       expect(command_class.help).to eq test_help_message
     end
+
+    it 'prepends the chatops prefix' do
+      allow(Config).to receive(:chatops_prefix).and_return("h")
+      setup_command(help_message: test_help_message)
+      expect(command_class.help).to eq "h #{test_help_message}"
+    end
   end
 
   describe '.parse_incident' do
