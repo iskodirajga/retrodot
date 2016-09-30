@@ -28,11 +28,11 @@ ActiveAdmin.register Incident do
       )
     rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
       log_error($!, at: :create_trello_card, fn: :member_action)
-      session[:return_to] = prepare_retro_admin_incident_path(resource[:id])
+      session[:return_to] = resource[:id]
       redirect_to "/auth/trello"
     rescue Signet::AuthorizationError, Google::Apis::AuthorizationError
         log_error($!, at: :create_retrospective_doc, fn: :member_action)
-        session[:return_to] = prepare_retro_admin_incident_path(resource[:id])
+        session[:return_to] = resource[:id]
         redirect_to "/auth/google_oauth2"
     rescue Google::Apis::ClientError => e
         redirect_to collection_path, notice: "Error: #{e}"
