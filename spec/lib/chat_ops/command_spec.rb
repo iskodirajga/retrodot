@@ -10,6 +10,9 @@ RSpec.describe ChatOps::Command do
   let(:incident_with_chat_end) { create(:incident, timeline_start: 1.day.ago, chat_end: Time.now) }
   let(:incident_with_old_timeline) { create(:incident, timeline_start: 1.day.ago, timeline_entries: [{timestamp: 1.day.ago}]) }
   let(:incident_with_old_chat_start) { create(:incident, timeline_start: 1.day.ago, chat_start: 1.day.ago) }
+  let(:recent_incident) { create(:incident, timeline_start: 1.hour.ago, chat_start: 1.hour.ago, timeline_entries: [{timestamp: 1.minute.ago}]) }
+  let(:open_incident) { create(:incident, state: "open", timeline_start: 1.hour.ago) }
+
 
   # Helper method to set up a Command subclass with match regex, parse_incident,
   # and an optional definition of the `run` method by passing a block.
@@ -129,6 +132,28 @@ RSpec.describe ChatOps::Command do
 
       expect(command).to receive(:run).and_call_original
       expect(process("foo #{incident_with_old_chat_start.incident_id}")).not_to return_response_matching forgot_message
+    end
+
+    it "does not treat a recent incident as old" do
+      setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
+        ChatOps.message("hello world")
+      end
+
+      recent_incident
+
+      expect(command).to receive(:run).and_call_original
+      expect(process("foo")).not_to return_response_matching forgot_message
+    end
+
+    it "does not treat an open incident as old" do
+      setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
+        ChatOps.message("hello world")
+      end
+
+      open_incident
+
+      expect(command).to receive(:run).and_call_original
+      expect(process("foo")).not_to return_response_matching forgot_message
     end
   end
 end
