@@ -1,6 +1,9 @@
 require 'trello'
 require 'google/apis/script_v1'
 
+class GoogleAuthRequired < StandardError; end
+class TrelloAuthRequired < StandardError; end
+
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
@@ -26,15 +29,15 @@ ActiveAdmin.register Incident do
         incident:     incident,
         current_user: current_user
       )
-    rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
+    rescue TrelloAuthRequired
       log_error($!, at: :create_trello_card, fn: :member_action)
       session[:return_to] = resource[:id]
       redirect_to "/auth/trello"
-    rescue Signet::AuthorizationError, Google::Apis::AuthorizationError
+    rescue GoogleAuthRequired
         log_error($!, at: :create_retrospective_doc, fn: :member_action)
         session[:return_to] = resource[:id]
         redirect_to "/auth/google_oauth2"
-    rescue Google::Apis::ClientError => e
+    rescue NoMethodError => e
         redirect_to collection_path, notice: "Error: #{e}"
     else
       redirect_to collection_path, notice: "Documents for Retrospective '#{incident.title}' have been prepared."

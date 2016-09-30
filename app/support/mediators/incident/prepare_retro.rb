@@ -1,3 +1,6 @@
+class GoogleAuthRequired < StandardError; end
+class TrelloAuthRequired < StandardError; end
+
 module Mediators::Incident
   class PrepareRetro < Mediators::Base
 
@@ -40,10 +43,10 @@ module Mediators::Incident
 
     rescue Signet::AuthorizationError, Google::Apis::ClientError, Google::Apis::AuthorizationError
       log_error($!, fn: "call", at: "CreateRetroDoc", incident: @incident.id)
-      raise
+      raise GoogleAuthRequired
     rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
       log_error($!, fn: "call", at: "CreateCard", incident: @incident.id)
-      raise
+      raise TrelloAuthRequired
     end
   end
 end

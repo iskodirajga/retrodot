@@ -1,6 +1,9 @@
 require 'google/apis/script_v1'
 
-module Mediators::Incident
+class GoogleAuthRequired < StandardError
+end
+
+module Mediators::Incident;
   class CreateRetroDoc < Mediators::Base
 
     def initialize(auth:, id:, title:, trello_url:, postmortem_date: false, dev_mode: false)
@@ -14,9 +17,9 @@ module Mediators::Incident
       log(fn: :call, at: :create_retro_doc)
       resp = @service.run_script(Config.google_script_id, execution_req)
       resp.to_h[:response][:result]
-    rescue Google::Apis::ClientError, Google::Apis::AuthorizationError
+    rescue Google::Apis::ClientError, Google::Apis::AuthorizationError, Signet::AuthorizationError
       log_error($!, fn: "call", at: "run", id: @id)
-      raise
+      raise GoogleAuthRequired
     end
 
     def execution_req

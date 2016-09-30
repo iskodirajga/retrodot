@@ -1,4 +1,7 @@
 require 'trello'
+
+class TrelloAuthRequired < StandardError; end
+
 module Mediators::Incident
   class CreateCard < Mediators::Base
 
@@ -28,7 +31,7 @@ module Mediators::Incident
       @card
     rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
       log_error($!, fn: "call", at: "run", id: @id)
-      raise
+      raise TrelloAuthRequired
     end
   end
 end
