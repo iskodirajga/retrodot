@@ -121,5 +121,14 @@ RSpec.describe ChatOps::Command do
       expect(command).not_to receive(:run)
       expect(process("foo")).to return_response_matching forgot_message
     end
+
+    it "allows the user to override old incident detection" do
+      setup_command(match: foo_incident_regex, parse_incident: true) do |user, match, incident|
+        ChatOps.message("hello world")
+      end
+
+      expect(command).to receive(:run).and_call_original
+      expect(process("foo #{incident_with_old_chat_start.incident_id}")).not_to return_response_matching forgot_message
+    end
   end
 end
