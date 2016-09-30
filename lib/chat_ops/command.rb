@@ -15,7 +15,7 @@ module ChatOps
       end
 
       def help_message(text)
-        @help = Config.chatops_prefix + text
+        @help = [Config.chatops_prefix, text].compact.join(' ')
       end
 
       # If this is set to true, then this command can take an optional incident
