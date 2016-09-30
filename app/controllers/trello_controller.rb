@@ -13,7 +13,7 @@ class TrelloController < ApplicationController
       trello_oauth_secret: session['trello-oauth-secret']
     )
 
-    redirect_to prepare_retro_admin_incident_path(session.delete(:return_to)
+    redirect_to prepare_retro_admin_incident_path(session.delete(:return_to))
   end
 
   protected
