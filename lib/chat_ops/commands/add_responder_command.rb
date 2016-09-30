@@ -5,12 +5,12 @@ module ChatOps::Commands
     help_message "add <person> [<person>...] to incident -- <person> can be a full name or @handle"
 
     def run(user, match, incident)
-      responders = ChatOps.get_mentioned_users(match['who'])
-      return ChatOps.error("Person not found.  Try using their @handle.") if responders.length == 0
+      responders = get_mentioned_users(match['who'])
+      return error("Person not found.  Try using their @handle.") if responders.length == 0
 
       incident.responders += responders
 
-      ChatOps.reaction(':checkmark:')
+      reaction(':checkmark:')
     end
   end
 end
