@@ -27,7 +27,7 @@ RSpec.describe ChatOps::Command do
       # bizarre ruby edge-case: if I don't use parens here, ruby assumes I mean
       # the incident_optional argument to setup_command()
       incident_optional() if optional
-      
+
       help_message help_text if help_text
 
       if run_should_not_be_called
@@ -93,7 +93,7 @@ RSpec.describe ChatOps::Command do
       expect(incident).to be_same_as(test_incident)
     end
 
-    it "returns an error if told to parse an incident and passed an invalid incident ID" do
+    it "returns an error if passed an invalid incident ID" do
       setup_command(match: foo_incident_regex, run_should_not_be_called: true)
 
       expect(process("foo 123")).to return_response_matching /unknown incident/
