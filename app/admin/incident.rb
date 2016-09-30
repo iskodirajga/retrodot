@@ -21,7 +21,7 @@ ActiveAdmin.register Incident do
     redirect_to resource_path, notice: "Synced!"
   end
 
-  member_action :prepare_retro, method: %i[get post] do
+  member_action :prepare_retro, method: :post do
     begin
       incident = Incident.find_by(id: resource[:id])
 
