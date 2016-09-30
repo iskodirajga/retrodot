@@ -29,8 +29,9 @@ module ChatOps
       end
 
       # By default, process() tries to parse the incident_id capture group as
-      # an incident, and complains if the incident doesn't exist.  If this is
-      # true, then the complaint is suppressed.
+      # an incident, and complains if the incident doesn't exist.  If
+      # the class has incident_optional in its declaration, then the complaint
+      # is suppressed.
       def incident_optional
         @incident_optional = true
       end
