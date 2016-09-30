@@ -31,7 +31,7 @@ module ChatOps
     # command matched.  TODO: define return value for success.
     def process(user, message)
       commands.each do |command|
-        if result = command.new.process(user, message)
+        if result = command.process(user, message)
           return result
         end
       end

@@ -31,19 +31,18 @@ module ChatOps::Commands
                 (?<message>.*)
               )
             }ix
-    parse_incident true
     help_message "timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
 
-    def run(user, match, incident)
-      get_mentioned_users(match[:message]).each do |responder|
-        incident.responders << responder
+    def run
+      get_mentioned_users(@match[:message]).each do |responder|
+        @incident.responders << responder
       end
 
       # Add the user who is running this command, because they're probably
       # involved too.
-      incident.responders << user
+      @incident.responders << @user
 
-      incident.timeline_entries << ::TimelineEntry.new(user: user, message: match[:message])
+      @incident.timeline_entries << ::TimelineEntry.new(user: @user, message: @match[:message])
 
       reaction(':checkmark:')
     end

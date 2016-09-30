@@ -1,12 +1,22 @@
 module ChatOps
   class Command
     class << self
-      attr_reader :regex, :name, :help, :should_parse_incident
+      attr_reader :regex, :help
 
       # Ruby calls this function when a class is declared that inherits from this
       # class.  We then register it with the ChatOps module.
       def inherited(klass)
         ChatOps.register(klass)
+      end
+
+      def incident_optional?
+        @incident_optional == true
+      end
+
+      # Outsiders should call the process() class method instead.
+      private :new
+      def process(user, message)
+        new(user, message).process
       end
 
       private
@@ -18,25 +28,33 @@ module ChatOps
         @help = [Config.chatops_prefix, text].compact.join(' ')
       end
 
-      # If this is set to true, then this command can take an optional incident
-      # ID.  Its regex should have a (?<incident_id>\d+)? group.  process() will
-      # retrieve the specified incident from the DB and pass it in as an
-      # argument to run().  If the user does not specify an incident, then
-      # ChatOps.current_incident is used.
-      def parse_incident(should_parse_incident)
-        @should_parse_incident = should_parse_incident
+      # By default, process() tries to parse the incident_id capture group as
+      # an incident, and complains if the incident doesn't exist.  If this is
+      # true, then the complaint is suppressed.
+      def incident_optional
+        @incident_optional = true
       end
     end
 
-    def process(user, message)
-      if result = self.class.regex.match(message)
-        if self.class.should_parse_incident
-          incident = determine_incident(result[:incident_id]) or return unknown_incident_warning
-          return old_incident_warning(incident) if result[:incident_id].nil? and incident.old?
-          run(user, result, incident)
-        else
-          run(user, result)
+    def initialize(user, message)
+      @user = user
+      @message = message
+    end
+
+    def process
+      if result = self.class.regex.match(@message)
+        @match = result
+
+        if @match.names.include? "incident_id"
+          @incident = determine_incident(result[:incident_id])
+
+          if !self.class.incident_optional?
+            return unknown_incident_warning if !@incident
+            return old_incident_warning(@incident) if result[:incident_id].nil? and @incident.old?
+          end
         end
+
+        run
       end
     end
 
@@ -51,7 +69,7 @@ module ChatOps
     #
     # Return nil to indicate that we don't actually want to process the command
     # after all.
-    def run(user, match_data)
+    def run
       raise NotImplementedError
     end
 

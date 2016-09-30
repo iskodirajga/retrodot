@@ -1,12 +1,12 @@
 RSpec::Matchers.define :return_response_matching do |expected|
   match do |actual|
-    actual[:message] =~ expected
+    actual && actual[:message] =~ expected
   end
 end
 
 RSpec::Matchers.define :react_with do |expected|
   match do |actual|
-    actual[:reaction] == expected
+    actual && actual[:reaction] == expected
   end
 end
 
@@ -24,15 +24,11 @@ module ChatOpsCommandHelper
 
   module ExampleMethods
     def process(command, user=nil)
-      described_class.new.process(user || create(:user), command)
+      described_class.process(user || create(:user), command)
     end
 
     def set_current_incident(incident)
       allow_any_instance_of(described_class).to receive(:current_incident).and_return(incident)
-    end
-
-    def current_incident
-      described_class.new.current_incident
     end
   end
 

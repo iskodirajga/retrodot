@@ -22,12 +22,13 @@ module ChatOps::Commands
             )?
             $
           }ix
+    incident_optional
 
     help_message "start incident [#] [at <timespec>] - sets or overwrites incident start time (timespec examples: 5 minutes ago, 3pm, etc)"
 
-    def run(user, match)
-      incident_id = infer_incident_id(match[:incident_id])
-      chat_start = get_chat_start(match[:timestamp]).in_time_zone(Config.time_zone)
+    def run
+      incident_id = infer_incident_id(@match[:incident_id])
+      chat_start = get_chat_start(@match[:timestamp]).in_time_zone(Config.time_zone)
 
       message = ["Recorded the start of chat for incident \##{incident_id} at #{chat_start.inspect}"]
 
@@ -38,8 +39,8 @@ module ChatOps::Commands
       end
 
       incident.timeline_start = Time.now
-      incident.chat_start = get_chat_start(match[:timestamp])
-      incident.responders << user
+      incident.chat_start = get_chat_start(@match[:timestamp])
+      incident.responders << @user
       incident.save
 
       ChatOps.help.each_line do |line|
