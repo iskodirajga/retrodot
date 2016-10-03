@@ -41,7 +41,8 @@ module Config
   optional :trello_consumer_secret, string
   optional :trello_template, string
 
-  # Google Script
+  # Google Script id for rest execution API
+  # https://developers.google.com/apps-script/execution
   optional :google_script_id, string
   optional :google_script_function, string
 end
