@@ -1,7 +1,7 @@
 RSpec.describe Mediators::Incident::CreateCard do
   let!(:trello_url) { "https://trello.com/c/AbCdEfG" }
-  let!(:incident) { create(:incident) }
-  let!(:user)     { create(:user, :trello_oauth) }
+  let!(:incident)   { create(:incident) }
+  let!(:user)       { create(:user, :trello_oauth) }
 
   describe "#call" do
     before do
@@ -25,7 +25,7 @@ RSpec.describe Mediators::Incident::CreateCard do
     end
 
     it 'throws and exception' do
-      allow(Trello::Client).to receive(:new).and_raise(Trello::InvalidAccessToken)
+      allow(Trello::Client).to receive(:new).and_raise(TrelloAuthRequired)
 
       expect {
         Mediators::Incident::CreateCard.run(
@@ -34,7 +34,7 @@ RSpec.describe Mediators::Incident::CreateCard do
           trello_oauth_token:  nil,
           trello_oauth_secret: nil
         )
-      }.to raise_error(Trello::InvalidAccessToken)
+      }.to raise_error(TrelloAuthRequired)
     end
   end
 end

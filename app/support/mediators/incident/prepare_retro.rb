@@ -41,12 +41,12 @@ module Mediators::Incident
 
       @incident.update(trello_url: @trello.url, google_doc_url: @gdoc)
 
-    rescue Signet::AuthorizationError, Google::Apis::ClientError, Google::Apis::AuthorizationError
+    rescue GoogleAuthRequired
       log_error($!, fn: "call", at: "CreateRetroDoc", incident: @incident.id)
-      raise GoogleAuthRequired
-    rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
+      raise
+    rescue TrelloAuthRequired
       log_error($!, fn: "call", at: "CreateCard", incident: @incident.id)
-      raise TrelloAuthRequired
+      raise
     end
   end
 end
