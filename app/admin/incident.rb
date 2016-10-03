@@ -23,10 +23,8 @@ ActiveAdmin.register Incident do
 
   member_action :prepare_retro, method: :post do
     begin
-      incident = Incident.find_by(id: resource[:id])
-
       Mediators::Incident::PrepareRetro.run(
-        incident:     incident,
+        incident:     resource,
         current_user: current_user
       )
     rescue TrelloAuthRequired
