@@ -21,14 +21,12 @@ module Mediators::Incident
 
       @template ||= @trello.find(:card, Config.trello_template)
 
-      @card = @trello.create(:card,
+      @trello.create(:card,
         "name"           => "Incident #{@id}: #{@title}",
         "idCardSource"   => @template.id,
         "idList"         => @template.list_id,
         "keepFromSource" => "all"
       )
-
-      @card
     rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
       log_error($!, fn: "call", at: "run", id: @id)
       raise TrelloAuthRequired
