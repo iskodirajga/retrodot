@@ -1,6 +1,3 @@
-class GoogleAuthRequired < StandardError; end
-class TrelloAuthRequired < StandardError; end
-
 module Mediators::Incident
   class PrepareRetro < Mediators::Base
 
