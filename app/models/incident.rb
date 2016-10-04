@@ -17,4 +17,8 @@ class Incident < ActiveRecord::Base
   def chat_end
     super&.in_time_zone Config.time_zone
   end
+
+  def format_timeline
+    timeline_entries.map {|t| ["#{t.timestamp.utc} #{t.user.name}: #{t.message}"]}.flatten.join("\n")
+  end
 end
