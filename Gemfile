@@ -36,8 +36,6 @@ gem 'google-api-client', '~> 0.9.15'
 gem 'googleauth'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
   gem 'rspec-collection_matchers'
   gem 'shoulda'
   gem 'factory_girl_rails'
@@ -47,6 +45,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-mocks'
   gem 'database_cleaner'
+  gem 'pry-remote'
+  gem 'pry-byebug', '~> 1.3.3'
 end
 
 group :test do

@@ -1,4 +1,7 @@
 require 'trello'
+
+class TrelloAuthRequired < StandardError; end
+
 module Mediators::Incident
   class CreateCard < Mediators::Base
 
@@ -19,13 +22,14 @@ module Mediators::Incident
       @template ||= @trello.find(:card, Config.trello_template)
 
       @trello.create(:card,
-        "name"         => "Incident #{@id}: #{@title}",
-        "idCardSource" => @template.id,
-        "idList"       => @template.list_id
+        "name"           => "Incident #{@id}: #{@title}",
+        "idCardSource"   => @template.id,
+        "idList"         => @template.list_id,
+        "keepFromSource" => "all"
       )
     rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
       log_error($!, fn: "call", at: "run", id: @id)
-      raise
+      raise TrelloAuthRequired
     end
   end
 end
