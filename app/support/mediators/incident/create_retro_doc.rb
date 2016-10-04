@@ -7,10 +7,10 @@ module Mediators::Incident;
   class CreateRetroDoc < Mediators::Base
 
     def initialize(auth:, id:, title:, trello_url:, postmortem_date: false, dev_mode: false)
-      @auth, @id, @title, @trello_url, @postmortem_date, @dev_mode = auth, id, title, trello_url, postmortem_date, dev_mode
+      auth, @id, @title, @trello_url, @postmortem_date, @dev_mode = auth, id, title, trello_url, postmortem_date, dev_mode
 
       @service = Google::Apis::ScriptV1::ScriptService.new
-      @service.authorization = @auth
+      @service.authorization = auth
     end
 
     def call
