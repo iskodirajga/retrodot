@@ -7,7 +7,7 @@ module Config
   # optional :anotherthing
   # override :port, 3000, int
 
-  override :source_url, string
+  required :source_url, string
   override :app_name, "retrodot", string
   override :frontend_host, "retro.dev", string
   override :time_zone, "US/Pacific", string
