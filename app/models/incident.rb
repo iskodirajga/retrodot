@@ -19,6 +19,6 @@ class Incident < ActiveRecord::Base
   end
 
   def format_timeline
-    timeline_entries.map {|t| ["#{t.timestamp.utc} #{t.user.name}: #{t.message}"]}.flatten.join("\n")
+    timeline_entries.map {|t| "#{t.timestamp.utc} #{t.user.name}: #{t.message}"}.join("\n")
   end
 end
