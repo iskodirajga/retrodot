@@ -4,7 +4,7 @@ class ChatopsGenerator < Rails::Generators::NamedBase
   def copy_file
     create_file "lib/chat_ops/commands/#{file_name}_command.rb", <<-FILE
 module ChatOps::Commands
-  class #{class_name}Command < ChatOps::ChatOpsCommand
+  class #{class_name}Command < ChatOps::Command
     match //
     help_message ""
 
