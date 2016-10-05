@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926143048) do
+ActiveRecord::Schema.define(version: 20160929125927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20160926143048) do
     t.datetime "chat_end"
     t.datetime "timeline_start"
     t.datetime "last_sync"
+    t.string   "trello_url"
+    t.string   "google_doc_url"
     t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
     t.index ["last_sync"], name: "index_incidents_on_last_sync", using: :btree
     t.index ["timeline_start"], name: "index_incidents_on_timeline_start", using: :btree

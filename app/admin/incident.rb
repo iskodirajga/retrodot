@@ -1,4 +1,9 @@
 require 'trello'
+require 'google/apis/script_v1'
+
+class GoogleAuthRequired < StandardError; end
+class TrelloAuthRequired < StandardError; end
+
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
@@ -16,26 +21,27 @@ ActiveAdmin.register Incident do
     redirect_to resource_path, notice: "Synced!"
   end
 
-  # /admin/:incident/create_trello_card
-  member_action :create_trello_card, method: %i[get post] do
+  member_action :prepare_retro, method: :post do
     begin
-      Mediators::Incident::CreateCard.run(
-        id:                  resource[:incident_id],
-        title:               resource[:title],
-        trello_oauth_token:  current_user.trello_oauth_token,
-        trello_oauth_secret: current_user.trello_oauth_secret
+      Mediators::Incident::PrepareRetro.run(
+        incident:     resource,
+        current_user: current_user
       )
-    rescue Trello::InvalidAccessToken, Trello::Error, NoMethodError
+    rescue TrelloAuthRequired
       log_error($!, at: :create_trello_card, fn: :member_action)
-      session[:return_to] = resource[:incident_id]
+      session[:return_to] = resource[:id]
       redirect_to "/auth/trello"
+    rescue GoogleAuthRequired
+        log_error($!, at: :create_retrospective_doc, fn: :member_action)
+        session[:return_to] = resource[:id]
+        redirect_to "/auth/google_oauth2"
+    rescue NoMethodError => e
+        redirect_to collection_path, notice: "Error: #{e}"
     else
-      log(at: :create_trello_card, fn: :member_action, incident_id: resource[:incident_id])
-      redirect_to collection_path, notice: "Card Successfully Created"
+      redirect_to collection_path, notice: "Documents for Retrospective '#{incident.title}' have been prepared."
     end
   end
 
-  # This creates /admin/:incident/send_email which is posted from javascript triggered by the link below.
   member_action :send_email, method: :post do
     redirect_to collection_path, notice: "PLACEHOLDER: will send email: #{params['inputs']}"
   end
@@ -45,8 +51,8 @@ ActiveAdmin.register Incident do
     link_to 'Sync', sync_admin_incident_path(resource)
   end
 
-  action_item :create_trello_card, only: :post do
-    link_to 'Create Trello Card', create_trello_card_admin_incident_path(resource)
+  action_item :prepare_retro, only: :post do
+    link_to 'Prepare Retro Card/Doc', prepare_retro_admin_incident_path(resource)
   end
 
   # add a batch action for updating category
@@ -74,7 +80,7 @@ ActiveAdmin.register Incident do
     column :category
     actions do |incident|
       item 'Sync', sync_admin_incident_path(incident), method: :post, class: 'member_link'
-      item 'Create Trello Card', create_trello_card_admin_incident_path(incident), method: :post, class: 'member_link'
+      item 'Prepare Retro', prepare_retro_admin_incident_path(incident), method: :post, class: 'member_link'
 
       # This triggers a modal dialog and posts the results back to the
       # :send_email member action above.

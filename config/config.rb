@@ -42,4 +42,9 @@ module Config
   optional :trello_template, string
 
   optional :chatops_prefix, string
+  
+  # Google Script id for rest execution API
+  # https://developers.google.com/apps-script/execution
+  optional :google_script_id, string
+  optional :google_script_function, string
 end
