@@ -6,6 +6,10 @@ RSpec.describe ChatOps::Commands::TimelineCommand do
       timeline
       timeline 13
     EOL
+
+    it_should_not_match_commands <<-EOL
+      timeline 13 some thing
+    EOL
   end
 
   describe '.run' do
