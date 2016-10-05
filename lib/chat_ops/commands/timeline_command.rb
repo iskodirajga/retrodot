@@ -5,7 +5,7 @@ module ChatOps::Commands
     parse_incident true
 
     def run(user, match, incident)
-      ChatOps.message("Timeline for incident #{incident.incident_id}\n#{incident.format_timeline}")
+      ChatOps.message(ChatOps.prevent_highlights("Timeline for incident #{incident.incident_id}\n#{incident.format_timeline}"))
     end
   end
 end
