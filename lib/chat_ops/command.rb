@@ -9,17 +9,26 @@ module ChatOps
         ChatOps.register(klass)
       end
 
-      def incident_optional?
-        @incident_optional == true
-      end
-
-      # Outsiders should call the process() class method instead.
-      private :new
       def process(user, message)
         new(user, message).process
       end
 
+      # Outsiders should call process() instead.
+      private :new
+
+      def incident_optional?
+        @incident_optional == true
+      end
+
       private
+      # By default, process() tries to parse the incident_id capture group as
+      # an incident, and complains if the incident doesn't exist.  If
+      # the class has incident_optional in its declaration, then the complaint
+      # is suppressed.
+      def incident_optional
+        @incident_optional = true
+      end
+
       def match(r)
         @regex = r
       end
@@ -28,13 +37,6 @@ module ChatOps
         @help = [Config.chatops_prefix, text].compact.join(' ')
       end
 
-      # By default, process() tries to parse the incident_id capture group as
-      # an incident, and complains if the incident doesn't exist.  If
-      # the class has incident_optional in its declaration, then the complaint
-      # is suppressed.
-      def incident_optional
-        @incident_optional = true
-      end
     end
 
     def initialize(user, message)
