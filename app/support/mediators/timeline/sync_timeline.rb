@@ -5,7 +5,7 @@ module Mediators::Timeline
       sync_timeline
     rescue Excon::Error
       log_error(error: $!, fn: "call", at: "run")
-      raise $!
+      raise
     end
 
     def sync_timeline
