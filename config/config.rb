@@ -45,4 +45,11 @@ module Config
   # https://developers.google.com/apps-script/execution
   optional :google_script_id, string
   optional :google_script_function, string
+
+  # Mailer
+  optional :mailgun_smtp_server, string
+  optional :mailgun_smtp_port, string
+  optional :mailgun_domain, string
+  optional :mailgun_smtp_login, string
+  optional :mailgun_smtp_password, string
 end

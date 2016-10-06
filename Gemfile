@@ -34,6 +34,7 @@ gem 'ruby-trello', "~> 1.5.1"
 gem 'default_value_for', '~> 3.0.0'
 gem 'google-api-client', '~> 0.9.15'
 gem 'googleauth'
+gem 'mailgun_rails'
 
 group :development, :test do
   gem 'rspec-collection_matchers'

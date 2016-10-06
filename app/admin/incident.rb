@@ -36,14 +36,29 @@ ActiveAdmin.register Incident do
         session[:return_to] = resource[:id]
         redirect_to "/auth/google_oauth2"
     rescue NoMethodError => e
-        redirect_to collection_path, notice: "Error: #{e}"
+        redirect_to collection_path, flash: { error: "Error: #{e}" }
     else
-      redirect_to collection_path, notice: "Documents for Retrospective '#{incident.title}' have been prepared."
+      redirect_to collection_path, notice: "Documents for Retrospective '#{resource.title}' have been prepared."
     end
   end
 
   member_action :send_email, method: :post do
-    redirect_to collection_path, notice: "PLACEHOLDER: will send email: #{params['inputs']}"
+    if resource.trello_url.nil? && resource.google_doc_url.nil?
+      redirect_to collection_path, flash: { error: 'You need to run Prepare Retro First.' }
+      return
+    end
+
+    email = JSON.parse(params['inputs'])
+
+    NotificationsMailer.retro_followup(
+      incident: resource,
+      sender:   current_user.email,
+      to:       email["To"],
+      cc:       email["CC"],
+      subject:  email["Subject"]
+    ).deliver_now
+
+    redirect_to collection_path, notice: "Retrospective followup sent!"
   end
 
   # add a "sync" button to the "view incident" page
@@ -89,7 +104,7 @@ ActiveAdmin.register Incident do
         "data-action"  => send_email_admin_incident_path(incident),
         "data-cc"      => Config.email_cc,
         "data-subject" => "Incident \##{incident.incident_id} retrospective needed",
-        "data-body"    => "Dear ___,\n\n[...]\n\nThanks,\n#{controller.current_user.name}",
+        "data-body"    => "Dear ___,\n\n[...]\n\nThanks,\nSRE",
         "data-inputs"  =>
           { To:      :text,
             CC:      :text,
