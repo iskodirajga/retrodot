@@ -58,7 +58,7 @@ ActiveAdmin.register Incident do
       subject:  email["Subject"]
     ).deliver_now
 
-    redirect_to collection_path, notice: "Retrospective followup sent!"
+    redirect_to collection_path, notice: "Retrospective followup sent for Incident: #{resource.incident_id}!"
   end
 
   # add a "sync" button to the "view incident" page
