@@ -19,11 +19,15 @@ module Mediators::Timeline
           next if incident.nil?
 
           responders = d["people"].map {|user| User.find_by(name: user) }
-          incident.responders += responders.compact unless responders.nil?
+          incident.responders += responders.compact
 
           d["timeline"].each do |entry|
-            user = User.find_by(name: entry["user"])
-            incident.timeline_entries << ::TimelineEntry.new(user: user, message: entry["text"], timestamp: entry["time"])
+            incident.timeline_entries <<
+              ::TimelineEntry.new(
+                user:      User.find_by(name: entry["user"]),
+                message:   entry["text"],
+                timestamp: entry["time"]
+              )
           end
         end
       end
