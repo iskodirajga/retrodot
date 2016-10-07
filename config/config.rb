@@ -37,6 +37,8 @@ module Config
   optional :chatops_api_key, string
   optional :chatops_users_url, string
   optional :chatops_users_api_key, string
+  optional :chatops_timeline_url, string
+  optional :chatops_timeline_api_key, string
   optional :trello_consumer_key, string
   optional :trello_consumer_secret, string
   optional :trello_template, string
