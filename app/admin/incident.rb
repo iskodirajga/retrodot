@@ -104,12 +104,11 @@ ActiveAdmin.register Incident do
         "data-action"  => send_email_admin_incident_path(incident),
         "data-cc"      => Config.email_cc,
         "data-subject" => "Incident \##{incident.incident_id} retrospective needed",
-        "data-body"    => "Dear ___,\n\n[...]\n\nThanks,\nSRE",
         "data-inputs"  =>
           { To:      :text,
             CC:      :text,
-            Subject: :text,
-            Body:    :textarea}.to_json
+            Subject: :text
+          }.to_json
     end
   end
 end

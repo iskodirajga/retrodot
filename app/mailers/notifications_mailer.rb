@@ -1,4 +1,5 @@
 class NotificationsMailer < ApplicationMailer
+
   def retro_followup(incident:, sender:, to:, cc:, subject:)
     @incident = incident
     mail(
@@ -8,4 +9,5 @@ class NotificationsMailer < ApplicationMailer
       subject: subject
     )
   end
+
 end
