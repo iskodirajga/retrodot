@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %meta{ :content => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type' }/
+  %body
+    %p
+      As you may know, on #{@incident.started_at.to_date}, we had incident
+      #{@incident.incident_id} (#{@incident.title}). This incident will need a
+      retrospective as soon as possible, at latest by
+      #{@incident.started_at.to_date + 1.week}. Please be sure to invite the
+      IC to the retrospective meeting.
+    %p
+      A trello card and google doc have been created for
+      tracking this retrospective:
+    %p
+      Trello Card: #{@incident.trello_url}
+      %br/
+      Retrospective Notes Doc: #{@incident.google_doc_url}
+    %p
+      - if @incident.review
+        %body{ style: 'color: #FF0000;' }This incident will need a public postmortem by #{@incident.followup_on.to_date}.
+    %p
+      Thanks,
+      %br/
+      SRE

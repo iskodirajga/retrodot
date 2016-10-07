@@ -47,4 +47,11 @@ module Config
   # https://developers.google.com/apps-script/execution
   optional :google_script_id, string
   optional :google_script_function, string
+
+  # Mailer
+  optional :smtp_server, string
+  optional :smtp_port, string
+  optional :smtp_domain, string
+  optional :smtp_login, string
+  optional :smtp_password, string
 end
