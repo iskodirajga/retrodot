@@ -43,7 +43,7 @@ ActiveAdmin.register Incident do
   end
 
   member_action :send_email, method: :post do
-    if resource.trello_url.nil? || resource.google_doc_url.nil?
+    if resource.retro_prepared?
       redirect_to collection_path, flash: { error: 'You need to run Prepare Retro First.' }
       return
     end

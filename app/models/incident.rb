@@ -21,4 +21,8 @@ class Incident < ActiveRecord::Base
   def format_timeline
     timeline_entries.map {|t| "#{t.timestamp.utc} #{t.user.name}: #{t.message}"}.join("\n")
   end
+
+  def retro_prepared?
+    trello_url.nil? || google_doc_url.nil?
+  end
 end
