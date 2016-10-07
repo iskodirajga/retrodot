@@ -49,11 +49,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     authentication: :plain,
-    address:        Config.mailgun_smtp_server,
-    port:           Config.mailgun_smtp_port,
-    domain:         Config.mailgun_domain,
-    user_name:      Config.mailgun_smtp_login,
-    password:       Config.mailgun_smtp_password
+    address:        Config.smtp_server,
+    port:           Config.smtp_port,
+    domain:         Config.smtp_domain,
+    user_name:      Config.smtp_login,
+    password:       Config.smtp_password
   }
 
   # Raises error for missing translations

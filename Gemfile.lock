@@ -185,10 +185,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mailgun_rails (0.8.0)
-      actionmailer (>= 3.2.13)
-      json (>= 1.7.7)
-      rest-client (>= 1.6.7)
     memoist (0.15.0)
     method_source (0.8.2)
     mime-types (2.99.3)
@@ -399,7 +395,6 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   loggerator
-  mailgun_rails
   omniauth-google-oauth2
   omniauth-trello
   pg (~> 0.18)

@@ -49,9 +49,9 @@ module Config
   optional :google_script_function, string
 
   # Mailer
-  optional :mailgun_smtp_server, string
-  optional :mailgun_smtp_port, string
-  optional :mailgun_domain, string
-  optional :mailgun_smtp_login, string
-  optional :mailgun_smtp_password, string
+  optional :smtp_server, string
+  optional :smtp_port, string
+  optional :smtp_domain, string
+  optional :smtp_login, string
+  optional :smtp_password, string
 end
