@@ -18,9 +18,7 @@
       Retrospective Notes Doc: #{@incident.google_doc_url}
     %p
       - if @incident.review
-        %body{ style: 'color: #FF0000;' }
-        This incident will need a public postmortem
-        by #{@incident.followup_on.to_date}.
+        %body{ style: 'color: #FF0000;' }This incident will need a public postmortem by #{@incident.followup_on.to_date}.
     %p
       Thanks,
       %br/
