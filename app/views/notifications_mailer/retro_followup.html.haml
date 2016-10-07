@@ -9,13 +9,14 @@
       Please be sure to invite the IC to the retrospective meeting.
     %p
       A trello card and google doc have been created for tracking this retrospective:
-    %p
+    %br
       Trello Card: #{@incident.trello_url}
-    %p
+    %br
       Retrospective Notes Doc: #{@incident.google_doc_url}
     %p
       - if @incident.review
-        This incident will need a public postmortem by #{@incident.followup_on.to_date}.
+        %body{style: "color: #FF0000;"} This incident will need a public postmortem by #{@incident.followup_on.to_date}.
     %p
       Thanks,
+    %br
       SRE
