@@ -23,6 +23,6 @@ class Incident < ActiveRecord::Base
   end
 
   def retro_prepared?
-    trello_url.nil? || google_doc_url.nil?
+    trello_url && google_doc_url
   end
 end
