@@ -7,7 +7,7 @@ class Api::V1::ChatOpsController < ApplicationController
   end
 
   def responder
-    user = User.ensure(user_params)
+    user   = User.ensure(user_params)
     result = ChatOps.process(user, message_params)
 
     if result
