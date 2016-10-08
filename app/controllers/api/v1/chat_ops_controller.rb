@@ -26,5 +26,8 @@ class Api::V1::ChatOpsController < ApplicationController
     params.require(:message)
   end
 
-  require_all 'lib'
+  # Load all .rb files in the 'commands' subdirectory using the require_all gem.
+  # Rails's autoloading won't automatically load the subclasses, so without this
+  # ChatOps.commands would return an empty array.
+  require_all 'lib/chat_ops/commands/**.rb'
 end
