@@ -10,7 +10,8 @@ module Retrodot
   class Application < Rails::Application
 #    config.autoload_paths << Rails.root.join('lib')
 #    config.autoload_paths << Rails.root.join('lib', 'chat_ops')
-    config.eager_load_paths << Rails.root.join('lib', 'chat_ops')
+    #config.eager_load_paths << Rails.root.join('lib', 'chat_ops')
+    config.paths.add "lib/chat_ops", eager_load: true
     #config.eager_load_paths += %W( #{config.root}/lib/chat_ops )
   end
 end
