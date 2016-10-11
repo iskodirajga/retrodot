@@ -8,8 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Retrodot
   class Application < Rails::Application
-    config.autoload_paths   += %W( #{config.root}/lib )
-    config.autoload_paths   += %W( #{config.root}/lib/chat_ops )
+    config.autoload_paths += %W( #{config.root}/lib #{config.root}/lib/chat_ops )
 
     # Eager loading works differently in production
     # Ensure chat_ops is loaded so rails boots properly.
