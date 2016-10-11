@@ -11,8 +11,8 @@ module Retrodot
     config.autoload_paths   += %W( #{config.root}/lib )
     config.autoload_paths   += %W( #{config.root}/lib/chat_ops )
 
-    # Eager loading works differently in production so we have to
-    # load chatops to load rails properly
+    # Eager loading works differently in production
+    # Ensure chat_ops is loaded so rails boots properly.
     config.eager_load_paths += %W( #{config.root}/lib/chat_ops )
   end
 end
