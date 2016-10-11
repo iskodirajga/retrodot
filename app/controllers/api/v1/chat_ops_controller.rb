@@ -6,7 +6,7 @@ class Api::V1::ChatOpsController < ApplicationController
     render json: {"regex": ChatOps.matcher}
   end
 
-  def responder
+  def respond
     user   = User.ensure(user_params)
     result = ChatOps.process(user, message_params)
 
