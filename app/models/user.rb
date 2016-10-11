@@ -19,6 +19,8 @@ class User < ApplicationRecord
       user.name = name
       user.handle = handle
       user.save!
+
+      user
     end
   end
 end

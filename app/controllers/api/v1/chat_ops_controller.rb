@@ -7,13 +7,22 @@ class Api::V1::ChatOpsController < ApplicationController
   end
 
   def respond
-    user = User.ensure(**params.permit(user: [:email, :name, :handle])[:user].to_h.symbolize_keys)
-    result = ChatOps.process(user, params['message'])
+    user   = User.ensure(user_params)
+    result = ChatOps.process(user, message_params)
 
     if result
       render json: result
     else
       render status: :not_found, json: {"error": "command not found"}
     end
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:email, :name, :handle).to_h.symbolize_keys
+  end
+
+  def message_params
+    params.require(:message)
   end
 end
