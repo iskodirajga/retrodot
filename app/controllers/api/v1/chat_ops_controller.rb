@@ -25,6 +25,4 @@ class Api::V1::ChatOpsController < ApplicationController
   def message_params
     params.require(:message)
   end
-
-  require_all 'lib/chat_ops/commands/**.rb'
 end
