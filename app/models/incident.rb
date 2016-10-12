@@ -21,7 +21,15 @@ class Incident < ActiveRecord::Base
   def open?
     state == "open"
   end
+  
+  def format_timeline
+    timeline_entries.map {|t| "#{t.timestamp.utc} #{t.user.name}: #{t.message}"}.join("\n")
+  end
 
+  def retro_prepared?
+    trello_url && google_doc_url
+  end
+  
   # This method helps detect whether the user meant to refer to this incident.
   def old?
     # they specifically told us via chatops that they were done, so they

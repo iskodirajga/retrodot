@@ -16,8 +16,8 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
-      get 'chat_ops/matcher'
-      get 'chat_ops/respond'
+      get  'chat_ops/matcher'
+      post 'chat_ops/respond'
     end
   end
 

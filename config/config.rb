@@ -37,6 +37,8 @@ module Config
   optional :chatops_api_key, string
   optional :chatops_users_url, string
   optional :chatops_users_api_key, string
+  optional :chatops_timeline_url, string
+  optional :chatops_timeline_api_key, string
   optional :trello_consumer_key, string
   optional :trello_consumer_secret, string
   optional :trello_template, string
@@ -47,4 +49,11 @@ module Config
   # https://developers.google.com/apps-script/execution
   optional :google_script_id, string
   optional :google_script_function, string
+
+  # Mailer
+  optional :smtp_server, string
+  optional :smtp_port, string
+  optional :smtp_domain, string
+  optional :smtp_login, string
+  optional :smtp_password, string
 end
