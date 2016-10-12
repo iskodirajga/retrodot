@@ -15,7 +15,7 @@ module ChatOps
       end
 
       def help_message(text)
-        @help = text
+        @help = [Config.chatops_prefix, text].compact.join(' ')
       end
 
       # If this is set to true, then this command can take an optional incident
@@ -32,6 +32,7 @@ module ChatOps
       if result = self.class.regex.match(message)
         if self.class.should_parse_incident
           incident = ChatOps.determine_incident(result[:incident_id]) or return ChatOps.unknown_incident
+          return old_incident_warning(incident) if result[:incident_id].nil? and incident.old?
           run(user, result, incident)
         else
           run(user, result)
@@ -52,6 +53,12 @@ module ChatOps
     # after all.
     def run(user, match_data)
       raise NotImplementedError
+    end
+
+    private
+
+    def old_incident_warning(incident)
+      ChatOps.message "It looks like you may have forgotten to run `#{Config.chatops_prefix}start incident`.  If you really meant incident #{incident.incident_id}, please specify the incident id with your command."
     end
   end
 end

@@ -32,7 +32,7 @@ module ChatOps::Commands
               )
             }ix
     parse_incident true
-    help_message "h timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
+    help_message "timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
 
     def run(user, match, incident)
       ChatOps.get_mentioned_users(match[:message]).each do |responder|
