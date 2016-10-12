@@ -30,12 +30,12 @@ module ChatOps::Commands
       incident_id = infer_incident_id(@match[:incident_id])
       chat_start = get_chat_start(@match[:timestamp]).in_time_zone(Config.time_zone)
 
-      message = ["Recorded the start of chat for incident \##{incident_id} at #{chat_start.inspect}"]
+      response = ["Recorded the start of chat for incident \##{incident_id} at #{chat_start.inspect}"]
 
       incident = Incident.find_or_create_by(incident_id: incident_id)
 
       if incident.chat_start
-        message << "     (overwriting start time for incident \##{incident_id}, was: #{incident.chat_start.inspect})"
+        response << "     (overwriting start time for incident \##{incident_id}, was: #{incident.chat_start.inspect})"
       end
 
       incident.timeline_start = Time.now
@@ -44,10 +44,10 @@ module ChatOps::Commands
       incident.save
 
       ChatOps.help.each_line do |line|
-        message << "  " + line
+        response << "  " + line
       end
 
-      message(message.join("\n"))
+      message(response.join("\n"))
     end
 
     private
