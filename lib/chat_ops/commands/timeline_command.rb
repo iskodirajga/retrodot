@@ -1,11 +1,12 @@
 module ChatOps::Commands
   class TimelineCommand < ChatOps::Command
-    match /timeline(\s+(?<incident_id>\d+))?$/
-    help_message "timeline [#] - list the timeline for a incident"
-    parse_incident true
+    setup do
+      match /timeline(\s+(?<incident_id>\d+))?$/
+      help "timeline [#] - list the timeline for a incident"
+    end
 
-    def run(user, match, incident)
-      ChatOps.message(ChatOps.prevent_highlights("Timeline for incident #{incident.incident_id}\n#{incident.format_timeline}"))
+    def run
+      message(prevent_highlights("Timeline for incident #{@incident.incident_id}\n#{@incident.format_timeline}"))
     end
   end
 end
