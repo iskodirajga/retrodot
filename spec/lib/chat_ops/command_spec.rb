@@ -22,13 +22,15 @@ RSpec.describe ChatOps::Command do
                              run_should_not_be_called,
                              block_given? ? Proc.new : nil) \
     do |regex, optional, help_text, run_should_not_be_called, block|
-      match regex if regex
+      setup do
+        match regex if regex
 
-      # bizarre ruby edge-case: if I don't use parens here, ruby assumes I mean
-      # the incident_optional argument to setup_command()
-      incident_optional() if optional
+        # bizarre ruby edge-case: if I don't use parens here, ruby assumes I mean
+        # the incident_optional argument to setup_command()
+        incident_optional() if optional
 
-      help_message help_text if help_text
+        help help_text if help_text
+      end
 
       if run_should_not_be_called
         def run

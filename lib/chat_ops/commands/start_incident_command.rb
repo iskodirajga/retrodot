@@ -1,30 +1,32 @@
 module ChatOps::Commands
   class StartIncidentCommand < ChatOps::Command
-    match %r{
-            # allow "start incident" or "start an incident"
-            start\s+(an\s+)?incident
-            (\s+
-              (
-                # if they specify an incident ID, use that.
-                (?<incident_id>\d+)
+    setup do
+      match %r{
+              # allow "start incident" or "start an incident"
+              start\s+(an\s+)?incident
+              (\s+
+                (
+                  # if they specify an incident ID, use that.
+                  (?<incident_id>\d+)
 
-                # incident ID must be followed by whitespace or EOL
-                (\s+|$)
+                  # incident ID must be followed by whitespace or EOL
+                  (\s+|$)
 
-                # Don't match incident #14 in "start an incident 14 minutes ago"
-                (?!(seconds|minutes|hours)\s+ago)
+                  # Don't match incident #14 in "start an incident 14 minutes ago"
+                  (?!(seconds|minutes|hours)\s+ago)
 
+                )?
+
+                # Slurp up the remainder.  parse_timestamp will
+                # parse it as a timestamp specified in natural language.
+                (?<timestamp>.*)
               )?
+              $
+            }ix
+      help "start incident [#] [at <timespec>] - sets or overwrites incident start time (timespec examples: 5 minutes ago, 3pm, etc)"
+      incident_optional
+    end
 
-              # Slurp up the remainder.  parse_timestamp will
-              # parse it as a timestamp specified in natural language.
-              (?<timestamp>.*)
-            )?
-            $
-          }ix
-    incident_optional
-
-    help_message "start incident [#] [at <timespec>] - sets or overwrites incident start time (timespec examples: 5 minutes ago, 3pm, etc)"
 
     def run
       incident_id = infer_incident_id(@match[:incident_id])

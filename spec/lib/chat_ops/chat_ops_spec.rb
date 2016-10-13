@@ -28,8 +28,8 @@ RSpec.describe ChatOps do
 
   describe '.matcher' do
     it 'builds a regex from defined commands' do
-      cmd_1_class.class_eval { match /test_regex1_[0-9]+/ }
-      cmd_2_class.class_eval { match /test_regex2_[a-z]+/ }
+      cmd_1_class.class_eval { setup { match /test_regex1_[0-9]+/ } }
+      cmd_2_class.class_eval { setup { match /test_regex2_[a-z]+/ } }
 
       expect(ChatOps.matcher).to match 'test_regex1_0123'
       expect(ChatOps.matcher).to match 'test_regex2_abcdef'
@@ -41,14 +41,14 @@ RSpec.describe ChatOps do
     let(:help2) { "command 2 help text" }
 
     it "joins all commands' help messages with newlines" do
-      cmd_1_class.class_eval "help_message '#{help1}'"
-      cmd_2_class.class_eval "help_message '#{help2}'"
+      cmd_1_class.class_eval "setup { help '#{help1}' }"
+      cmd_2_class.class_eval "setup { help '#{help2}' }"
 
       expect(ChatOps.help).to include help1, help2
     end
 
     it "skips classes that don't specify a help message" do
-      cmd_1_class.class_eval "help_message '#{help1}'"
+      cmd_1_class.class_eval "setup { help '#{help1}' }"
 
       expect(ChatOps.help).to eq help1
     end
@@ -56,8 +56,8 @@ RSpec.describe ChatOps do
 
   describe 'self.process' do
     before do
-      cmd_1_class.class_eval { match /test_regex1_[0-9]+/ }
-      cmd_2_class.class_eval { match /test_regex2_[a-z]+/ }
+      cmd_1_class.class_eval { setup { match /test_regex1_[0-9]+/ } }
+      cmd_2_class.class_eval { setup { match /test_regex2_[a-z]+/ } }
     end
 
     it 'calls process on an instance of each defined command' do

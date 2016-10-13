@@ -1,37 +1,39 @@
 module ChatOps::Commands
   class AddTimelineEntryCommand < ChatOps::Command
-    # This regex is a little tricky.  We want to match these:
-    #
-    #   timeline hello world
-    #   timeline 20 hello world
-    #
-    # but not this:
-    #
-    #   timeline 20
-    #
-    # because the latter is a request to list the timeline for incident 20 and
-    # is handled by ListTimelineCommand.
-    match %r{
-              timeline
-              \s+
-              (
-                # If they specify an id...
-                (?<incident_id>\d+)
-
+    setup do
+      # This regex is a little tricky.  We want to match these:
+      #
+      #   timeline hello world
+      #   timeline 20 hello world
+      #
+      # but not this:
+      #
+      #   timeline 20
+      #
+      # because the latter is a request to list the timeline for incident 20 and
+      # is handled by ListTimelineCommand.
+      match %r{
+                timeline
                 \s+
+                (
+                  # If they specify an id...
+                  (?<incident_id>\d+)
 
-                # ...then only match if they also specify a message
-                (?<message>.+)
+                  \s+
 
-              |
+                  # ...then only match if they also specify a message
+                  (?<message>.+)
 
-                # Otherwise, only match if it's not just a number.
-                (?!\d+$)
+                |
 
-                (?<message>.*)
-              )
-            }ix
-    help_message "timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
+                  # Otherwise, only match if it's not just a number.
+                  (?!\d+$)
+
+                  (?<message>.*)
+                )
+              }ix
+      help "timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
+    end
 
     def run
       get_mentioned_users(@match[:message]).each do |responder|

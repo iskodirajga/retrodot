@@ -1,7 +1,27 @@
 module ChatOps
+  class CommandSetup
+    attr_reader :config
+
+    def initialize
+      @config = {}
+    end
+
+    def match(m)
+      @config[:regex] = m
+    end
+
+    def help(h)
+      @config[:help] = h
+    end
+
+    def incident_optional(value=true)
+      @config[:incident_optional] = value
+    end
+  end
+
   class Command
     class << self
-      attr_reader :regex, :help
+      attr_reader :regex
 
       # Ruby calls this function when a class is declared that inherits from this
       # class.  We then register it with the ChatOps module.
@@ -17,26 +37,21 @@ module ChatOps
       private :new
 
       def incident_optional?
-        @incident_optional == true
+        @incident_optional
+      end
+
+      def help
+        [Config.chatops_prefix, @help].compact.join(' ')
       end
 
       private
-      # By default, process() tries to parse the incident_id capture group as
-      # an incident, and complains if the incident doesn't exist.  If
-      # the class has incident_optional in its declaration, then the complaint
-      # is suppressed.
-      def incident_optional
-        @incident_optional = true
+      def setup(&block)
+        s = CommandSetup.new
+        s.instance_eval &block
+        s.config.each do |name, value|
+          instance_variable_set "@#{name}", value
+        end
       end
-
-      def match(r)
-        @regex = r
-      end
-
-      def help_message(text)
-        @help = [Config.chatops_prefix, text].compact.join(' ')
-      end
-
     end
 
     def initialize(user, message)

@@ -1,7 +1,9 @@
 module ChatOps::Commands
   class EndIncidentCommand < ChatOps::Command
-    match /end\s+(the\s+)?incident(\s+(?<incident_id>[0-9]+))?/
-    help_message "end incident [#] - sets the end of chat for an incident"
+    setup do
+      match /end\s+(the\s+)?incident(\s+(?<incident_id>[0-9]+))?/
+      help "end incident [#] - sets the end of chat for an incident"
+    end
 
     def run
       @incident.chat_end = Time.now

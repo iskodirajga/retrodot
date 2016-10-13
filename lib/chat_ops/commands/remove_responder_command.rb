@@ -1,7 +1,9 @@
 module ChatOps::Commands
   class RemoveResponderCommand < ChatOps::Command
-    match /remove\s+(?<who>.*)\s+from\s+incident(\s+(?<incident_id>\d+))?/
-    help_message "remove <person> [<person>...] from incident -- <person> can be a full name or @handle"
+    setup do
+      match /remove\s+(?<who>.*)\s+from\s+incident(\s+(?<incident_id>\d+))?/
+      help "remove <person> [<person>...] [from <incident>] -- <person> can be a full name or @handle"
+    end
 
     def run
       responders = get_mentioned_users(@match['who'])
