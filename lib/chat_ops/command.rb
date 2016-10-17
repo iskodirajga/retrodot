@@ -60,20 +60,18 @@ module ChatOps
     end
 
     def process
-      if result = self.class.regex.match(@message)
-        @match = result
+      return unless @match = self.class.regex.match(@message)
 
-        if @match.names.include? "incident_id"
-          @incident = determine_incident(result[:incident_id])
+      if @match.names.include? "incident_id"
+        @incident = determine_incident(@match[:incident_id])
 
-          if !self.class.incident_optional?
-            return unknown_incident_warning if !@incident
-            return old_incident_warning if result[:incident_id].nil? and @incident.old?
-          end
+        if !self.class.incident_optional?
+          return unknown_incident_warning if !@incident
+          return old_incident_warning if @match[:incident_id].nil? and @incident.old?
         end
-
-        run
       end
+
+      run
     end
 
     # Implement run() in the subclass.  It should return a hash describing the
