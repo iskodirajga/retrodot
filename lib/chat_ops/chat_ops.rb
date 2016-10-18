@@ -15,11 +15,10 @@ module ChatOps
     end
 
     # Generates a regex that matches any of the declared ChatOps::Command
-    # subclassess.  Each ChatOps::Command subclass has its own regex, so we use
-    # Regexp.union to combine them.  It's almost the same as joining them with
-    # '|'.
+    # subclassess.  We massage the regex a bit so that it's more palatable to
+    # regex implementations with fewer features than Ruby's.
     def matcher
-      Regexp.union(commands.collect(&:regex))
+      "(?ix)" + commands.map(&:regex).map(&:source).join('|').gsub(/\(\?<[^>]+>/, '(')
     end
 
     # Get a help message describing each command.
