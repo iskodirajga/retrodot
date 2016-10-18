@@ -58,19 +58,12 @@ class AuthController < ApplicationController
 
   def install_slack
     redirect_to failure_auth_path and return unless current_user
+    current_user.update(slack_access_token: omniauth_info["credentials"]["token"])
 
-    update_slack_token
-    flash[:notice] = "Updated slack token"
-
-    redirect_to root_path
+    redirect_to root_path, notice: "Updated slack token"
   end
 
   protected
-
-  def update_slack_token
-    current_user.update(slack_access_token: omniauth_info["credentials"]["token"])
-  end
-
   def update_google_creds
     creds = omniauth_info["credentials"]
     current_user.update(google_refresh_token: creds[:refresh_token]) if !!creds[:refresh_token]
