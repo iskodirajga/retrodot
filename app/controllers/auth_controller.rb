@@ -2,6 +2,7 @@ class AuthController < ApplicationController
   # this is the only spot where we allow CSRF, our oauth redirect will not have
   # a CSRF token, however the payload is all validated so it's safe
   skip_before_action :verify_authenticity_token, only: :callback
+  before_action :authenticate_user, only: :install_slack
 
   def callback
     log(fn: 'callback')
@@ -56,9 +57,10 @@ class AuthController < ApplicationController
     omniauth_info["provider"] == "developer"
   end
 
+  # Requires user to be logged in before fetching the token.
   def install_slack
-    redirect_to failure_auth_path and return unless current_user
-    current_user.update(slack_access_token: omniauth_info["credentials"]["token"])
+    current_user.update(slack_access_token: slack_access_token)
+    log(fn: :install_slack, at: :update_slack_token, user: current_user.name)
 
     redirect_to root_path, notice: "Updated slack token"
   end
@@ -82,4 +84,9 @@ class AuthController < ApplicationController
   def omniauth_info
     request.env["omniauth.auth"]
   end
+
+  def slack_access_token
+    omniauth_info["credentials"]["token"]
+  end
+
 end
