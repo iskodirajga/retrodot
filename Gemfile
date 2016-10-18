@@ -35,6 +35,9 @@ gem 'default_value_for', '~> 3.0.0'
 gem 'google-api-client', '~> 0.9.15'
 gem 'googleauth'
 
+# The upstream maintained version doesn't support signin with slack.
+gem 'omniauth-slack', git: 'https://github.com/joshuatobin/omniauth-slack', branch: 'signin-with-slack-support'
+
 group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'shoulda'

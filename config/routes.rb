@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   get '/auth/trello/callback', to: 'trello#create'
 
+  # Slack callack for token creation
+  get  "/auth/slack_install/callback", to: "auth#install_slack"
+
   resource :auth, controller: 'auth', only: :index do
     match "/:provider/callback" => "auth#callback", via: %i[get post]
     get :logout, as: 'logout'
