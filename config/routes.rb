@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get  'chat_ops/matcher'
       post 'chat_ops/respond'
       post "chat_ops/slack_slash_command"
+      get 'export/csv'
     end
   end
 
