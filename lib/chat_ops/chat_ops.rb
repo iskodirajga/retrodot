@@ -15,9 +15,12 @@ module ChatOps
     end
 
     # Generates a regex that matches any of the declared ChatOps::Command
-    # subclassess.  We massage the regex a bit so that it's more palatable to
-    # regex implementations with fewer features than Ruby's.
+    # subclassess.  This regex can be given to external systems to filter for
+    # messages Retrodot cares about.
+
     def matcher
+      # We massage the regex a bit so that it's more palatable to regex
+      # implementations with fewer features than Ruby's, for example JavaScript.
       "(?ix)" + commands.map(&:regex).map(&:source).join('|').gsub(/\(\?<[^>]+>/, '(')
     end
 
