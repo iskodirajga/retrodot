@@ -10,7 +10,7 @@ module Mediators::User
     def call
       log action: 'syncing'
       users.each do |user|
-        ::User.ensure(**user.slice(:email, :name, :handle))
+        ::User.ensure(user) unless user[:email].nil?
       end
     end
 
@@ -18,8 +18,8 @@ module Mediators::User
 
     def users
       @client.users_list["members"].map do |u|
-        [handle: u["handle"], name: u["name"], email: u["profile"]["email"]]
-      end.flatten
+        { handle: u["handle"], name: u["name"], email: u["profile"]["email"] }
+      end
     end
 
   end
