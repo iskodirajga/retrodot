@@ -27,7 +27,7 @@ RSpec.describe ChatOps::Commands::EndIncidentCommand do
       Timecop.freeze do
         set_current_incident incident
         end_incident
-        expect(current_incident.chat_end).to match_to_the_millisecond Time.now
+        expect(incident.chat_end).to match_to_the_millisecond Time.now
       end
     end
 

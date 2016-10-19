@@ -1,5 +1,6 @@
 RSpec.describe ChatOps::Commands::TimelineCommand do
   include ChatOpsCommandHelper
+  include ChatOps::MentionHelpers
 
   describe 'regex' do
     it_should_match_commands <<-EOL
@@ -28,16 +29,16 @@ RSpec.describe ChatOps::Commands::TimelineCommand do
 
     it "lists current incidents timeline" do
       Timecop.freeze(now) do
-        expect(process("timeline")).to return_response_matching /Timeline for incident #{incident1.incident_id}\n#{timeline_entry1.timestamp.utc} #{ChatOps.prevent_highlights(user1.name)}: #{timeline_entry1.message}/
+        expect(process("timeline")).to return_response_matching /Timeline for incident #{incident1.incident_id}\n#{timeline_entry1.timestamp.utc} #{prevent_highlights(user1.name)}: #{timeline_entry1.message}/
       end
     end
 
     it "lists a past incidents timeline" do
-      expect(process("timeline 7")).to return_response_matching /Timeline for incident 7\n#{timeline_entry2.timestamp.utc} #{ChatOps.prevent_highlights(user2.name)}: #{timeline_entry2.message}/
+      expect(process("timeline 7")).to return_response_matching /Timeline for incident 7\n#{timeline_entry2.timestamp.utc} #{prevent_highlights(user2.name)}: #{timeline_entry2.message}/
     end
 
     it "lists multiple timeline entries" do
-      expect(process("timeline 7")).to return_response_matching(/#{ChatOps.prevent_highlights(user2.name)}/, /#{ChatOps.prevent_highlights(user3.name)}/)
+      expect(process("timeline 7")).to return_response_matching(/#{prevent_highlights(user2.name)}/, /#{prevent_highlights(user3.name)}/)
     end
   end
 end
