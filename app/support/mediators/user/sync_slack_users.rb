@@ -18,7 +18,11 @@ module Mediators::User
 
     def users
       @client.users_list["members"].map do |u|
-        { handle: u["handle"], name: u["name"], email: u["profile"]["email"] }
+        { handle:        u["handle"],
+          name:          u["name"],
+          email:         u["profile"]["email"],
+          slack_user_id: u["id"]
+         }
       end
     end
 
