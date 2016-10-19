@@ -22,7 +22,7 @@ class User < ApplicationRecord
     end
   end
 
-  def handle=(value)
+  def name=(value)
     if value.blank?
       super(nil)
     else

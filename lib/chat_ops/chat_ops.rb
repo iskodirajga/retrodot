@@ -21,7 +21,7 @@ module ChatOps
     def matcher
       # We massage the regex a bit so that it's more palatable to regex
       # implementations with fewer features than Ruby's, for example JavaScript.
-      "(?ix)" + commands.map(&:regex).map(&:source).join('|').gsub(/\(\?<[^>]+>/, '(')
+      Regexp.new("(?ix)" + commands.map(&:regex).map(&:source).join('|').gsub(/\(\?<[^>]+>/, '('))
     end
 
     # Get a help message describing each command.
