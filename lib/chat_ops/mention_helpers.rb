@@ -22,7 +22,7 @@ module ChatOps
 
     private
     def find_and_remove_names!(message)
-      names_to_users = User.pluck(:name, :id).each_with_object({}) do |(name, id), h|
+      names_to_users = User.with_name.pluck(:name, :id).each_with_object({}) do |(name, id), h|
         h[normalize_name(name)] = id
       end
 

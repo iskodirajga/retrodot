@@ -15,11 +15,13 @@ module ChatOps
     end
 
     # Generates a regex that matches any of the declared ChatOps::Command
-    # subclassess.  Each ChatOps::Command subclass has its own regex, so we use
-    # Regexp.union to combine them.  It's almost the same as joining them with
-    # '|'.
+    # subclassess.  This regex can be given to external systems to filter for
+    # messages Retrodot cares about.
+
     def matcher
-      Regexp.union(commands.collect(&:regex))
+      # We massage the regex a bit so that it's more palatable to regex
+      # implementations with fewer features than Ruby's, for example JavaScript.
+      Regexp.new("(?ix)" + commands.map(&:regex).map(&:source).join('|').gsub(/\(\?<[^>]+>/, '('))
     end
 
     # Get a help message describing each command.
