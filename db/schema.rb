@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929125927) do
+ActiveRecord::Schema.define(version: 20161019152046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,8 @@ ActiveRecord::Schema.define(version: 20160929125927) do
     t.string   "trello_oauth_secret"
     t.string   "google_refresh_token"
     t.string   "google_auth_code"
+    t.string   "slack_access_token"
+    t.string   "slack_user_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["handle"], name: "index_users_on_handle", using: :btree
   end

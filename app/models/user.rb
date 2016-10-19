@@ -31,10 +31,11 @@ class User < ApplicationRecord
   end
 
   class << self
-    def ensure(email:, name: nil, handle: nil)
-      user = find_or_create_by(email: email)
-      user.name = name
-      user.handle = handle
+    def ensure(email:, name: nil, handle: nil, slack_user_id: nil)
+      user               = find_or_create_by(email: email)
+      user.name          = name
+      user.handle        = handle
+      user.slack_user_id = slack_user_id
       user.save!
 
       user
