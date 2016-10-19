@@ -6,12 +6,12 @@ class AuthController < ApplicationController
   def callback
     log(fn: 'callback')
     unless session['user'].present?
-      user  = request.env['omniauth.auth']['info']
-      email = (user['email']||'').downcase
-      name  = user['name']
+      user  = omniauth_info["info"]
+      email = (user["email"]||"").downcase
+      name  = user["name"]
 
-      if params['provider'] != 'developer' && !valid_email?(email)
-        log(fn: 'callback', at: 'failure')
+      if params["provider"] != "developer" && !valid_email?(email)
+        log(fn: "callback", at: "failure")
 
         redirect_to failure_auth_path
         return
@@ -22,7 +22,7 @@ class AuthController < ApplicationController
       # The update ensures that their name in Retrodot is synced with changes in the oauth provider.
       User.create_with(name: name).find_or_create_by(email: email).update(name: name)
 
-      flash[:notice] = 'Logged in.'
+      flash[:notice] = "Logged in."
     end
 
     update_google_creds unless developer?
@@ -45,7 +45,7 @@ class AuthController < ApplicationController
   end
 
   def failure
-    render plain: 'You are not authorized', status: 401
+    render plain: "You are not authorized", status: 401
   end
 
   def verify
@@ -53,14 +53,21 @@ class AuthController < ApplicationController
   end
 
   def developer?
-    request.env['omniauth.auth']['provider'] == "developer"
+    omniauth_info["provider"] == "developer"
+  end
+
+  def install_slack
+    redirect_to failure_auth_path and return unless current_user
+    current_user.update(slack_access_token: omniauth_info["credentials"]["token"])
+
+    redirect_to root_path, notice: "Updated slack token"
   end
 
   protected
-
   def update_google_creds
-    creds = request.env['omniauth.auth']['credentials']
+    creds = omniauth_info["credentials"]
     current_user.update(google_refresh_token: creds[:refresh_token]) if !!creds[:refresh_token]
+
     current_user.update(google_auth_code: params[:code])
   end
 
@@ -70,5 +77,9 @@ class AuthController < ApplicationController
 
   def valid_email? email
     !!(email =~ %r[@#{Config.google_domain}$])
+  end
+
+  def omniauth_info
+    request.env["omniauth.auth"]
   end
 end
