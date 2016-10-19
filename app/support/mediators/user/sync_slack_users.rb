@@ -10,7 +10,7 @@ module Mediators::User
     def call
       log action: 'syncing'
       users.each do |user|
-        ::User.ensure(user) unless user[:email].nil?
+        ::User.ensure(user) unless user[:email].blank?
       end
     end
 
