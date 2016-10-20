@@ -32,7 +32,7 @@ RSpec.describe ChatOps::Commands::RemoveResponderCommand do
     end
 
     it "should react with a checkmark and no message" do
-      expect(process("remove @#{user1.handle} from incident")).to react_with(':checkmark:')
+      expect(process("remove @#{user1.handle} from incident")).to react_with(':checkmark:').and not_have_message
     end
 
   end
