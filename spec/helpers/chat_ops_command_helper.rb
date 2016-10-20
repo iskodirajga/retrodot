@@ -4,12 +4,6 @@ RSpec::Matchers.define :return_response_matching do |expected|
   end
 end
 
-RSpec::Matchers.define :react_with do |expected|
-  match do |actual|
-    actual && actual[:reaction] == expected
-  end
-end
-
 RSpec::Matchers.define :not_have_message do |expected=nil|
   match do |actual|
     !actual.has_key?(:message)

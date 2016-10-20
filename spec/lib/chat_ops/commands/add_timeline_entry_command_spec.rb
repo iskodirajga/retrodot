@@ -33,7 +33,7 @@ RSpec.describe ChatOps::Commands::AddTimelineEntryCommand do
 
     it "should add an entry to the timeline" do
       Timecop.freeze do
-        expect(process("timeline #{message1}", user1)).to react_with(':checkmark:')
+        expect(process("timeline #{message1}", user1)).to return_response_matching(':checkmark:')
         expect(incident.timeline_entries).to have(1).items
         expect(incident.timeline_entries[0].message).to eq message1
         expect(incident.timeline_entries[0].user).to be_same_as user1
