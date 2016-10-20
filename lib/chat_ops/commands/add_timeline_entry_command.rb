@@ -46,7 +46,7 @@ module ChatOps::Commands
 
       @incident.timeline_entries << ::TimelineEntry.new(user: @user, message: @match[:message])
 
-      reaction(':checkmark:')
+      message(':checkmark:')
     end
   end
 end

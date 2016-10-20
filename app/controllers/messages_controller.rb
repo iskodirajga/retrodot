@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   def create
     return render_error("Invalid Token", 401) unless valid_slack_token?
 
-    user = User.find_by(message[:user_id])
+    user = User.find_by(slack_user_id: message[:user_id])
     return render_error("Slack `user_id` not found in retrodot", 403) unless user
 
     result = ChatOps.process(user, message[:text])
