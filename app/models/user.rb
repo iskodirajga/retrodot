@@ -41,9 +41,5 @@ class User < ApplicationRecord
       user
     end
 
-    def slack_user_lookup(slack_id)
-      User.find_by(slack_user_id: slack_id)
-    end
-
   end
 end
