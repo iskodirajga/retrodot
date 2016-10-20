@@ -16,7 +16,7 @@ ActiveAdmin.register Incident do
   actions :all, except: [:new]
 
   action_item :index, only: :index, if: proc{ User.with_slack_token.empty? } do
-    link_to 'WARNING: No slack token has been set', "/auth/slack_install",  { style: "color: #FF0000" }
+    link_to 'WARNING: Slack integration setup incomplete!', "/auth/slack_install",  { style: "color: #FF0000" }
   end
 
   # This creates /admin/:incident/sync which is linked to below.
