@@ -21,6 +21,8 @@ RSpec.describe MessagesController do
 
   describe "#Create" do
     it "processes a message" do
+      expect(ChatOps).to receive(:process)
+
       post :create, params: data
 
       expect(response).to have_http_status(:ok)
