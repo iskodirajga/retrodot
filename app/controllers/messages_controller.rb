@@ -9,6 +9,8 @@ class MessagesController < ApplicationController
 
     result = ChatOps.process(user, message[:text]) || "command unknown, try `/timeline help`"
 
+    result = result[:message] || result[:reaction]
+
     render json: { text: result, response_type: "in_channel" }, status: 200
   end
 
