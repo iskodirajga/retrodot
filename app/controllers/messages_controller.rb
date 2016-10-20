@@ -17,11 +17,7 @@ class MessagesController < ApplicationController
   private
 
   def valid_slack_token?
-    ActiveSupport::SecurityUtils.secure_compare(message[:token], slack_token) rescue false
-  end
-
-  def slack_token
-    Config.slack_slash_command_token
+    ActiveSupport::SecurityUtils.secure_compare(message[:token], Config.slack_slash_command_token) rescue false
   end
 
   def message
