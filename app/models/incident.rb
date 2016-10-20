@@ -2,6 +2,7 @@ class Incident < ActiveRecord::Base
   has_many :retrospectives
   has_many :remediations, through: :retrospectives
   belongs_to :category
+  belongs_to :primary_team, class_name: "Team"
   has_many :timeline_entries, -> { order(timestamp: :asc) }
   has_and_belongs_to_many :responders, -> { distinct }, join_table: :incidents_responders, class_name: "User"
 

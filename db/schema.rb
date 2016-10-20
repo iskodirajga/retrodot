@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019152046) do
+ActiveRecord::Schema.define(version: 20161020135815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20161019152046) do
     t.integer  "incident_id"
     t.boolean  "review"
     t.date     "followup_on"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "category_id"
     t.datetime "chat_start"
     t.datetime "chat_end"
@@ -51,8 +51,11 @@ ActiveRecord::Schema.define(version: 20161019152046) do
     t.datetime "last_sync"
     t.string   "trello_url"
     t.string   "google_doc_url"
+    t.datetime "retro_at"
+    t.integer  "primary_team_id"
     t.index ["category_id"], name: "index_incidents_on_category_id", using: :btree
     t.index ["last_sync"], name: "index_incidents_on_last_sync", using: :btree
+    t.index ["primary_team_id"], name: "index_incidents_on_primary_team_id", using: :btree
     t.index ["timeline_start"], name: "index_incidents_on_timeline_start", using: :btree
   end
 
@@ -83,6 +86,13 @@ ActiveRecord::Schema.define(version: 20161019152046) do
     t.index ["incident_id"], name: "index_retrospectives_on_incident_id", using: :btree
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
+  end
+
   create_table "timeline_entries", force: :cascade do |t|
     t.datetime "timestamp"
     t.integer  "user_id"
@@ -111,4 +121,5 @@ ActiveRecord::Schema.define(version: 20161019152046) do
     t.index ["handle"], name: "index_users_on_handle", using: :btree
   end
 
+  add_foreign_key "incidents", "teams", column: "primary_team_id"
 end
