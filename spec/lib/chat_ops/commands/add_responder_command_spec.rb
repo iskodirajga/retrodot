@@ -32,7 +32,7 @@ RSpec.describe ChatOps::Commands::AddResponderCommand do
     end
 
     it "should react with a checkmark and no message" do
-      expect(process("add @#{user1.handle} to incident")).to message_with(':checkmark:')
+      expect(process("add @#{user1.handle} to incident")).to react_with(':checkmark:')
     end
   end
 end

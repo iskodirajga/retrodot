@@ -11,7 +11,7 @@ module ChatOps::Commands
 
       @incident.responders += responders
 
-      message(':checkmark:')
+      reaction(':checkmark:')
     end
   end
 end

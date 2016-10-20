@@ -15,5 +15,9 @@ module ChatOps
     # In the future, this might tag with some kind of metadata indicating an
     # error.
     alias_method :error, :message
+
+    def reaction(name)
+      { reaction: name }
+    end
   end
 end

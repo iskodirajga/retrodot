@@ -4,9 +4,9 @@ RSpec::Matchers.define :return_response_matching do |expected|
   end
 end
 
-RSpec::Matchers.define :message_with do |expected|
+RSpec::Matchers.define :react_with do |expected|
   match do |actual|
-    actual && actual[:message] == expected
+    actual && actual[:reaction] == expected
   end
 end
 
