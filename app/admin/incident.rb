@@ -15,6 +15,10 @@ ActiveAdmin.register Incident do
   # creating incidents in Retrodot.
   actions :all, except: [:new]
 
+  action_item :index, only: :index, if: proc{ User.with_slack_token.empty? } do
+    link_to 'WARNING: No slack token has been set', "/auth/slack_install",  { style: "color: #FF0000" }
+  end
+
   # This creates /admin/:incident/sync which is linked to below.
   member_action :sync, method: :post do
     Mediators::Incident::OneSyncher.run(id: resource[:incident_id])
