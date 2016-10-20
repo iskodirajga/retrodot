@@ -13,7 +13,7 @@ class Message < ActiveRecord::Base
       result = if result
         result[:reaction] ? result[:reaction] : result[:message]
       else
-        "No results found."
+        "command unknown, try `/timeline help`"
       end
 
       result
