@@ -80,6 +80,8 @@ module ChatOps
     #   message: (optional) text to reply back with
     #   subject: (optional) a subject line for an extended message, e.g. Slack's
     #     "attachments"
+    #   reaction: (optional) name of an emoji to add as a reaction to the user's
+    #     message
     #
     # Return nil to indicate that we don't actually want to process the command
     # after all.
