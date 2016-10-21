@@ -32,8 +32,8 @@ class Api::V1::ChatOpsController < ApplicationController
   private
 
   def format_result(result)
-    return default_message,   "ephemeral"  unless result
-    return result[:reaction], "ephemeral" if result[:reaction]
+    return default_message,   "ephemeral"   unless result
+    return result[:reaction], "ephemeral"   if result[:reaction]
     return result[:message],  "in_channel"  if result[:message]
   end
 
