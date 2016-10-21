@@ -8,7 +8,6 @@ Rails.application.routes.draw do
 
   # Slack callack for token creation
   get  "/auth/slack_install/callback", to: "auth#install_slack"
-  post "/slack/command",               to: "messages#create"
 
   resource :auth, controller: 'auth', only: :index do
     match "/:provider/callback" => "auth#callback", via: %i[get post]
@@ -22,6 +21,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get  'chat_ops/matcher'
       post 'chat_ops/respond'
+      post "chat_ops/message"
     end
   end
 
