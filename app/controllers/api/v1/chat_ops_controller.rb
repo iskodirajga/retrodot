@@ -24,17 +24,23 @@ class Api::V1::ChatOpsController < ApplicationController
     return render_error("Slack `user_id` not found in retrodot", 403) unless user
 
     result = ChatOps.process(user, chat_params[:text])
+    msg, type = format_result(result)
 
-    result = if result
-      result = result[:message] || result[:reaction]
-    else
-      "command unknown, try `/timeline help`"
-    end
-
-    render json: { text: result, response_type: "in_channel" }, status: 200
+    render json: { text: msg, response_type: type }, status: 200
   end
 
   private
+
+  def format_result(result)
+    return default_message,   "ephemeral"  unless result
+    return result[:reaction], "ephemeral" if result[:reaction]
+    return result[:message],  "in_chanenl"  if result[:message]
+  end
+
+  def default_message
+    "command unknown, try `#{chat_params[:command]} help`"
+  end
+
 
   def valid_slack_token?
     ActiveSupport::SecurityUtils.secure_compare(chat_params[:token], Config.slack_slash_command_token) rescue false
