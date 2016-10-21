@@ -59,18 +59,17 @@ class AuthController < ApplicationController
 
   # Requires user to be logged in before fetching the token.
   def install_slack
-    return update_slack_token if User.with_slack_token.empty?
-
-    redirect_to admin_root_path, flash: { error: "Slack token already exists." }
+    if User.with_slack_token.empty?
+      current_user.update(slack_access_token: slack_access_token)
+    else
+      User.with_slack_token.first.update(slack_access_token: slack_access_token)
+    end
+      log(fn: :install_slack, at: :update_slack_token, user: current_user.name)
+      redirect_to admin_root_path, notice: "Updated slack token"
+    end
   end
 
   protected
-
-  def update_slack_token
-    current_user.update(slack_access_token: slack_access_token)
-    log(fn: :install_slack, at: :update_slack_token, user: current_user.name)
-    redirect_to admin_root_path, notice: "Updated slack token"
-  end
 
   def update_google_creds
     creds = omniauth_info["credentials"]
