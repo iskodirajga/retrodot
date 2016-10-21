@@ -41,7 +41,6 @@ class Api::V1::ChatOpsController < ApplicationController
     "command unknown, try `#{chat_params[:command]} help`"
   end
 
-
   def valid_slack_token?
     ActiveSupport::SecurityUtils.secure_compare(chat_params[:token], Config.slack_slash_command_token) rescue false
   end
