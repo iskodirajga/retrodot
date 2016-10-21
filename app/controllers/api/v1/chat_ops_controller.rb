@@ -1,6 +1,6 @@
 class Api::V1::ChatOpsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  http_basic_authenticate_with name: "api", password: Config.chatops_api_key, except: :message
+  http_basic_authenticate_with name: "api", password: Config.chatops_api_key, except: :slack_slash_command
 
   def matcher
     render json: {"regex": ChatOps.matcher}
@@ -17,7 +17,7 @@ class Api::V1::ChatOpsController < ApplicationController
     end
   end
 
-  def message
+  def slack_slash_command
     return render_error("Invalid Token", 401) unless valid_slack_token?
 
     user = User.find_by(slack_user_id: chat_params[:user_id])

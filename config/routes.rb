@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get  'chat_ops/matcher'
       post 'chat_ops/respond'
-      post "chat_ops/message"
+      post "chat_ops/slack_slash_command"
     end
   end
 

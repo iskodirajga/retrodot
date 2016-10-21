@@ -56,7 +56,7 @@ RSpec.describe Api::V1::ChatOpsController do
     it "processes a message" do
       expect(ChatOps).to receive(:process)
 
-      post :message, params: data
+      post :slack_slash_command, params: data
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("text", "response_type")
@@ -64,14 +64,14 @@ RSpec.describe Api::V1::ChatOpsController do
 
     it "renders errors with invalid tokens" do
       allow(Config).to receive(:slack_slash_command_token).and_return("XXXXXXX")
-      post :message, params: data
+      post :slack_slash_command, params: data
 
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "renders errors for missing users" do
       data[:user_id] = "INVALID"
-      post :message, params: data
+      post :slack_slash_command, params: data
 
       expect(response).to have_http_status(:forbidden)
     end
