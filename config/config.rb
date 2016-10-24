@@ -58,4 +58,5 @@ module Config
 
   optional :slack_client_id, string
   optional :slack_client_secret, string
+  optional :slack_slash_command_token, string
 end

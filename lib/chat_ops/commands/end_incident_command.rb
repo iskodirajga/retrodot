@@ -9,7 +9,7 @@ module ChatOps::Commands
       @incident.chat_end = Time.now
       @incident.save
 
-      return { message: "Recorded the end of chat for incident #\#{@incident.incident_id} at #{@incident.chat_end.inspect}." }
+      return { message: "Recorded the end of chat for incident #{@incident.incident_id} at #{@incident.chat_end.inspect}." }
     end
   end
 end
