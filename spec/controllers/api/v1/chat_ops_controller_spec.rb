@@ -44,7 +44,7 @@ RSpec.describe Api::V1::ChatOpsController do
         "channel_name": "retrodot",
         "user_name": "retrodots",
         "command": "/timeline",
-        "text": "timeline",
+        "text": "start an incident",
         "response_url": "https://hooks.slack.com/commands/T00001/xxxxx"
       }
     }
@@ -60,7 +60,7 @@ RSpec.describe Api::V1::ChatOpsController do
 
 
       expect(response).to have_http_status(:ok)
-      #expect(response.body).to[:message] #include("text", "response_type")
+      expect(response.body).to include("text", "response_type")
     end
 
     it "renders errors with invalid tokens" do
