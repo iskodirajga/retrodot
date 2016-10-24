@@ -23,6 +23,7 @@ class Api::V1::ChatOpsController < ApplicationController
     user = User.find_by(slack_user_id: chat_params[:user_id])
     return render_error("Slack `user_id` not found in retrodot", 403) unless user
 
+    binding.pry
     result = ChatOps.process(user, chat_params[:text])
     msg, type = format_result(result)
 

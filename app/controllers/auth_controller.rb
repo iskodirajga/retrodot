@@ -64,9 +64,9 @@ class AuthController < ApplicationController
     else
       User.with_slack_token.first.update(slack_access_token: slack_access_token)
     end
-      log(fn: :install_slack, at: :update_slack_token, user: current_user.name)
-      redirect_to admin_root_path, notice: "Updated slack token"
-    end
+
+    log(fn: :install_slack, at: :update_slack_token, user: current_user.name)
+    redirect_to admin_root_path, notice: "Updated slack token"
   end
 
   protected
