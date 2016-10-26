@@ -3,7 +3,7 @@ class Incident < ActiveRecord::Base
   has_many :remediations, through: :retrospectives
   belongs_to :category
   has_many :timeline_entries, -> { order(timestamp: :asc) }
-  has_and_belongs_to_many :responders, join_table: :incidents_responders, class_name: "User"
+  has_and_belongs_to_many :responders, -> { distinct }, join_table: :incidents_responders, class_name: "User"
 
   default_scope { order('incident_id DESC') }
   scope :open, -> { where(state: "open") }
@@ -21,7 +21,7 @@ class Incident < ActiveRecord::Base
   def open?
     state == "open"
   end
-  
+
   def format_timeline
     timeline_entries.map {|t| "#{t.timestamp.utc} #{t.user.name}: #{t.message}"}.join("\n")
   end
@@ -29,7 +29,7 @@ class Incident < ActiveRecord::Base
   def retro_prepared?
     trello_url && google_doc_url
   end
-  
+
   # This method helps detect whether the user meant to refer to this incident.
   def old?
     # they specifically told us via chatops that they were done, so they
