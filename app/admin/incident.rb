@@ -7,6 +7,7 @@ class TrelloAuthRequired < StandardError; end
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
+  preserve_default_filters!
   filter :responders, collection: proc { Incident.all.map { |i| i.responders.map(&:name).compact}.flatten.uniq }
 
   menu priority: 1
