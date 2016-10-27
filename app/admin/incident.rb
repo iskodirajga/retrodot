@@ -88,7 +88,9 @@ ActiveAdmin.register Incident do
 
   index do
     selectable_column
-    column :incident_id
+    column "Incident" do |i|
+      link_to i.incident_id, "#{Config.status_site_url}/#{i.incident_id}", target: "_blank"
+    end
     column :created_at
     column :updated_at
     column :state
