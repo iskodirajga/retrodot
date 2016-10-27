@@ -11,6 +11,15 @@ ActiveAdmin.register Incident do
 
   permit_params :category_id
 
+  # Filters
+  preserve_default_filters!
+  filter :responders, collection: proc { Incident.all.map { |i| i.responders.map(&:name).compact}.flatten.uniq }
+
+  # We need to remove the default timeline_entries filter since its a `has_many`
+  # and re-add as a string to enable search
+  remove_filter :timeline_entries
+  filter :timeline_entries_message, as: :string, label: "Timeline Entries"
+
   # Don't allow creating incidents, since syncing should be the only way of
   # creating incidents in Retrodot.
   actions :all, except: [:new]
