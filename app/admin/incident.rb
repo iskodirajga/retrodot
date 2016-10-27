@@ -89,8 +89,8 @@ ActiveAdmin.register Incident do
   index do
     selectable_column
     column :incident_id
-    column :created_at
-    column :updated_at
+    column :started_at
+    column :resolved_at
     column :state
     column :duration
     column :title
