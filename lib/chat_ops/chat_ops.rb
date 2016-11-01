@@ -33,7 +33,7 @@ module ChatOps
     # Try to process a message as a ChatOps command.  Return nil if no
     # command matched.  TODO: define return value for success.
     def process(user, message)
-      return help if message == 'help'
+      return help if message == "help"
 
       commands.each do |command|
         if result = command.process(user, message)
