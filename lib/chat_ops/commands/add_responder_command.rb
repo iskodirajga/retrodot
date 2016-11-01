@@ -2,7 +2,7 @@ module ChatOps::Commands
   class AddResponderCommand < ChatOps::Command
     setup do
       match /add\s+(?<who>.*)\s+to\s+incident(\s+(?<incident_id>\d+))?/
-      help "add <person> [<person>...] to incident -- <person> can be a full name or @handle"
+      help "`add <person> [<person>...] to incident` -- <person> can be a full name or @handle"
     end
 
     def run

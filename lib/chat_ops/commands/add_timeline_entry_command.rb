@@ -32,7 +32,7 @@ module ChatOps::Commands
                   (?<message>.*)
                 )
               }ix
-      help "timeline [#] <message> - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
+      help "`timeline [#] <message>` - adds a message to the timeline for the specified incident (or the current incident if no ID is specified)"
     end
 
     def run

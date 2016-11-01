@@ -24,17 +24,32 @@ class Api::V1::ChatOpsController < ApplicationController
     return render_error("Slack `user_id` not found in retrodot", 403) unless user
 
     result = ChatOps.process(user, chat_params[:text])
-    msg, type = format_result(result)
 
-    render json: { text: msg, response_type: type }, status: 200
+    render json: fmt_result(result), status: 200
   end
 
   private
+  def fmt_response(cmd:, response_type: :ephemeral, attach_txt: nil)
+    response = {"response_type": response_type, "text": cmd}
+    atm = [{"text": attach_txt, "mrkdwn_in": ["text"]}]
+    response["attachments"] = atm if attach_txt
 
-  def format_result(result)
-    return default_message,   "ephemeral"   unless result
-    return result[:reaction], "ephemeral"   if result[:reaction]
-    return result[:message],  "in_channel"  if result[:message]
+    response
+  end
+
+  def fmt_result(result)
+    # Return help or unrecognized commands as an attachment
+    # only visible to the sender, including the original command sent
+    return fmt_response(cmd: chat_params[:text], attach_txt: default_message)  unless result
+    return fmt_response(cmd: chat_params[:text], attach_txt: result[:message]) if help?
+
+    # Return commands publicly, not as an attachment
+    return fmt_response(cmd: result[:reaction], response_type: "in_channel")   if result[:reaction]
+    return fmt_response(cmd: result[:message], response_type: "in_channel")    if result[:message]
+  end
+
+  def help?
+    chat_params[:text] == "help"
   end
 
   def default_message

@@ -2,7 +2,7 @@ module ChatOps::Commands
   class TimelineCommand < ChatOps::Command
     setup do
       match /timeline(\s+(?<incident_id>\d+))?$/
-      help "timeline [#] - list the timeline for a incident"
+      help "`timeline [#]` - list the timeline for a incident"
     end
 
     def run
