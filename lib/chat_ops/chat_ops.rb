@@ -26,8 +26,7 @@ module ChatOps
 
     # Get a help message describing each command.
     def help
-      help = commands.map(&:help).reject(&:blank?).join("\n")
-      { message: help }
+      { message: commands.map(&:help).reject(&:blank?).join("\n") }
     end
 
     # Try to process a message as a ChatOps command.  Return nil if no
