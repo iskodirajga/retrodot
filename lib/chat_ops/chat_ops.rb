@@ -29,10 +29,14 @@ module ChatOps
       commands.map(&:help).reject(&:blank?).join("\n")
     end
 
+    def format_help
+      { message: help }
+    end
+
     # Try to process a message as a ChatOps command.  Return nil if no
     # command matched.  TODO: define return value for success.
     def process(user, message)
-      return message(help) if message == "help"
+      return format_help if message == "help"
 
       commands.each do |command|
         if result = command.process(user, message)
