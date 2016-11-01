@@ -10,6 +10,7 @@ class Incident < ActiveRecord::Base
   scope :open, -> { where(state: "open") }
   scope :synced, -> { where.not(last_sync: nil) }
   scope :by_timeline_start, -> { unscoped.where.not(timeline_start: nil).order('timeline_start DESC') }
+  scope :by_started_at, -> { unscoped.order('started_at DESC NULLS LAST') }
 
   def chat_start
     super&.in_time_zone Config.time_zone

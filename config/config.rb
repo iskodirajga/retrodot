@@ -45,6 +45,8 @@ module Config
   optional :chatops_prefix, string
   optional :status_site_url, string
 
+  optional :export_api_key, string
+
   # Google Script id for rest execution API
   # https://developers.google.com/apps-script/execution
   optional :google_script_id, string
