@@ -7,6 +7,9 @@ class TrelloAuthRequired < StandardError; end
 ActiveAdmin.register Incident do
   config.sort_order = 'incident_id_desc'
 
+  preserve_default_filters!
+  filter :responders, collection: proc { Incident.all.map { |i| i.responders.map(&:name).compact}.flatten.uniq }
+
   menu priority: 1
 
   permit_params :category_id
@@ -100,8 +103,8 @@ ActiveAdmin.register Incident do
     column "Incident" do |i|
       link_to i.incident_id, "#{Config.status_site_url}/#{i.incident_id}", target: "_blank"
     end
-    column :created_at
-    column :updated_at
+    column :started_at
+    column :resolved_at
     column :state
     column :duration
     column :title
