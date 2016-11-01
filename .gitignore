@@ -18,3 +18,5 @@ log
 Vagrantfile
 
 .DS_Store
+
+past_incidents.csv
