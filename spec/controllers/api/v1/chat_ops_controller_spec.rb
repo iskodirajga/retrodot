@@ -43,7 +43,7 @@ RSpec.describe Api::V1::ChatOpsController do
         "team_domain": "domain.com",
         "channel_name": "retrodot",
         "user_name": "retrodots",
-        "command": "/timeline",
+        "command": "/t",
         "text": "start an incident",
         "response_url": "https://hooks.slack.com/commands/T00001/xxxxx"
       }
@@ -57,10 +57,7 @@ RSpec.describe Api::V1::ChatOpsController do
       expect(ChatOps).to receive(:process)
 
       post :slack_slash_command, params: data
-
-
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("text", "response_type")
     end
 
     it "renders errors with invalid tokens" do
@@ -77,5 +74,28 @@ RSpec.describe Api::V1::ChatOpsController do
       expect(response).to have_http_status(:forbidden)
     end
 
+    it "formats in_channel responses" do
+      post :slack_slash_command, params: data
+
+      expect(response.body).to include("text", "response_type")
+      expect(response.body).to_not include("attachments")
+      expect(response.body).to match("in_channel")
+    end
+
+    it "returns attachment formatting for help" do
+      data[:text] = "help"
+      post :slack_slash_command, params: data
+
+      expect(response.body).to include("text", "response_type", "attachments")
+      expect(response.body).to_not match("command unknown")
+      expect(response.body).to match("ephemeral")
+    end
+
+    it "returns attachment formatting for unknown commands" do
+      data[:text] = "blah blah blah"
+      post :slack_slash_command, params: data
+
+      expect(response.body).to include("text", "response_type", "attachments")
+    end
   end
 end
