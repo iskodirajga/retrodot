@@ -91,11 +91,5 @@ RSpec.describe Api::V1::ChatOpsController do
       expect(response.body).to match("ephemeral")
     end
 
-    it "returns attachment formatting for unknown commands" do
-      data[:text] = "blah blah blah"
-      post :slack_slash_command, params: data
-
-      expect(response.body).to include("text", "response_type", "attachments")
-    end
   end
 end
