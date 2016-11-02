@@ -97,7 +97,7 @@ RSpec.describe ChatOps::Commands::StartIncidentCommand do
     end
 
     it "tells the user which incident was started" do
-      expect(start_incident).to return_response_matching /Recorded the start of chat for incident #1/
+      expect(start_incident).to return_response_matching /Recorded the start of chat for incident #`1`/, /use `\/t help`/
     end
   end
 end
