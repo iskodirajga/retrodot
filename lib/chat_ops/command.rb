@@ -60,7 +60,7 @@ module ChatOps
     end
 
     def process
-      return unless @match = self.class.regex.match(@message)
+      return unless @match = self.class.regex.match(@message) rescue nil
 
       if @match.names.include? "incident_id"
         @incident = determine_incident(@match[:incident_id])

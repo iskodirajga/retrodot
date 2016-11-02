@@ -96,6 +96,8 @@ RSpec.describe Api::V1::ChatOpsController do
       post :slack_slash_command, params: data
 
       expect(response.body).to include("text", "response_type", "attachments")
+      expect(response.body).to match("ephemeral")
+      expect(response.body).to match("command unknown")
     end
   end
 end
