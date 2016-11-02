@@ -11,5 +11,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                 https://www.googleapis.com/auth/script.external_request]
     }
   provider :trello, Config.trello_consumer_key, Config.trello_consumer_secret, app_name: Config.app_name, scope: "read,write,account", expiration: "never"
-  provider :slack,  Config.slack_client_id, Config.slack_client_secret, scope: "identify,commands,users:read", name: :slack_install
+  provider :slack,  Config.slack_client_id, Config.slack_client_secret, scope: "identify,commands,users:read,chat:write:user,chat:write:bot", name: :slack_install
 end

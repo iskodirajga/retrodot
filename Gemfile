@@ -45,12 +45,11 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'dotenv-rails'
-  gem 'pry-nav'
   gem 'pry-rails'
   gem 'rspec-mocks'
   gem 'database_cleaner'
   gem 'pry-remote'
-  gem 'pry-byebug', '~> 1.3.3'
+  gem 'pry-byebug'
 end
 
 group :test do

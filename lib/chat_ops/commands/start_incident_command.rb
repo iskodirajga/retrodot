@@ -42,7 +42,7 @@ module ChatOps::Commands
 
       incident.timeline_start = Time.now
       incident.chat_start = get_chat_start(@match[:timestamp])
-      incident.responders << @user
+      incident.responders << @user if @user
       incident.save
 
       ChatOps.help.each_line do |line|

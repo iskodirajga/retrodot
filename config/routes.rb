@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
-  post "/incidents/sync" => "incidents#sync"
-
   root to: 'incidents#index'
 
   get '/auth/trello/callback', to: 'trello#create'
@@ -17,11 +15,12 @@ Rails.application.routes.draw do
     get :failure
   end
 
-  namespace :api, defaults: {format: 'json'} do
+  namespace :api, defaults: {format: "json"} do
     namespace :v1 do
-      get  'chat_ops/matcher'
-      post 'chat_ops/respond'
+      get  "chat_ops/matcher"
+      post "chat_ops/respond"
       post "chat_ops/slack_slash_command"
+      post "incidents/sync"
     end
   end
 

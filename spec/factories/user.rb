@@ -9,5 +9,8 @@ FactoryGirl.define do
       trello_oauth_secret { SecureRandom.base64 }
     end
 
+    trait :slack_access_token do
+      slack_access_token { SecureRandom.base64 }
+    end
   end
 end

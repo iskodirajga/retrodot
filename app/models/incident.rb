@@ -30,6 +30,10 @@ class Incident < ActiveRecord::Base
     trello_url && google_doc_url
   end
 
+  def missing_timeline?
+    timeline_entries.blank?
+  end
+
   # This method helps detect whether the user meant to refer to this incident.
   def old?
     # they specifically told us via chatops that they were done, so they

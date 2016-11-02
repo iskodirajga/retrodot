@@ -60,4 +60,6 @@ module Config
   optional :slack_client_id, string
   optional :slack_client_secret, string
   optional :slack_slash_command_token, string
+  override :slack_bot_username, "retrodot", string
+  override :slack_bot_channel, "retrodot", string
 end
