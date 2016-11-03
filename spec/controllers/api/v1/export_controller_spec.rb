@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Api::V1::ExportController, type: :controller do
 
   describe "GET #csv" do
