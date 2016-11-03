@@ -1,5 +1,5 @@
 RSpec.describe ChatOps do
-  let!(:commands) { ChatOps.commands }
+  let!(:commands) { ChatOps.commands.dup }
   before { ChatOps.class_variable_set :@@commands, [] }
   after { ChatOps.class_variable_set :@@commands, commands }
 
