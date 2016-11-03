@@ -12,6 +12,10 @@ RSpec.describe ChatOps::Command do
   let(:recent_incident) { create(:incident, timeline_start: 1.hour.ago, chat_start: 1.hour.ago, timeline_entries: [{timestamp: 1.minute.ago}]) }
   let(:open_incident) { create(:incident, state: "open", timeline_start: 1.hour.ago) }
 
+  # Clean up ChatOps.commands after we're done so that other tests don't see the
+  # Command subclasses we make in these tests.
+  let!(:commands) { ChatOps.commands.dup}
+  after { ChatOps.class_variable_set :@@commands, commands }
 
   # Helper method to set up a Command subclass with match regex, parse_incident,
   # and an optional definition of the `run` method by passing a block.
