@@ -6,7 +6,7 @@ class Api::V1::ExportController < ApplicationController
   def export
     limit = params.permit(:limit, :format)[:limit] || 100
 
-    output = Incident.by_started_at.limit(100).collect do |incident|
+    output = Incident.by_started_at.limit(limit).collect do |incident|
       {
         id: incident.incident_id,
         title: incident.title,
