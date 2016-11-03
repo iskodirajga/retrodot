@@ -9,6 +9,7 @@ class Api::V1::ExportController < ApplicationController
     output = Incident.by_started_at.limit(100).collect do |incident|
       {
         id: incident.incident_id,
+        title: incident.title,
         created_at: incident.started_at,
         resolved_at: incident.resolved_at,
         resolved: incident.state == "resolved",
